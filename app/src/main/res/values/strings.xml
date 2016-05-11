@@ -20,17 +20,21 @@
     <string name="imperial">Imperial</string>
     <string name="metric">Metric</string>
 
-
-
-
     <string name="bmi_underweight">Underweight</string>
     <string name="bmi_normal">Normal</string>
     <string name="bmi_overweight">Overweight</string>
     <string name="bmi_obese">Obese</string>
     <string name="bmi_morbidly_obese">Morbidly obese</string>
+
     <string name="height">Height</string>
     <string name="weight">Weight</string>
+    <string name="feet">Feet</string>
+    <string name="inches">Inches</string>
+    <string name="pounds">Pounds</string>
+    <string name="centimeters">Centimeters</string>
+    <string name="kilograms">Kilograms</string>
+
+
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
-    <string name="inches">Inches</string>
 </resources>

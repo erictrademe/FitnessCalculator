@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,11 +31,17 @@ import butterknife.OnClick;
  */
 public class BMIDialog extends DialogFragment {
 
+    @BindView(R.id.edittext_layout_weight)
+    TextInputLayout weightLayout;
+
     @BindView(R.id.edittext_weight)
     EditText weightEditText;
 
     @BindView(R.id.edittext_height)
     EditText heightEditText;
+
+    @BindView(R.id.edittext_layout_height)
+    TextInputLayout heightLayout;
 
     @BindView(R.id.edittext_height_inches)
     EditText heightInchesEditText;
@@ -78,6 +85,8 @@ public class BMIDialog extends DialogFragment {
         unit = SharedPreferencesManager.getUnit();
         if (unit == Constants.UNIT_IMPERIAL) {
             BMIUnitButton.setText(getString(R.string.imperial));
+            heightLayout.setHint(getString(R.string.feet));
+            weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
             if (weight > 0)
                 weightEditText.setText(String.format("%.0f", Converter.kgsToPounds(weight)));
@@ -87,6 +96,8 @@ public class BMIDialog extends DialogFragment {
                 heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
             }
         } else if (unit == Constants.UNIT_METRIC) {
+            heightLayout.setHint(getString(R.string.centimeters));
+            weightLayout.setHint(getString(R.string.kilograms));
             if (weight > 0)
                 weightEditText.setText(String.format("%.0f", weight));
             if (height > 0)
@@ -102,11 +113,15 @@ public class BMIDialog extends DialogFragment {
             BMIUnitButton.setText(getString(R.string.imperial));
             SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
             unit = Constants.UNIT_IMPERIAL;
+            heightLayout.setHint(getString(R.string.feet));
+            weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
         } else if (unit == Constants.UNIT_IMPERIAL) {
             BMIUnitButton.setText(getString(R.string.metric));
             SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
             unit = Constants.UNIT_METRIC;
+            heightLayout.setHint(getString(R.string.centimeters));
+            weightLayout.setHint(getString(R.string.kilograms));
             heightInchesLayout.setVisibility(View.GONE);
         }
         convertFields();
