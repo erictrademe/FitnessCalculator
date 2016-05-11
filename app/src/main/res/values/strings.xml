@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">FitnessCalculator</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_toolbar_general">General calculators</string>
+
+    <string name="title_fragment_body">Body calculators</string>
+    <string name="title_fragment_strength">Strength calculators</string>
+
+    <string name="imperial">Imperial</string>
+    <string name="metric">Metric</string>
+
+
+
+
+    <string name="bmi_underweight">Underweight</string>
+    <string name="bmi_normal">Normal</string>
+    <string name="bmi_overweight">Overweight</string>
+    <string name="bmi_obese">Obese</string>
+    <string name="bmi_morbidly_obese">Morbidly obese</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="inches">Inches</string>
+</resources>
