@@ -37,4 +37,7 @@
 
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
+    <string name="bmi">BMI</string>
+    <string name="calorie_intake">Calorie Intake</string>
+    <string name="calorie_intake_2">Calorie\nIntake</string>
 </resources>
