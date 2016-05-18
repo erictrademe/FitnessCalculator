@@ -19,9 +19,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String TAG_FRAGMENT_MAIN = "fragment_main";
 
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    private MainFragment mainFragment;
+    private NavigationDrawerFragment navigationDrawerFragment;
 
     private CharSequence toolbarTitle;
 
@@ -30,22 +28,22 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         toolbarTitle = getTitle();
+        initialiseNavigationDrawer();
+        if (savedInstanceState == null)
+            initialiseMainFragment();
+    }
 
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+    private void initialiseNavigationDrawer() {
+        navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
 
+    private void initialiseMainFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (savedInstanceState == null) {
-            mainFragment = MainFragment.newInstance();
-            fragmentManager.beginTransaction()
-                    .add(R.id.container, mainFragment, TAG_FRAGMENT_MAIN)
-                    .commit();
-        } else {
-            mainFragment = (MainFragment) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MAIN);
-        }
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, MainFragment.newInstance(), TAG_FRAGMENT_MAIN)
+                .commit();
     }
 
     @Override
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                toolbarTitle = getString(R.string.title_section1);
+                toolbarTitle = getString(R.string.general_calculators);
                 break;
             case 2:
                 toolbarTitle = getString(R.string.title_section2);
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+        if (!navigationDrawerFragment.isDrawerOpen()) {
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
@@ -99,13 +97,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            // DEBUG
             SharedPreferencesManager.clearAll();
-            mainFragment.refreshAll();
+            getMainFragment().refreshAll();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private MainFragment getMainFragment() {
+        return (MainFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MAIN);
     }
 
 }

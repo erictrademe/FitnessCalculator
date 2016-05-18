@@ -26,6 +26,12 @@
     <string name="bmi_obese">Obese</string>
     <string name="bmi_morbidly_obese">Morbidly obese</string>
 
+    <string name="activity_level_sedentary">Sedentary</string>
+    <string name="activity_level_light">Light</string>
+    <string name="activity_level_moderate">Moderate</string>
+    <string name="activity_level_active">Active</string>
+    <string name="activity_level_extreme">Extreme</string>
+
     <string name="height">Height</string>
     <string name="weight">Weight</string>
     <string name="feet">Feet</string>
@@ -37,7 +43,17 @@
 
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
+    <string name="body_mass_index">Body Mass Index</string>
     <string name="bmi">BMI</string>
     <string name="calorie_intake">Calorie Intake</string>
     <string name="calorie_intake_2">Calorie\nIntake</string>
+    <string name="Gender">Gender</string>
+    <string name="age">Age</string>
+    <string name="years">Years</string>
+    <string name="activity_level">Activity Level</string>
+    <string name="sedentary">Sedentary</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="calories_daily">Calories daily</string>
+    <string name="general_calculators">General Calculators</string>
 </resources>

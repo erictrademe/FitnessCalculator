@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.fragments.BodyFragment;
@@ -18,27 +20,37 @@ import java.util.List;
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    private Context context;
+    private static final int FRAGMENT_BODY = 0;
+    private static final int FRAGMENT_STRENGTH = 1;
 
-    private BodyFragment bodyFragment;
-    private StrengthFragment strengthFragment;
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-    public ViewPagerAdapter(@NonNull Context context, @NonNull FragmentManager manager) {
+    public ViewPagerAdapter(@NonNull FragmentManager manager) {
         super(manager);
-        this.context = context;
-        bodyFragment = new BodyFragment();
-        strengthFragment = new StrengthFragment();
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return bodyFragment;
+                return new BodyFragment();
             case 1:
-                return strengthFragment;
+                return new StrengthFragment();
         }
-        return bodyFragment;
+        return null;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
     }
 
     @Override
@@ -50,15 +62,23 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return context.getString(R.string.title_fragment_body);
+                return "Body calculators";
             case 1:
-                return context.getString(R.string.title_fragment_strength);
+                return "Strength calculators";
         }
         return "";
     }
 
     public void refreshAll(){
-        bodyFragment.refresh();
-        strengthFragment.refresh();
+        getBodyFragment().refresh();
+        getStrengthFragment().refresh();
+    }
+
+    public BodyFragment getBodyFragment() {
+        return (BodyFragment) registeredFragments.get(FRAGMENT_BODY);
+    }
+
+    public StrengthFragment getStrengthFragment() {
+        return (StrengthFragment) registeredFragments.get(FRAGMENT_STRENGTH);
     }
 }

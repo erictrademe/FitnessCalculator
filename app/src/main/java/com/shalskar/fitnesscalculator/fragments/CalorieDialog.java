@@ -126,7 +126,7 @@ public class CalorieDialog extends DialogFragment {
         prepopulateActivityLevel();
     }
 
-    private void prepopulateGender(){
+    private void prepopulateGender() {
         if (gender == Constants.GENDER_FEMALE) {
             femaleRadioButton.setChecked(true);
             maleRadioButton.setChecked(false);
@@ -136,13 +136,13 @@ public class CalorieDialog extends DialogFragment {
         }
     }
 
-    private void prepopulateAge(){
+    private void prepopulateAge() {
         weightLayout.setErrorEnabled(false);
         if (age != 0)
             ageEditText.setText(String.format("%d", age));
     }
 
-    private void prepopulateHeightAndWeight(){
+    private void prepopulateHeightAndWeight() {
         heightLayout.setErrorEnabled(false);
         weightLayout.setErrorEnabled(false);
         if (unit == Constants.UNIT_IMPERIAL) {
@@ -167,7 +167,7 @@ public class CalorieDialog extends DialogFragment {
         }
     }
 
-    private void prepopulateActivityLevel(){
+    private void prepopulateActivityLevel() {
         if (activityLevel == Constants.ACTIVITY_LEVEL_SEDENTARY) {
             activityLevelSlider.setValue(0, false);
             activityLevelAmountTextView.setText(getString(R.string.activity_level_sedentary));
@@ -249,19 +249,19 @@ public class CalorieDialog extends DialogFragment {
     private boolean validateFields() {
         boolean validated = true;
 
-        if (ageEditText.length() == 0 && age <= 0){
+        if (ageEditText.length() == 0 && age <= 0) {
             validated = false;
             ageLayout.setError(" ");
             ageLayout.setErrorEnabled(true);
         }
 
-        if (heightEditText.length() == 0 && height <= 0){
+        if (heightEditText.length() == 0 && height <= 0) {
             validated = false;
             heightLayout.setError(" ");
             heightLayout.setErrorEnabled(true);
         }
 
-        if (weightEditText.length() == 0 && weight <= 0){
+        if (weightEditText.length() == 0 && weight <= 0) {
             validated = false;
             weightLayout.setError(" ");
             weightLayout.setErrorEnabled(true);
@@ -329,7 +329,9 @@ public class CalorieDialog extends DialogFragment {
                     height = Parser.parseDouble(getContext(), heightEditText.getText().toString());
                 } else if (unit == Constants.UNIT_IMPERIAL) {
                     double feet = Parser.parseDouble(getContext(), heightEditText.getText().toString());
-                    double inches = Parser.parseDouble(getContext(), heightInchesEditText.getText().toString());
+                    double inches = 0;
+                    if (heightInchesEditText.length() > 0)
+                        inches = Parser.parseDouble(getContext(), heightInchesEditText.getText().toString());
                     height = Converter.feetAndInchesToCm(feet, inches);
                 }
             }
