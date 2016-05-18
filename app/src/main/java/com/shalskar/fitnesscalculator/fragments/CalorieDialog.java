@@ -11,13 +11,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.rey.material.widget.Slider;
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.Converter;
 import com.shalskar.fitnesscalculator.Parser;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.events.HeightUpdatedEvent;
-import com.shalskar.fitnesscalculator.events.WeightUpdatedEvent;
+import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,6 +33,21 @@ import butterknife.OnClick;
  * Created by Vincent on 7/05/2016.
  */
 public class CalorieDialog extends DialogFragment {
+
+    @BindView(R.id.radio_group_gender)
+    RadioGroup radioGroupGender;
+
+    @BindView(R.id.radio_button_male)
+    RadioButton maleRadioButton;
+
+    @BindView(R.id.radio_button_female)
+    RadioButton femaleRadioButton;
+
+    @BindView(R.id.edittext_layout_age)
+    TextInputLayout ageLayout;
+
+    @BindView(R.id.edittext_age)
+    EditText ageEditText;
 
     @BindView(R.id.edittext_layout_weight)
     TextInputLayout weightLayout;
@@ -49,12 +67,21 @@ public class CalorieDialog extends DialogFragment {
     @BindView(R.id.height_inches_layout)
     ViewGroup heightInchesLayout;
 
-    @BindView(R.id.bmi_button_unit)
-    Button BMIUnitButton;
+    @BindView(R.id.slider_activity_level)
+    Slider activityLevelSlider;
+
+    @BindView(R.id.textview_activity_level_amount)
+    TextView activityLevelAmountTextView;
+
+    @BindView(R.id.calorie_button_unit)
+    Button calorieUnitButton;
 
     private int unit = Constants.UNIT_METRIC;
+    private int gender = Constants.GENDER_FEMALE;
+    private int age = 0;
     private double height = 0;
     private double weight = 0;
+    private float activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
 
     public CalorieDialog() {
 
@@ -63,7 +90,7 @@ public class CalorieDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_bmi, container);
+        View view = inflater.inflate(R.layout.dialog_calorie, container);
 
         ButterKnife.bind(this, view);
         initialiseViews();
@@ -73,18 +100,53 @@ public class CalorieDialog extends DialogFragment {
     }
 
     private void initialiseViews() {
-        weightEditText.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        getDialog().setTitle("BMI");
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getDialog().setTitle(getString(R.string.calorie_intake));
         addListeners();
     }
 
-    private void prepopulateFields() {
+    private void loadFields() {
+        gender = SharedPreferencesManager.getGender();
+        age = SharedPreferencesManager.getAge();
         height = SharedPreferencesManager.getHeight();
         weight = SharedPreferencesManager.getWeight();
         unit = SharedPreferencesManager.getUnit();
+        activityLevel = SharedPreferencesManager.getActivityLevel();
+    }
+
+    /**
+     * Preopulation methods.
+     */
+
+    private void prepopulateFields() {
+        loadFields();
+        prepopulateGender();
+        prepopulateAge();
+        prepopulateHeightAndWeight();
+        prepopulateActivityLevel();
+    }
+
+    private void prepopulateGender(){
+        if (gender == Constants.GENDER_FEMALE) {
+            femaleRadioButton.setChecked(true);
+            maleRadioButton.setChecked(false);
+        } else if (gender == Constants.GENDER_MALE) {
+            femaleRadioButton.setChecked(false);
+            maleRadioButton.setChecked(true);
+        }
+    }
+
+    private void prepopulateAge(){
+        weightLayout.setErrorEnabled(false);
+        if (age != 0)
+            ageEditText.setText(String.format("%d", age));
+    }
+
+    private void prepopulateHeightAndWeight(){
+        heightLayout.setErrorEnabled(false);
+        weightLayout.setErrorEnabled(false);
         if (unit == Constants.UNIT_IMPERIAL) {
-            BMIUnitButton.setText(getString(R.string.imperial));
+            calorieUnitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
@@ -105,19 +167,38 @@ public class CalorieDialog extends DialogFragment {
         }
     }
 
+    private void prepopulateActivityLevel(){
+        if (activityLevel == Constants.ACTIVITY_LEVEL_SEDENTARY) {
+            activityLevelSlider.setValue(0, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_sedentary));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_LIGHT) {
+            activityLevelSlider.setValue(1, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_light));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_MODERATE) {
+            activityLevelSlider.setValue(2, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_moderate));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_ACTIVE) {
+            activityLevelSlider.setValue(3, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_active));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_EXTREME) {
+            activityLevelSlider.setValue(4, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
+        }
+    }
 
-    @OnClick(R.id.bmi_button_unit)
+
+    @OnClick(R.id.calorie_button_unit)
     void onClickBmiUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
-            BMIUnitButton.setText(getString(R.string.imperial));
+            calorieUnitButton.setText(getString(R.string.imperial));
             SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
             unit = Constants.UNIT_IMPERIAL;
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
         } else if (unit == Constants.UNIT_IMPERIAL) {
-            BMIUnitButton.setText(getString(R.string.metric));
+            calorieUnitButton.setText(getString(R.string.metric));
             SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
             unit = Constants.UNIT_METRIC;
             heightLayout.setHint(getString(R.string.centimeters));
@@ -146,39 +227,63 @@ public class CalorieDialog extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.bmi_button_ok)
+    @OnClick(R.id.calorie_button_ok)
     void onOkClick() {
         if (validateFields()) {
+            SharedPreferencesManager.saveAge(age);
+            SharedPreferencesManager.saveGender(gender);
             SharedPreferencesManager.saveWeight(weight);
-            EventBus.getDefault().post(new WeightUpdatedEvent(weight));
             SharedPreferencesManager.saveHeight(height);
-            EventBus.getDefault().post(new HeightUpdatedEvent(height));
+            SharedPreferencesManager.saveActivityLevel(activityLevel);
+            EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_AGE, Constants.DETAIL_GENDER,
+                    Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT, Constants.DETAIL_ACTIVITY_LEVEL));
             this.dismiss();
         }
     }
 
-    @OnClick(R.id.bmi_button_cancel)
+    @OnClick(R.id.calorie_button_cancel)
     void onCancelClick() {
         this.dismiss();
     }
 
     private boolean validateFields() {
-        if (heightEditText.length() > 0 && weightEditText.length() > 0) {
-            if (height > 0 && weight > 0) return true;
+        boolean validated = true;
+
+        if (ageEditText.length() == 0 && age <= 0){
+            validated = false;
+            ageLayout.setError(" ");
+            ageLayout.setErrorEnabled(true);
         }
-        return false;
+
+        if (heightEditText.length() == 0 && height <= 0){
+            validated = false;
+            heightLayout.setError(" ");
+            heightLayout.setErrorEnabled(true);
+        }
+
+        if (weightEditText.length() == 0 && weight <= 0){
+            validated = false;
+            weightLayout.setError(" ");
+            weightLayout.setErrorEnabled(true);
+        }
+
+        return validated;
     }
 
-    private void removeListeners(){
+    private void removeListeners() {
+        ageEditText.removeTextChangedListener(ageEditTextWatcher);
         weightEditText.removeTextChangedListener(weightEditTextWatcher);
         heightEditText.removeTextChangedListener(heightEditTextWatcher);
         heightInchesEditText.removeTextChangedListener(heightEditTextWatcher);
     }
 
-    private void addListeners(){
+    private void addListeners() {
+        radioGroupGender.setOnCheckedChangeListener(onGenderCheckedChangeListener);
+        ageEditText.addTextChangedListener(ageEditTextWatcher);
         weightEditText.addTextChangedListener(weightEditTextWatcher);
         heightEditText.addTextChangedListener(heightEditTextWatcher);
         heightInchesEditText.addTextChangedListener(heightEditTextWatcher);
+        activityLevelSlider.setOnPositionChangeListener(activityLevelPositionChangedListener);
     }
 
     /**
@@ -192,9 +297,15 @@ public class CalorieDialog extends DialogFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            weight = Parser.parseDouble(getContext(), weightEditText.getText().toString());
-            if (unit == Constants.UNIT_IMPERIAL)
-                weight = Converter.poundsToKgs(weight);
+            if (weightEditText.length() == 0) {
+                weightLayout.setError(" ");
+                weightLayout.setErrorEnabled(true);
+            } else {
+                weightLayout.setErrorEnabled(false);
+                weight = Parser.parseDouble(getContext(), weightEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    weight = Converter.poundsToKgs(weight);
+            }
         }
 
         @Override
@@ -209,21 +320,81 @@ public class CalorieDialog extends DialogFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (unit == Constants.UNIT_METRIC) {
-                height = Parser.parseDouble(getContext(), heightEditText.getText().toString());
-            } else if (unit == Constants.UNIT_IMPERIAL) {
-                double feet = 0;
-                if (heightEditText.getText().length() > 0)
-                    feet = Parser.parseDouble(getContext(), heightEditText.getText().toString());
-                double inches = 0;
-                if (heightInchesEditText.getText().length() > 0)
-                    inches = Parser.parseDouble(getContext(), heightInchesEditText.getText().toString());
-                height = Converter.feetAndInchesToCm(feet, inches);
+            if (heightEditText.length() == 0) {
+                heightLayout.setError(" ");
+                heightLayout.setErrorEnabled(true);
+            } else {
+                heightLayout.setErrorEnabled(false);
+                if (unit == Constants.UNIT_METRIC) {
+                    height = Parser.parseDouble(getContext(), heightEditText.getText().toString());
+                } else if (unit == Constants.UNIT_IMPERIAL) {
+                    double feet = Parser.parseDouble(getContext(), heightEditText.getText().toString());
+                    double inches = Parser.parseDouble(getContext(), heightInchesEditText.getText().toString());
+                    height = Converter.feetAndInchesToCm(feet, inches);
+                }
             }
         }
 
         @Override
         public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private TextWatcher ageEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (ageEditText.length() == 0) {
+                ageLayout.setError(" ");
+                ageLayout.setErrorEnabled(true);
+            } else {
+                age = Integer.parseInt(ageEditText.getText().toString());
+                ageLayout.setErrorEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener onGenderCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.radio_button_female) gender = Constants.GENDER_FEMALE;
+            else if (checkedId == R.id.radio_button_male) gender = Constants.GENDER_MALE;
+
+        }
+    };
+
+    private Slider.OnPositionChangeListener activityLevelPositionChangedListener = new Slider.OnPositionChangeListener() {
+        @Override
+        public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
+            switch (newValue) {
+                case 0:
+                    activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_sedentary));
+                    break;
+                case 1:
+                    activityLevel = Constants.ACTIVITY_LEVEL_LIGHT;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_light));
+                    break;
+                case 2:
+                    activityLevel = Constants.ACTIVITY_LEVEL_MODERATE;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_moderate));
+                    break;
+                case 3:
+                    activityLevel = Constants.ACTIVITY_LEVEL_ACTIVE;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_active));
+                    break;
+                case 4:
+                    activityLevel = Constants.ACTIVITY_LEVEL_EXTREME;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
+                    break;
+            }
         }
     };
 }

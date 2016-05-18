@@ -34,6 +34,8 @@ public class MainFragment extends Fragment {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
+    private ViewPagerAdapter viewPagerAdapter;
+
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
         return fragment;
@@ -68,10 +70,12 @@ public class MainFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new BodyFragment(), getString(R.string.title_fragment_body));
-        adapter.addFragment(new StrengthFragment(), getString(R.string.title_fragment_strength));
-        viewPager.setAdapter(adapter);
+        viewPagerAdapter = new ViewPagerAdapter(getContext().getApplicationContext(), getActivity().getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+    }
+
+    public void refreshAll(){
+        viewPagerAdapter.refreshAll();
     }
 
 }

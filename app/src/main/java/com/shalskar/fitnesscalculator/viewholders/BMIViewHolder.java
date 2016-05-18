@@ -1,11 +1,13 @@
 package com.shalskar.fitnesscalculator.viewholders;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.FitnessCalculator;
@@ -66,6 +68,10 @@ public class BMIViewHolder extends RecyclerView.ViewHolder {
         double height = SharedPreferencesManager.getHeight();
         double weight = SharedPreferencesManager.getWeight();
         if (height > 0 && weight > 0) {
+            if(BMITitleTextView.getVisibility() == View.VISIBLE) {
+                animateSideLayout();
+                animateTitle();
+            }
             updateBMI();
         } else {
             BMITitleTextView.setVisibility(View.VISIBLE);
@@ -74,15 +80,47 @@ public class BMIViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    private void animateSideLayout(){
+        sideLayout.setTranslationX(sideLayout.getWidth());
+        sideLayout.setAlpha(0);
+        sideLayout.setVisibility(View.VISIBLE);
+        sideLayout.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
+    }
+
+    private void animateTitle(){
+        BMITitleTextView.animate().alpha(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                BMITitleTextView.setVisibility(View.GONE);
+                BMITitleTextView.setAlpha(1);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+
+        BMITitle2TextView.setAlpha(0);
+        BMITitle2TextView.setVisibility(View.VISIBLE);
+        BMITitle2TextView.animate().alpha(1).start();
+    }
+
     private void updateBMI() {
         double height = SharedPreferencesManager.getHeight();
         double weight = SharedPreferencesManager.getWeight();
 
         double BMI = FitnessCalculator.calculateBMI(weight, height);
-        BMITitleTextView.setVisibility(View.GONE);
-        BMITitle2TextView.setVisibility(View.VISIBLE);
-        sideLayout.setVisibility(View.VISIBLE);
-
 
         updateChart(BMI);
     }
@@ -127,6 +165,7 @@ public class BMIViewHolder extends RecyclerView.ViewHolder {
         pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size));
         pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size_small));
 
+        chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
     }
 

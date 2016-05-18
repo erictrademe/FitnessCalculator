@@ -27,4 +27,8 @@ public class StrengthFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_strength, container, false);
     }
 
+    public void refresh(){
+
+    }
+
 }

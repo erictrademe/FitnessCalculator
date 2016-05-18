@@ -1,9 +1,11 @@
 package com.shalskar.fitnesscalculator.viewholders;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.FitnessCalculator;
@@ -66,12 +68,52 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
         int gender = SharedPreferencesManager.getGender();
         double activityLevel = SharedPreferencesManager.getActivityLevel();
         if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1) {
+            if(calorieTitleTextView.getVisibility() == View.VISIBLE){
+                animateSideLayout();
+                animateTitle();
+            }
             updateCalorie();
         } else {
             calorieTitleTextView.setVisibility(View.VISIBLE);
             calorieTitle2TextView.setVisibility(View.GONE);
             sideLayout.setVisibility(View.GONE);
         }
+    }
+
+    private void animateSideLayout(){
+        sideLayout.setTranslationX(sideLayout.getWidth());
+        sideLayout.setAlpha(0);
+        sideLayout.setVisibility(View.VISIBLE);
+        sideLayout.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
+    }
+
+    private void animateTitle(){
+        calorieTitleTextView.animate().alpha(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                calorieTitleTextView.setVisibility(View.GONE);
+                calorieTitleTextView.setAlpha(1);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+
+        calorieTitle2TextView.setAlpha(0);
+        calorieTitle2TextView.setVisibility(View.VISIBLE);
+        calorieTitle2TextView.animate().alpha(1).start();
     }
 
     private void updateCalorie() {
@@ -82,9 +124,6 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
         double activityLevel = SharedPreferencesManager.getActivityLevel();
 
         int dailyCalorieIntake = FitnessCalculator.calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
-        calorieTitleTextView.setVisibility(View.GONE);
-        calorieTitle2TextView.setVisibility(View.VISIBLE);
-        sideLayout.setVisibility(View.VISIBLE);
 
         updateChart(0, dailyCalorieIntake);
     }
@@ -92,36 +131,14 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
     private void updateChart(int basalMetabolicRate, int dailyIntake) {
         Context context = baseView.getContext();
 
-//        String BMIClassification = "";
-//        int BMIColor = R.color.paleGreen;
-//        if (BMI < 18.5) {
-//            BMIClassification = context.getString(R.string.bmi_underweight);
-//            BMIColor = R.color.yellowGreen;
-//        } else if (BMI < 25) {
-//            BMIClassification = context.getString(R.string.bmi_normal);
-//            BMIColor = R.color.paleGreen;
-//        } else if (BMI < 30) {
-//            BMIClassification = context.getString(R.string.bmi_overweight);
-//            BMIColor = R.color.mustardOrange;
-//        } else if (BMI < 40) {
-//            BMIClassification = context.getString(R.string.bmi_obese);
-//            BMIColor = R.color.lightRed;
-//        } else if (BMI >= 40) {
-//            BMIClassification = context.getString(R.string.bmi_morbidly_obese);
-//            BMIColor = R.color.deepRed;
-//        }
-
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1(decimalFormat.format(dailyIntake));
-        //pieChartData.setCenterText2(BMIClassification);
+        pieChartData.setCenterText2(context.getString(R.string.calories_daily));
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
         sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.paleGreen)));
-//        if (BMI < 40) {
-//            sliceValues.add(new SliceValue((int)(40 - BMI), context.getResources().getColor(R.color.defaultGrey)));
-//        }
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
@@ -129,12 +146,13 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
         pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size));
         pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size_small));
 
+        chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
     }
 
     @OnClick({R.id.calorie_card_view, R.id.edit_button})
     void showCalorieDialog() {
-        //fitnessAdapter.showBMIDialog();
+        fitnessAdapter.showCalorieDialog();
     }
 
 

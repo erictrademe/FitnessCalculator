@@ -16,8 +16,7 @@ import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.Converter;
 import com.shalskar.fitnesscalculator.Parser;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.events.HeightUpdatedEvent;
-import com.shalskar.fitnesscalculator.events.WeightUpdatedEvent;
+import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,9 +72,8 @@ public class BMIDialog extends DialogFragment {
     }
 
     private void initialiseViews() {
-        weightEditText.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        getDialog().setTitle("BMI");
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getDialog().setTitle(getString(R.string.body_mass_index));
         addListeners();
     }
 
@@ -150,9 +148,8 @@ public class BMIDialog extends DialogFragment {
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveWeight(weight);
-            EventBus.getDefault().post(new WeightUpdatedEvent(weight));
             SharedPreferencesManager.saveHeight(height);
-            EventBus.getDefault().post(new HeightUpdatedEvent(height));
+            EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT));
             this.dismiss();
         }
     }
@@ -192,9 +189,15 @@ public class BMIDialog extends DialogFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            weight = Parser.parseDouble(getContext(), weightEditText.getText().toString());
-            if (unit == Constants.UNIT_IMPERIAL)
-                weight = Converter.poundsToKgs(weight);
+            if (weightEditText.length() == 0) {
+                weightLayout.setError(" ");
+                weightLayout.setErrorEnabled(true);
+            } else {
+                weightLayout.setErrorEnabled(false);
+                weight = Parser.parseDouble(getContext(), weightEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    weight = Converter.poundsToKgs(weight);
+            }
         }
 
         @Override
@@ -209,16 +212,18 @@ public class BMIDialog extends DialogFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (unit == Constants.UNIT_METRIC) {
-                height = Parser.parseDouble(getContext(), heightEditText.getText().toString());
-            } else if (unit == Constants.UNIT_IMPERIAL) {
-                double feet = 0;
-                if (heightEditText.getText().length() > 0)
-                    feet = Parser.parseDouble(getContext(), heightEditText.getText().toString());
-                double inches = 0;
-                if (heightInchesEditText.getText().length() > 0)
-                    inches = Parser.parseDouble(getContext(), heightInchesEditText.getText().toString());
-                height = Converter.feetAndInchesToCm(feet, inches);
+            if (heightEditText.length() == 0) {
+                heightLayout.setError(" ");
+                heightLayout.setErrorEnabled(true);
+            } else {
+                heightLayout.setErrorEnabled(false);
+                if (unit == Constants.UNIT_METRIC) {
+                    height = Parser.parseDouble(getContext(), heightEditText.getText().toString());
+                } else if (unit == Constants.UNIT_IMPERIAL) {
+                    double feet = Parser.parseDouble(getContext(), heightEditText.getText().toString());
+                    double inches = Parser.parseDouble(getContext(), heightInchesEditText.getText().toString());
+                    height = Converter.feetAndInchesToCm(feet, inches);
+                }
             }
         }
 

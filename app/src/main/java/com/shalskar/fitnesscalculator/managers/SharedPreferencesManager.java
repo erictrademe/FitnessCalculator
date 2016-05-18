@@ -65,12 +65,12 @@ public class SharedPreferencesManager {
     }
 
     public static int getGender(){
-        return sharedPreferencesManager.sharedPreferences.getInt(KEY_GENDER, -1);
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_GENDER, Constants.GENDER_FEMALE);
     }
 
     public static void saveAge(int age){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
-        editor.putInt(KEY_HEIGHT, age);
+        editor.putInt(KEY_AGE, age);
         editor.apply();
     }
 
@@ -78,14 +78,24 @@ public class SharedPreferencesManager {
         return sharedPreferencesManager.sharedPreferences.getInt(KEY_AGE, 0);
     }
 
-    public static void saveActivityLevel(double activityLevel){
+    public static void saveActivityLevel(float activityLevel){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
-        editor.putFloat(KEY_ACTIVITY_LEVEL, (float) activityLevel);
+        editor.putFloat(KEY_ACTIVITY_LEVEL, activityLevel);
         editor.apply();
     }
 
-    public static double getActivityLevel(){
-        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_ACTIVITY_LEVEL, -1);
+    public static float getActivityLevel(){
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_ACTIVITY_LEVEL, Constants.ACTIVITY_LEVEL_SEDENTARY);
+    }
+
+    public static void clearAll(){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.remove(KEY_AGE);
+        editor.remove(KEY_GENDER);
+        editor.remove(KEY_HEIGHT);
+        editor.remove(KEY_WEIGHT);
+        editor.remove(KEY_ACTIVITY_LEVEL);
+        editor.apply();
     }
 
 }

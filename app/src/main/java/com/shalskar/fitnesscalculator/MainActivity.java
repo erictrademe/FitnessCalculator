@@ -10,13 +10,18 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
 import com.shalskar.fitnesscalculator.fragments.MainFragment;
+import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    public static final String TAG_FRAGMENT_MAIN = "fragment_main";
+
     private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    private MainFragment mainFragment;
 
     private CharSequence toolbarTitle;
 
@@ -32,11 +37,14 @@ public class MainActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        if(savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (savedInstanceState == null) {
+            mainFragment = MainFragment.newInstance();
             fragmentManager.beginTransaction()
-                    .add(R.id.container, MainFragment.newInstance())
+                    .add(R.id.container, mainFragment, TAG_FRAGMENT_MAIN)
                     .commit();
+        } else {
+            mainFragment = (MainFragment) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MAIN);
         }
     }
 
@@ -90,7 +98,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) return true;
+        if (id == R.id.action_settings) {
+            // DEBUG
+            SharedPreferencesManager.clearAll();
+            mainFragment.refreshAll();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

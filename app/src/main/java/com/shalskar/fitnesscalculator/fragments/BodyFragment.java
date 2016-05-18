@@ -1,6 +1,5 @@
 package com.shalskar.fitnesscalculator.fragments;
 
-import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -9,34 +8,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.shalskar.fitnesscalculator.FitnessCalculator;
+import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.FitnessAdapter;
-import com.shalskar.fitnesscalculator.events.HeightUpdatedEvent;
-import com.shalskar.fitnesscalculator.events.WeightUpdatedEvent;
-import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.util.ChartUtils;
-import lecho.lib.hellocharts.view.PieChartView;
 
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class BodyFragment extends Fragment implements FitnessAdapter.AdapterListener{
+public class BodyFragment extends Fragment implements FitnessAdapter.AdapterListener {
+
+    private static final String TAG_BMI_DIALOG_FRAGMENT = "fragment_bmi";
+    private static final String TAG_CALORIE_DIALOG_FRAGMENT = "fragment_calorie";
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -68,7 +58,7 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
         super.onDestroy();
     }
 
-    private void initialiseRecyclerView(){
+    private void initialiseRecyclerView() {
         recyclerView.setHasFixedSize(true);
 
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -78,28 +68,74 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
         recyclerView.setAdapter(fitnessAdapter);
     }
 
+    @Override
     public void showBMIDialog() {
         FragmentManager manager = getFragmentManager();
-        Fragment frag = manager.findFragmentByTag("fragment_edit_name");
+        Fragment frag = manager.findFragmentByTag(TAG_BMI_DIALOG_FRAGMENT);
         if (frag != null)
             manager.beginTransaction().remove(frag).commit();
 
-        BMIDialog editNameDialog = new BMIDialog();
-        editNameDialog.show(manager, "fragment_edit_name");
+        BMIDialog BMIDialog = new BMIDialog();
+        BMIDialog.show(manager, TAG_BMI_DIALOG_FRAGMENT);
+    }
+
+    @Override
+    public void showCalorieDialog() {
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag(TAG_CALORIE_DIALOG_FRAGMENT);
+        if (frag != null)
+            manager.beginTransaction().remove(frag).commit();
+
+        CalorieDialog calorieDialog = new CalorieDialog();
+        calorieDialog.show(manager, TAG_CALORIE_DIALOG_FRAGMENT);
     }
 
     /**
      * Respond to various events.
      **/
 
+    // todo prevent multiple update calls
     @Subscribe
-    public void onWeightUpdatedEvent(WeightUpdatedEvent weightUpdatedEvent) {
-        fitnessAdapter.updateBMI();
+    public void onDetailsUpdatedEvent(DetailsUpdatedEvent detailsUpdatedEvent) {
+        boolean updateBMI = false;
+        boolean updateCalories = false;
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_AGE)) {
+            updateCalories = true;
+        }
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_GENDER)) {
+            updateCalories = true;
+        }
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_WEIGHT)) {
+            updateBMI = true;
+            updateCalories = true;
+        }
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_HEIGHT)) {
+            updateBMI = true;
+            updateCalories = true;
+        }
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_ACTIVITY_LEVEL)) {
+            updateCalories = true;
+        }
+
+        if(updateBMI) fitnessAdapter.updateBMI();
+        if(updateCalories) fitnessAdapter.updateCalorie();
+
     }
 
-    @Subscribe
-    public void onHeightUpdatedEvent(HeightUpdatedEvent heightUpdatedEvent) {
-        fitnessAdapter.updateBMI();
+    public void refresh(){
+        fitnessAdapter.notifyDataSetChanged();
+    }
+
+    public static boolean listContains(int[] list, int item) {
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] == item) return true;
+        }
+        return false;
     }
 
 }
