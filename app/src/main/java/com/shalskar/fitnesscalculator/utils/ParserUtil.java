@@ -1,4 +1,4 @@
-package com.shalskar.fitnesscalculator;
+package com.shalskar.fitnesscalculator.utils;
 
 import android.content.Context;
 import android.nfc.FormatException;
@@ -11,7 +11,7 @@ import java.util.Locale;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class Parser {
+public class ParserUtil {
 
     /** Try and parse the double using the traditional way, if that fails, then try using the current locale. **/
     public static double parseDouble(@NonNull Context context, @NonNull String doubleString){

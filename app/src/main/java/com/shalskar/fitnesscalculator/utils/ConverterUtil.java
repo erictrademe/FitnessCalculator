@@ -1,9 +1,9 @@
-package com.shalskar.fitnesscalculator;
+package com.shalskar.fitnesscalculator.utils;
 
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class Converter {
+public class ConverterUtil {
 
     public static double poundsToKgs(double pounds) {
         return pounds / 2.205;

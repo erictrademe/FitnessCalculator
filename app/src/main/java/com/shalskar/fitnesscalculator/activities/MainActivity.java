@@ -1,4 +1,4 @@
-package com.shalskar.fitnesscalculator;
+package com.shalskar.fitnesscalculator.activities;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
+import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.fragments.MainFragment;
+import com.shalskar.fitnesscalculator.fragments.NavigationDrawerFragment;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public static final String TAG_FRAGMENT_MAIN = "fragment_main";
 
