@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.viewholders.BMIViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
 
 import java.util.ArrayList;
 
@@ -24,10 +26,12 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private static final int VIEW_TYPE_BMI = 0;
     private static final int VIEW_TYPE_CALORIE = 1;
+    private static final int VIEW_TYPE_MACRO = 2;
+    private static final int VIEW_TYPE_WATER = 3;
 
     public FitnessAdapter(@NonNull AdapterListener adapterListener) {
         this.adapterListener = adapterListener;
-        this.viewHolders = new RecyclerView.ViewHolder[2];
+        this.viewHolders = new RecyclerView.ViewHolder[5];
     }
 
     @Override
@@ -37,12 +41,20 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         View view;
         switch (viewType) {
             case VIEW_TYPE_BMI:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_bmi, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
                 viewHolder = new BMIViewHolder(this, view);
                 break;
             case VIEW_TYPE_CALORIE:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_calorie, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
                 viewHolder = new CalorieViewHolder(this, view);
+                break;
+            case VIEW_TYPE_MACRO:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
+                viewHolder = new MacroViewHolder(this, view);
+                break;
+            case VIEW_TYPE_WATER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_small, parent, false);
+                viewHolder = new WaterViewHolder(this, view);
                 break;
         }
 
@@ -57,11 +69,19 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (viewType) {
             case VIEW_TYPE_BMI:
                 BMIViewHolder BMIViewHolder = (BMIViewHolder) viewHolder;
-                BMIViewHolder.updateAll();
+                BMIViewHolder.initialiseViews();
                 break;
             case VIEW_TYPE_CALORIE:
                 CalorieViewHolder calorieViewHolder = (CalorieViewHolder) viewHolder;
-                calorieViewHolder.updateAll();
+                calorieViewHolder.initialiseViews();
+                break;
+            case VIEW_TYPE_MACRO:
+                MacroViewHolder macroViewHolder = (MacroViewHolder) viewHolder;
+                macroViewHolder.initialiseViews();
+                break;
+            case VIEW_TYPE_WATER:
+                WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolder;
+                waterViewHolder.initialiseViews();
                 break;
         }
     }
@@ -73,13 +93,39 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return VIEW_TYPE_BMI;
             case 1:
                 return VIEW_TYPE_CALORIE;
+            case 2:
+                return VIEW_TYPE_MACRO;
+            case 3:
+                return VIEW_TYPE_WATER;
+            case 4:
+                return VIEW_TYPE_WATER;
         }
         return VIEW_TYPE_BMI;
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return viewHolders.length;
+    }
+
+    /**
+     * Return how many columns the viewholder should span for the position given.
+     * @param position
+     * @return
+     */
+    public int getSpanForPosition(int position){
+        int viewType = getItemViewType(position);
+        switch(viewType){
+            case VIEW_TYPE_BMI:
+                return 2;
+            case VIEW_TYPE_CALORIE:
+                return 2;
+            case VIEW_TYPE_MACRO:
+                return 2;
+            case VIEW_TYPE_WATER:
+                return 1;
+        }
+        return 0;
     }
 
     public void updateBMI() {
@@ -92,18 +138,60 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         calorieViewHolder.updateAll();
     }
 
+    public void updateMacro() {
+        MacroViewHolder macroViewHolder = (MacroViewHolder) viewHolders[2];
+        macroViewHolder.updateAll();
+    }
+
+    public void updateWater() {
+        WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolders[3];
+        waterViewHolder.updateAll();
+        WaterViewHolder waterViewHolder2 = (WaterViewHolder) viewHolders[4];
+        waterViewHolder2.updateAll();
+    }
+
     public void showBMIDialog() {
         adapterListener.showBMIDialog();
+    }
+
+    public void showBMIInfoDialog() {
+        adapterListener.showBMIInfoDialog();
     }
 
     public void showCalorieDialog() {
         adapterListener.showCalorieDialog();
     }
 
+    public void showCalorieInfoDialog() {
+        adapterListener.showCalorieInfoDialog();
+    }
+
+    public void showMacroDialog() {
+        adapterListener.showMacroDialog();
+    }
+
+    public void showMacroInfoDialog() {
+        adapterListener.showMacroInfoDialog();
+    }
+
+    public void showWaterDialog() {
+        adapterListener.showWaterDialog();
+    }
+
     public interface AdapterListener {
         void showBMIDialog();
 
+        void showBMIInfoDialog();
+
         void showCalorieDialog();
+
+        void showCalorieInfoDialog();
+
+        void showMacroDialog();
+
+        void showMacroInfoDialog();
+
+        void showWaterDialog();
     }
 
 }

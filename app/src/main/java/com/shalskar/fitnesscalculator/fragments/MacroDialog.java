@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.rey.material.widget.Slider;
 import com.shalskar.fitnesscalculator.Constants;
-import com.shalskar.fitnesscalculator.utils.ConverterUtil;
-import com.shalskar.fitnesscalculator.utils.ParserUtil;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.utils.ConverterUtil;
+import com.shalskar.fitnesscalculator.utils.ParserUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -73,8 +73,20 @@ public class MacroDialog extends DialogFragment {
     @BindView(R.id.textview_activity_level_amount)
     TextView activityLevelAmountTextView;
 
+    @BindView(R.id.radio_group_goal)
+    RadioGroup radioGroupGoal;
+
+    @BindView(R.id.radio_button_gain_muscle)
+    RadioButton gainMuscleRadioButton;
+
+    @BindView(R.id.radio_button_fat_loss)
+    RadioButton fatLossRadioButton;
+
+    @BindView(R.id.radio_button_maintain)
+    RadioButton maintainRadioButton;
+
     @BindView(R.id.calorie_button_unit)
-    Button calorieUnitButton;
+    Button macroUnitButton;
 
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
@@ -82,6 +94,7 @@ public class MacroDialog extends DialogFragment {
     private double height = 0;
     private double weight = 0;
     private float activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+    private int goal = Constants.GOAL_GAIN_MUSCLE;
 
     public MacroDialog() {
 
@@ -90,10 +103,11 @@ public class MacroDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_calorie, container);
+        View view = inflater.inflate(R.layout.dialog_macro, container);
 
         ButterKnife.bind(this, view);
         initialiseViews();
+        presetDetails();
         prepopulateFields();
 
         return view;
@@ -105,13 +119,35 @@ public class MacroDialog extends DialogFragment {
         addListeners();
     }
 
+    /**
+     * We preset the details to the default values of their respective widgets once the dialog is opened
+     */
+    private void presetDetails() {
+        SharedPreferencesManager.saveGender(gender);
+        SharedPreferencesManager.saveActivityLevel(activityLevel);
+        SharedPreferencesManager.saveGoal(goal);
+    }
+
     private void loadFields() {
         gender = SharedPreferencesManager.getGender();
+        if (gender == -1) {
+            gender = Constants.GENDER_FEMALE;
+            SharedPreferencesManager.saveGender(gender);
+        }
         age = SharedPreferencesManager.getAge();
         height = SharedPreferencesManager.getHeight();
         weight = SharedPreferencesManager.getWeight();
         unit = SharedPreferencesManager.getUnit();
         activityLevel = SharedPreferencesManager.getActivityLevel();
+        if (activityLevel == -1) {
+            activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+            SharedPreferencesManager.saveActivityLevel(activityLevel);
+        }
+        goal = SharedPreferencesManager.getGoal();
+        if (goal == -1){
+            goal = Constants.GOAL_GAIN_MUSCLE;
+            SharedPreferencesManager.saveGoal(goal);
+        }
     }
 
     /**
@@ -124,6 +160,7 @@ public class MacroDialog extends DialogFragment {
         prepopulateAge();
         prepopulateHeightAndWeight();
         prepopulateActivityLevel();
+        prepopulateGoal();
     }
 
     private void prepopulateGender() {
@@ -146,7 +183,7 @@ public class MacroDialog extends DialogFragment {
         heightLayout.setErrorEnabled(false);
         weightLayout.setErrorEnabled(false);
         if (unit == Constants.UNIT_IMPERIAL) {
-            calorieUnitButton.setText(getString(R.string.imperial));
+            macroUnitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
@@ -186,19 +223,35 @@ public class MacroDialog extends DialogFragment {
         }
     }
 
+    private void prepopulateGoal() {
+        if (goal == Constants.GOAL_GAIN_MUSCLE) {
+            gainMuscleRadioButton.setChecked(true);
+            fatLossRadioButton.setChecked(false);
+            maintainRadioButton.setChecked(false);
+        } else if (goal == Constants.GOAL_FAT_LOSS) {
+            gainMuscleRadioButton.setChecked(false);
+            fatLossRadioButton.setChecked(true);
+            maintainRadioButton.setChecked(false);
+        } else if (goal == Constants.GOAL_MAINTAIN) {
+            gainMuscleRadioButton.setChecked(false);
+            fatLossRadioButton.setChecked(false);
+            maintainRadioButton.setChecked(true);
+        }
+    }
+
 
     @OnClick(R.id.calorie_button_unit)
-    void onClickBmiUnitButton() {
+    void onClickMacroUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
-            calorieUnitButton.setText(getString(R.string.imperial));
+            macroUnitButton.setText(getString(R.string.imperial));
             SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
             unit = Constants.UNIT_IMPERIAL;
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
         } else if (unit == Constants.UNIT_IMPERIAL) {
-            calorieUnitButton.setText(getString(R.string.metric));
+            macroUnitButton.setText(getString(R.string.metric));
             SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
             unit = Constants.UNIT_METRIC;
             heightLayout.setHint(getString(R.string.centimeters));
@@ -235,8 +288,9 @@ public class MacroDialog extends DialogFragment {
             SharedPreferencesManager.saveWeight(weight);
             SharedPreferencesManager.saveHeight(height);
             SharedPreferencesManager.saveActivityLevel(activityLevel);
+            SharedPreferencesManager.saveGoal(goal);
             EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_AGE, Constants.DETAIL_GENDER,
-                    Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT, Constants.DETAIL_ACTIVITY_LEVEL));
+                    Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT, Constants.DETAIL_ACTIVITY_LEVEL, Constants.DETAIL_GOAL));
             this.dismiss();
         }
     }
@@ -279,6 +333,7 @@ public class MacroDialog extends DialogFragment {
 
     private void addListeners() {
         radioGroupGender.setOnCheckedChangeListener(onGenderCheckedChangeListener);
+        radioGroupGoal.setOnCheckedChangeListener(onGoalCheckedChangeListener);
         ageEditText.addTextChangedListener(ageEditTextWatcher);
         weightEditText.addTextChangedListener(weightEditTextWatcher);
         heightEditText.addTextChangedListener(heightEditTextWatcher);
@@ -397,6 +452,16 @@ public class MacroDialog extends DialogFragment {
                     activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
                     break;
             }
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener onGoalCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.radio_button_gain_muscle) goal = Constants.GOAL_GAIN_MUSCLE;
+            else if (checkedId == R.id.radio_button_fat_loss) goal = Constants.GOAL_FAT_LOSS;
+            else if (checkedId == R.id.radio_button_maintain) goal = Constants.GOAL_MAINTAIN;
+
         }
     };
 }

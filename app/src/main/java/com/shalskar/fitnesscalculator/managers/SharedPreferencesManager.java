@@ -18,6 +18,7 @@ public class SharedPreferencesManager {
     private static final String KEY_AGE = "age";
     private static final String KEY_GENDER = "gender";
     private static final String KEY_ACTIVITY_LEVEL = "activity_level";
+    private static final String KEY_GOAL = "goal";
 
     private static SharedPreferencesManager sharedPreferencesManager;
 
@@ -65,7 +66,7 @@ public class SharedPreferencesManager {
     }
 
     public static int getGender(){
-        return sharedPreferencesManager.sharedPreferences.getInt(KEY_GENDER, Constants.GENDER_FEMALE);
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_GENDER, -1);
     }
 
     public static void saveAge(int age){
@@ -85,7 +86,17 @@ public class SharedPreferencesManager {
     }
 
     public static float getActivityLevel(){
-        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_ACTIVITY_LEVEL, Constants.ACTIVITY_LEVEL_SEDENTARY);
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_ACTIVITY_LEVEL, -1);
+    }
+
+    public static void saveGoal(int goal){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_GOAL, goal);
+        editor.apply();
+    }
+
+    public static int getGoal(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_GOAL, -1);
     }
 
     public static void clearAll(){
@@ -95,6 +106,7 @@ public class SharedPreferencesManager {
         editor.remove(KEY_HEIGHT);
         editor.remove(KEY_WEIGHT);
         editor.remove(KEY_ACTIVITY_LEVEL);
+        editor.remove(KEY_GOAL);
         editor.apply();
     }
 

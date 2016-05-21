@@ -6,12 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.FitnessAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.utils.AnimationUtil;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -33,8 +36,8 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
 
     private View baseView;
 
-    @BindView(R.id.calorie_card_view)
-    View calorieCardView;
+    @BindView(R.id.card_view)
+    View cardView;
 
     @BindView(R.id.side_layout)
     View sideLayout;
@@ -42,22 +45,30 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.chart)
     PieChartView chartView;
 
+    @BindView(R.id.image)
+    ImageView imageView;
+
     /**
      * We have 2 title text views in 2 different positions
      **/
 
-    @BindView(R.id.calorie_title2_textview)
-    TextView calorieTitle2TextView;
+    @BindView(R.id.title2_textview)
+    TextView title2TextView;
 
-    @BindView(R.id.calorie_title_textview)
-    TextView calorieTitleTextView;
+    @BindView(R.id.title_textview)
+    TextView titleTextView;
 
     public CalorieViewHolder(@NonNull FitnessAdapter fitnessAdapter, @NonNull View baseView) {
         super(baseView);
         this.fitnessAdapter = fitnessAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
+        Picasso.with(baseView.getContext()).load(R.drawable.calorie_image).into(imageView);
+    }
 
+    public void initialiseViews(){
+        titleTextView.setText(baseView.getContext().getString(R.string.calorie_intake));
+        title2TextView.setText(baseView.getContext().getString(R.string.calorie_intake_2));
         updateAll();
     }
 
@@ -68,27 +79,29 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
         int gender = SharedPreferencesManager.getGender();
         double activityLevel = SharedPreferencesManager.getActivityLevel();
         if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1) {
-            if(calorieTitleTextView.getVisibility() == View.VISIBLE){
+            updateCalorie();
+            if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
+            } else {
+                AnimationUtil.refreshView(chartView);
             }
-            updateCalorie();
         } else {
-            calorieTitleTextView.setVisibility(View.VISIBLE);
-            calorieTitle2TextView.setVisibility(View.GONE);
+            titleTextView.setVisibility(View.VISIBLE);
+            title2TextView.setVisibility(View.GONE);
             sideLayout.setVisibility(View.GONE);
         }
     }
 
-    private void animateSideLayout(){
+    private void animateSideLayout() {
         sideLayout.setTranslationX(sideLayout.getWidth());
         sideLayout.setAlpha(0);
         sideLayout.setVisibility(View.VISIBLE);
         sideLayout.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
     }
 
-    private void animateTitle(){
-        calorieTitleTextView.animate().alpha(0).setListener(new Animator.AnimatorListener() {
+    private void animateTitle() {
+        titleTextView.animate().alpha(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -96,8 +109,8 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                calorieTitleTextView.setVisibility(View.GONE);
-                calorieTitleTextView.setAlpha(1);
+                titleTextView.setVisibility(View.GONE);
+                titleTextView.setAlpha(1);
             }
 
             @Override
@@ -111,9 +124,9 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
             }
         }).start();
 
-        calorieTitle2TextView.setAlpha(0);
-        calorieTitle2TextView.setVisibility(View.VISIBLE);
-        calorieTitle2TextView.animate().alpha(1).start();
+        title2TextView.setAlpha(0);
+        title2TextView.setVisibility(View.VISIBLE);
+        title2TextView.animate().alpha(1).start();
     }
 
     private void updateCalorie() {
@@ -125,10 +138,10 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
 
         int dailyCalorieIntake = FitnessCalculator.calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
 
-        updateChart(0, dailyCalorieIntake);
+        updateChart(dailyCalorieIntake);
     }
 
-    private void updateChart(int basalMetabolicRate, int dailyIntake) {
+    private void updateChart(int dailyIntake) {
         Context context = baseView.getContext();
 
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -142,17 +155,24 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
+
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size));
-        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size_small));
+        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.calorie_pie_chart_text_size));
+        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.calorie_pie_chart_text_size_small));
+        pieChartData.setCenterCircleScale(0.95f);
 
         chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
     }
 
-    @OnClick({R.id.calorie_card_view, R.id.edit_button})
+    @OnClick({R.id.card_view, R.id.edit_button})
     void showCalorieDialog() {
         fitnessAdapter.showCalorieDialog();
+    }
+
+    @OnClick(R.id.info_button)
+    void showInfoDialog() {
+        fitnessAdapter.showCalorieInfoDialog();
     }
 
 

@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.rey.material.widget.Slider;
 import com.shalskar.fitnesscalculator.Constants;
-import com.shalskar.fitnesscalculator.Converter;
-import com.shalskar.fitnesscalculator.Parser;
+import com.shalskar.fitnesscalculator.utils.ConverterUtil;
+import com.shalskar.fitnesscalculator.utils.ParserUtil;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
@@ -107,11 +107,19 @@ public class CalorieDialog extends DialogFragment {
 
     private void loadFields() {
         gender = SharedPreferencesManager.getGender();
+        if (gender == -1) {
+            gender = Constants.GENDER_FEMALE;
+            SharedPreferencesManager.saveGender(gender);
+        }
         age = SharedPreferencesManager.getAge();
         height = SharedPreferencesManager.getHeight();
         weight = SharedPreferencesManager.getWeight();
         unit = SharedPreferencesManager.getUnit();
         activityLevel = SharedPreferencesManager.getActivityLevel();
+        if (activityLevel == -1) {
+            activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+            SharedPreferencesManager.saveActivityLevel(activityLevel);
+        }
     }
 
     /**
@@ -151,9 +159,9 @@ public class CalorieDialog extends DialogFragment {
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
             if (weight > 0)
-                weightEditText.setText(String.format("%.0f", Converter.kgsToPounds(weight)));
+                weightEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weight)));
             if (height > 0) {
-                double[] feetAndInches = Converter.cmToFeetAndInches(height);
+                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(String.format("%.0f", feetAndInches[0]));
                 heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
             }
@@ -213,12 +221,12 @@ public class CalorieDialog extends DialogFragment {
         if (unit == Constants.UNIT_IMPERIAL) {
             double convertedWeight = 0;
             if (weight > 0)
-                convertedWeight = Converter.kgsToPounds(weight);
+                convertedWeight = ConverterUtil.kgsToPounds(weight);
             weightEditText.setText(String.format("%.0f", convertedWeight));
 
             double[] feetAndInches = {0, 0};
             if (heightEditText.getText().length() > 0)
-                feetAndInches = Converter.cmToFeetAndInches(height);
+                feetAndInches = ConverterUtil.cmToFeetAndInches(height);
             heightEditText.setText(String.format("%.0f", feetAndInches[0]));
             heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
         } else if (unit == Constants.UNIT_METRIC) {
@@ -302,9 +310,9 @@ public class CalorieDialog extends DialogFragment {
                 weightLayout.setErrorEnabled(true);
             } else {
                 weightLayout.setErrorEnabled(false);
-                weight = Parser.parseDouble(getContext(), weightEditText.getText().toString());
+                weight = ParserUtil.parseDouble(getContext(), weightEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
-                    weight = Converter.poundsToKgs(weight);
+                    weight = ConverterUtil.poundsToKgs(weight);
             }
         }
 
@@ -326,13 +334,13 @@ public class CalorieDialog extends DialogFragment {
             } else {
                 heightLayout.setErrorEnabled(false);
                 if (unit == Constants.UNIT_METRIC) {
-                    height = Parser.parseDouble(getContext(), heightEditText.getText().toString());
+                    height = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
                 } else if (unit == Constants.UNIT_IMPERIAL) {
-                    double feet = Parser.parseDouble(getContext(), heightEditText.getText().toString());
+                    double feet = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
                     double inches = 0;
                     if (heightInchesEditText.length() > 0)
-                        inches = Parser.parseDouble(getContext(), heightInchesEditText.getText().toString());
-                    height = Converter.feetAndInchesToCm(feet, inches);
+                        inches = ParserUtil.parseDouble(getContext(), heightInchesEditText.getText().toString());
+                    height = ConverterUtil.feetAndInchesToCm(feet, inches);
                 }
             }
         }

@@ -56,4 +56,22 @@
     <string name="male">Male</string>
     <string name="calories_daily">Calories daily</string>
     <string name="general_calculators">General Calculators</string>
+
+    <string name="daily_calorie_intake_description">Your daily calorie intake is the amount of calories that you should consume daily to maintain weight, to lose weight you should aim to eat between 300-500 calories less than this. This is only an estimate and should be used as a guideline.</string>
+    <string name="daily_calorie_intake_description_title">About Daily Calorie Intake</string>
+
+    <string name="bmi_description">The BMI is an attempt to quantify the amount of tissue mass (muscle, fat, and bone) in an individual, and then categorize that person as underweight, normal weight, overweight, or obese based on that value. However, there is some debate about where on the BMI scale the dividing lines between categories should be placed. Commonly accepted BMI ranges are underweight: under 18.5, normal weight: 18.5 to 25, overweight: 25 to 30, obese: over 30.</string>
+    <string name="bmi_description_title">About BMI</string>
+
+    <string name="macro_description">Macronutrients are everything yeah nice!</string>
+    <string name="macro_description_title">About Macros</string>
+
+    <string name="macro">Macros</string>
+    <string name="maintain">Maintain</string>
+    <string name="muscle_gain">Gain Muscle</string>
+    <string name="fat_loss">Fat Loss</string>
+    <string name="goal">Goal</string>
+    <string name="water_intake">Water Intake</string>
+    <string name="ounces_daily">Ounces daily</string>
+    <string name="mls_daily">Mls daily</string>
 </resources>

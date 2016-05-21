@@ -13,6 +13,15 @@
     <dimen name="custom_tab_layout_height">72dp</dimen>
 
 
-    <dimen name="bmi_pie_chart_text_size">6sp</dimen>
-    <dimen name="bmi_pie_chart_text_size_small">3.5sp</dimen>
+    <dimen name="bmi_pie_chart_text_size">8sp</dimen>
+    <dimen name="bmi_pie_chart_text_size_small">5.5sp</dimen>
+
+    <dimen name="calorie_pie_chart_text_size">7sp</dimen>
+    <dimen name="calorie_pie_chart_text_size_small">4.5sp</dimen>
+
+    <dimen name="macro_pie_chart_text_size">6sp</dimen>
+    <dimen name="macro_pie_chart_text_size_small">3.75sp</dimen>
+
+    <dimen name="water_pie_chart_text_size">6sp</dimen>
+    <dimen name="water_pie_chart_text_size_small">4.25sp</dimen>
 </resources>

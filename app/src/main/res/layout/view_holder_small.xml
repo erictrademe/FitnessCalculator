@@ -6,10 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:layout_gravity="center"
-    android:layout_margin="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
     android:clickable="true"
     android:foreground="@drawable/white_ripple_border"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    tools:layout_width="200dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,58 +26,12 @@
             android:scaleType="centerCrop"
             tools:src="@drawable/bmi_image" />
 
-        <RelativeLayout
-            android:id="@+id/side_layout"
-            android:layout_width="220dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:clickable="true">
-
-            <lecho.lib.hellocharts.view.PieChartView
-                android:id="@+id/chart"
-                android:layout_width="144dp"
-                android:layout_height="144dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="4dp"
-                android:layout_toLeftOf="@+id/edit_button" />
-
-            <ImageButton
-                android:id="@+id/edit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/white_ripple"
-                android:padding="4dp"
-                android:src="@drawable/ic_pencil_white_24dp" />
-
-            <ImageButton
-                android:id="@+id/share_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/edit_button"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/white_ripple"
-                android:padding="4dp"
-                android:src="@drawable/ic_share_variant_white_24dp" />
-
-            <ImageButton
-                android:id="@+id/info_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/share_button"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/white_ripple"
-                android:padding="4dp"
-                android:src="@drawable/ic_information_white_24dp" />
-
-        </RelativeLayout>
+        <lecho.lib.hellocharts.view.PieChartView
+            android:id="@+id/chart"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_below="@id/title2_textview"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/title_textview"
@@ -82,7 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="@string/body_mass_index"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="@string/water_intake"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="#ffffff"
             android:textSize="26sp"
@@ -93,14 +54,16 @@
             fontPath="fonts/RobotoSlab-Regular.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:layout_toLeftOf="@id/side_layout"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@string/body_mass_index"
+            android:text="@string/water_intake"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="#ffffff"
-            android:textSize="26sp"
+            android:textSize="20sp"
             android:visibility="gone"
             tools:ignore="MissingPrefix"
             tools:visibility="visible" />

@@ -1,7 +1,5 @@
 package com.shalskar.fitnesscalculator;
 
-import java.text.DecimalFormat;
-
 /**
  * Created by Vincent on 7/05/2016.
  */
@@ -20,6 +18,35 @@ public class FitnessCalculator {
             BMR = 66.47+ (13.75 * weight) + (5.0 * height) - (6.75 * age);
         }
         return (int)(BMR * activityLevel);
+    }
+
+    /**
+     * Macros are returned in carbohydrate/fat/protein format
+     */
+    public static double[] calculateMacros(double weight, double height, int gender, int age, double activityLevel, int goal){
+        double[] macros = new double[3];
+        int dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
+
+        // todo switch from dummy values
+        switch(goal){
+            case Constants.GOAL_GAIN_MUSCLE:
+                macros[0] = 0.4 * dailyCalorieIntake / 4;
+                macros[1] = 0.2 * dailyCalorieIntake / 9;
+                macros[2] = 0.4 * dailyCalorieIntake / 4;
+                break;
+            case Constants.GOAL_FAT_LOSS:
+                macros[0] = 0.4 * dailyCalorieIntake / 4;
+                macros[1] = 0.3 * dailyCalorieIntake / 9;
+                macros[2] = 0.3 * dailyCalorieIntake / 4;
+                break;
+            case Constants.GOAL_MAINTAIN:
+                macros[0] = 0.3 * dailyCalorieIntake / 4;
+                macros[1] = 0.3 * dailyCalorieIntake / 9;
+                macros[2] = 0.4 * dailyCalorieIntake / 4;
+                break;
+
+        }
+        return macros;
     }
 
 }
