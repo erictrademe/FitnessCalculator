@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.viewholders.BMIViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.IdealWeightViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private AdapterListener adapterListener;
 
@@ -28,8 +29,9 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_TYPE_CALORIE = 1;
     private static final int VIEW_TYPE_MACRO = 2;
     private static final int VIEW_TYPE_WATER = 3;
+    private static final int VIEW_TYPE_IDEAL_WEIGHT = 4;
 
-    public FitnessAdapter(@NonNull AdapterListener adapterListener) {
+    public BodyAdapter(@NonNull AdapterListener adapterListener) {
         this.adapterListener = adapterListener;
         this.viewHolders = new RecyclerView.ViewHolder[5];
     }
@@ -55,6 +57,10 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case VIEW_TYPE_WATER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_small, parent, false);
                 viewHolder = new WaterViewHolder(this, view);
+                break;
+            case VIEW_TYPE_IDEAL_WEIGHT:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_small, parent, false);
+                viewHolder = new IdealWeightViewHolder(this, view);
                 break;
         }
 
@@ -83,6 +89,10 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolder;
                 waterViewHolder.initialiseViews();
                 break;
+            case VIEW_TYPE_IDEAL_WEIGHT:
+                IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolder;
+                idealWeightViewHolder.initialiseViews();
+                break;
         }
     }
 
@@ -98,7 +108,7 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case 3:
                 return VIEW_TYPE_WATER;
             case 4:
-                return VIEW_TYPE_WATER;
+                return VIEW_TYPE_IDEAL_WEIGHT;
         }
         return VIEW_TYPE_BMI;
     }
@@ -124,6 +134,8 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return 2;
             case VIEW_TYPE_WATER:
                 return 1;
+            case VIEW_TYPE_IDEAL_WEIGHT:
+                return 1;
         }
         return 0;
     }
@@ -146,8 +158,11 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void updateWater() {
         WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolders[3];
         waterViewHolder.updateAll();
-        WaterViewHolder waterViewHolder2 = (WaterViewHolder) viewHolders[4];
-        waterViewHolder2.updateAll();
+    }
+
+    public void updateIdealWeight() {
+        IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolders[4];
+        idealWeightViewHolder.updateAll();
     }
 
     public void showBMIDialog() {
@@ -178,6 +193,10 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         adapterListener.showWaterDialog();
     }
 
+    public void showIdealWeightDialog() {
+        adapterListener.showIdealWeightDialog();
+    }
+
     public interface AdapterListener {
         void showBMIDialog();
 
@@ -192,6 +211,8 @@ public class FitnessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void showMacroInfoDialog();
 
         void showWaterDialog();
+
+        void showIdealWeightDialog();
     }
 
 }

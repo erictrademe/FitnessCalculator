@@ -9,6 +9,10 @@ public class ConverterUtil {
         return pounds / 2.205;
     }
 
+    public static float poundsToKgs(float pounds) {
+        return pounds / 2.205f;
+    }
+
     public static double kgsToPounds(double kgs) {
         return kgs * 2.205;
     }

@@ -9,11 +9,13 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
+import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
 import java.text.DecimalFormat;
@@ -30,7 +32,7 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class MacroViewHolder extends RecyclerView.ViewHolder {
+public class IdealWeightViewHolder extends RecyclerView.ViewHolder {
 
     private BodyAdapter bodyAdapter;
 
@@ -38,9 +40,6 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.card_view)
     View cardView;
-
-    @BindView(R.id.side_layout)
-    View sideLayout;
 
     @BindView(R.id.chart)
     PieChartView chartView;
@@ -58,7 +57,7 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.title_textview)
     TextView titleTextView;
 
-    public MacroViewHolder(@NonNull BodyAdapter bodyAdapter, @NonNull View baseView) {
+    public IdealWeightViewHolder(@NonNull BodyAdapter bodyAdapter, @NonNull View baseView) {
         super(baseView);
         this.bodyAdapter = bodyAdapter;
         this.baseView = baseView;
@@ -66,17 +65,18 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void initialiseViews(){
-        titleTextView.setText(baseView.getContext().getString(R.string.macro));
-        title2TextView.setText(baseView.getContext().getString(R.string.macro));
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.bmi_image, 180, 180));
+        titleTextView.setText(baseView.getContext().getString(R.string.ideal_weight));
+        title2TextView.setText(baseView.getContext().getString(R.string.ideal_weight));
         loadImage();
         updateAll();
     }
 
     private void loadImage() {
         float bucketSize = baseView.getResources().getDisplayMetrics().density;
-        int width = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_width) / bucketSize);
-        int height = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.macro_image, width, height));
+        int width = (int) (baseView.getResources().getDimension(R.dimen.small_viewholder_width) / bucketSize);
+        int height = (int) (baseView.getResources().getDimension(R.dimen.small_viewholder_height) / bucketSize);
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.ideal_weight_image, width, height));
     }
 
     public void updateAll() {
@@ -85,11 +85,10 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         int age = SharedPreferencesManager.getAge();
         int gender = SharedPreferencesManager.getGender();
         double activityLevel = SharedPreferencesManager.getActivityLevel();
-        int goal = SharedPreferencesManager.getGoal();
-        if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1 && goal != -1) {
-            updateMacros();
-            if(titleTextView.getVisibility() == View.VISIBLE){
-                animateSideLayout();
+        if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1) {
+            updateWater();
+            if (titleTextView.getVisibility() == View.VISIBLE) {
+                animateChartView();
                 animateTitle();
             } else {
                 AnimationUtil.refreshView(chartView);
@@ -97,18 +96,18 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         } else {
             titleTextView.setVisibility(View.VISIBLE);
             title2TextView.setVisibility(View.GONE);
-            sideLayout.setVisibility(View.GONE);
+            chartView.setVisibility(View.GONE);
         }
     }
 
-    private void animateSideLayout(){
-        sideLayout.setTranslationX(sideLayout.getWidth());
-        sideLayout.setAlpha(0);
-        sideLayout.setVisibility(View.VISIBLE);
-        sideLayout.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
+    private void animateChartView() {
+        chartView.setTranslationX(chartView.getWidth());
+        chartView.setAlpha(0);
+        chartView.setVisibility(View.VISIBLE);
+        chartView.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
     }
 
-    private void animateTitle(){
+    private void animateTitle() {
         titleTextView.animate().alpha(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -137,56 +136,49 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         title2TextView.animate().alpha(1).start();
     }
 
-    private void updateMacros() {
+    private void updateWater() {
+        int unit = SharedPreferencesManager.getUnit();
         double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
-        int goal = SharedPreferencesManager.getGoal();
 
-        double[] macros = FitnessCalculator.calculateMacros(weight, height, gender, age, activityLevel, goal);
+        double[] idealBodyWeight = FitnessCalculator.calculateIdealBodyWeight(height);
+        if (unit == Constants.UNIT_IMPERIAL) {
+            idealBodyWeight[0] = ConverterUtil.kgsToPounds(idealBodyWeight[0]);
+            idealBodyWeight[1] = ConverterUtil.kgsToPounds(idealBodyWeight[1]);
+        }
 
-        updateChart(macros);
+        updateChart(unit, idealBodyWeight);
     }
 
-    private void updateChart(double[] macros) {
+    private void updateChart(int unit, double[] idealBodyWeight) {
         Context context = baseView.getContext();
 
         DecimalFormat decimalFormat = new DecimalFormat("#");
         PieChartData pieChartData = new PieChartData();
-        pieChartData.setCenterText1("Breakdown");
-        pieChartData.setCenterText2("C: " + decimalFormat.format(macros[0]) + " | F: " + decimalFormat.format(macros[1]) + " | P: " + decimalFormat.format(macros[2]));
-        //pieChartData.setCenterText2(context.getString(R.string.macros_daily));
+        pieChartData.setCenterText1(decimalFormat.format(idealBodyWeight[0]) + " - " + decimalFormat.format(idealBodyWeight[1]));
+        if (unit == Constants.UNIT_IMPERIAL)
+            pieChartData.setCenterText2(context.getString(R.string.pounds));
+        else
+            pieChartData.setCenterText2(context.getString(R.string.kilograms));
+
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue((float) macros[0], context.getResources().getColor(R.color.paleGreen)));
-        sliceValues.add(new SliceValue((float) macros[1], context.getResources().getColor(R.color.deepRed)));
-        sliceValues.add(new SliceValue((float) macros[2], context.getResources().getColor(R.color.mustardOrange)));
+        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.mustardOrange)));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.macro_pie_chart_text_size));
-        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.macro_pie_chart_text_size_small));
-        pieChartData.setHasLabels(true);
+        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size));
+        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size_small));
         pieChartData.setCenterCircleScale(0.95f);
-        pieChartData.setSlicesSpacing(4);
 
         chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
     }
 
     @OnClick(R.id.card_view)
-    void showMacroDialog() {
-        bodyAdapter.showMacroDialog();
+    void showIdealWeightDialog() {
+        bodyAdapter.showIdealWeightDialog();
     }
-
-    @OnClick(R.id.info_button)
-    void showInfoDialog() {
-        bodyAdapter.showMacroInfoDialog();
-    }
-
 
 }

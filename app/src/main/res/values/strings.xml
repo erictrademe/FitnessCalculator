@@ -74,4 +74,22 @@
     <string name="water_intake">Water Intake</string>
     <string name="ounces_daily">Ounces daily</string>
     <string name="mls_daily">Mls daily</string>
+    <string name="ideal_weight">Ideal Weight</string>
+
+
+    <string name="one_rep_max_bench_press">1RM Bench Press</string>
+    <string name="one_rep_max_squat">1RM Squat</string>
+    <string name="one_rep_max_deadlift">1RM Deadlift</string>
+    <string name="one_rep_max_overhead_press">1RM Overhead Press</string>
+    <string name="bench_press">Bench Press</string>
+    <string name="squat">Squat</string>
+    <string name="deadlift">Deadlift</string>
+    <string name="overhead_press">Overhead Press</string>
+    <string name="reps_lifted">Reps Lifted</string>
+    <string name="reps">Reps</string>
+    <string name="one_rep_max">One Rep Max</string>
+    <string name="wilks">Wilks</string>
+    <string name="squat_1rm">Squat 1RM</string>
+    <string name="bench_press_1rm">Bench Press 1RM</string>
+    <string name="deadlift_1rm">Deadlift 1RM</string>
 </resources>

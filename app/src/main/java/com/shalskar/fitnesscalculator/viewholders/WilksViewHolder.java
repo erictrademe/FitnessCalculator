@@ -9,9 +9,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
+import com.shalskar.fitnesscalculator.adapters.StrengthAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
@@ -30,9 +31,9 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class MacroViewHolder extends RecyclerView.ViewHolder {
+public class WilksViewHolder extends RecyclerView.ViewHolder {
 
-    private BodyAdapter bodyAdapter;
+    private StrengthAdapter strengthAdapter;
 
     private View baseView;
 
@@ -58,16 +59,16 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.title_textview)
     TextView titleTextView;
 
-    public MacroViewHolder(@NonNull BodyAdapter bodyAdapter, @NonNull View baseView) {
+    public WilksViewHolder(@NonNull StrengthAdapter strengthAdapter, @NonNull View baseView) {
         super(baseView);
-        this.bodyAdapter = bodyAdapter;
+        this.strengthAdapter = strengthAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
     }
 
     public void initialiseViews(){
-        titleTextView.setText(baseView.getContext().getString(R.string.macro));
-        title2TextView.setText(baseView.getContext().getString(R.string.macro));
+        titleTextView.setText(baseView.getContext().getString(R.string.wilks));
+        title2TextView.setText(baseView.getContext().getString(R.string.wilks));
         loadImage();
         updateAll();
     }
@@ -76,19 +77,19 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         float bucketSize = baseView.getResources().getDisplayMetrics().density;
         int width = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_width) / bucketSize);
         int height = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.macro_image, width, height));
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.wilks_image, width, height));
     }
 
     public void updateAll() {
-        double height = SharedPreferencesManager.getHeight();
+        float squatWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_SQUAT);
+        float benchWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_BENCH_PRESS);
+        float deadliftWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_DEADLIFT);
         double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
+
         int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
-        int goal = SharedPreferencesManager.getGoal();
-        if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1 && goal != -1) {
-            updateMacros();
-            if(titleTextView.getVisibility() == View.VISIBLE){
+        if (weight > 0 && gender != -1 && squatWeightLifted > 0 && benchWeightLifted > 0 && deadliftWeightLifted > 0) {
+            updateWilks(weight, gender, squatWeightLifted, benchWeightLifted, deadliftWeightLifted);
+            if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
             } else {
@@ -101,14 +102,14 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void animateSideLayout(){
+    private void animateSideLayout() {
         sideLayout.setTranslationX(sideLayout.getWidth());
         sideLayout.setAlpha(0);
         sideLayout.setVisibility(View.VISIBLE);
         sideLayout.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
     }
 
-    private void animateTitle(){
+    private void animateTitle() {
         titleTextView.animate().alpha(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -137,55 +138,44 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         title2TextView.animate().alpha(1).start();
     }
 
-    private void updateMacros() {
-        double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
-        int goal = SharedPreferencesManager.getGoal();
+    private void updateWilks(double weight, int gender, float squatWeightLifted, float benchWeightLifted, float deadliftWeightLifted) {
+        int unit = SharedPreferencesManager.getUnit();
+        float total = squatWeightLifted + benchWeightLifted +deadliftWeightLifted;
+        float wilks = FitnessCalculator.calculateWilks(unit, gender, (float) weight, total);
 
-        double[] macros = FitnessCalculator.calculateMacros(weight, height, gender, age, activityLevel, goal);
-
-        updateChart(macros);
+        updateChart(wilks);
     }
 
-    private void updateChart(double[] macros) {
+    private void updateChart(float wilks) {
         Context context = baseView.getContext();
 
-        DecimalFormat decimalFormat = new DecimalFormat("#");
+        DecimalFormat decimalFormat = new DecimalFormat("#.#");
         PieChartData pieChartData = new PieChartData();
-        pieChartData.setCenterText1("Breakdown");
-        pieChartData.setCenterText2("C: " + decimalFormat.format(macros[0]) + " | F: " + decimalFormat.format(macros[1]) + " | P: " + decimalFormat.format(macros[2]));
-        //pieChartData.setCenterText2(context.getString(R.string.macros_daily));
+        pieChartData.setCenterText1(decimalFormat.format(wilks));
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue((float) macros[0], context.getResources().getColor(R.color.paleGreen)));
-        sliceValues.add(new SliceValue((float) macros[1], context.getResources().getColor(R.color.deepRed)));
-        sliceValues.add(new SliceValue((float) macros[2], context.getResources().getColor(R.color.mustardOrange)));
+        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.white)));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
+
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.macro_pie_chart_text_size));
-        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.macro_pie_chart_text_size_small));
-        pieChartData.setHasLabels(true);
+        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.wilks_pie_chart_text_size));
         pieChartData.setCenterCircleScale(0.95f);
-        pieChartData.setSlicesSpacing(4);
 
         chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
     }
 
     @OnClick(R.id.card_view)
-    void showMacroDialog() {
-        bodyAdapter.showMacroDialog();
+    void showCalorieDialog() {
+        strengthAdapter.showWilksDialog();
     }
 
     @OnClick(R.id.info_button)
     void showInfoDialog() {
-        bodyAdapter.showMacroInfoDialog();
+        strengthAdapter.showWilksInfoDialog();
     }
 
 

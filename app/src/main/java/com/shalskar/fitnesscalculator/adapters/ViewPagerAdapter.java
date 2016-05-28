@@ -1,6 +1,5 @@
 package com.shalskar.fitnesscalculator.adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,12 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.fragments.BodyFragment;
 import com.shalskar.fitnesscalculator.fragments.StrengthFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Vincent on 7/05/2016.

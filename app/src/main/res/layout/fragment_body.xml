@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@null"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:padding="@dimen/viewholder_padding"/>
 
 </FrameLayout>

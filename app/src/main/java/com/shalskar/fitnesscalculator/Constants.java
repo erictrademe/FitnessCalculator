@@ -15,6 +15,8 @@ public class Constants {
     public static final int DETAIL_GENDER = 1237;
     public static final int DETAIL_ACTIVITY_LEVEL = 1238;
     public static final int DETAIL_GOAL = 1239;
+    public static final int DETAIL_ONE_REP_MAX = 1240;
+    public static final int DETAIL_EXERCISE = 1241;
 
     public final static int UNIT_METRIC = 1111;
     public final static int UNIT_IMPERIAL = 2222;
@@ -31,4 +33,8 @@ public class Constants {
 
     public final static int GENDER_FEMALE = 0;
     public final static int GENDER_MALE = 1;
+
+    public static final String EXERCISE_SQUAT = "exercise_squat";
+    public static final String EXERCISE_BENCH_PRESS = "exercise_bench_press";
+    public static final String EXERCISE_DEADLIFT = "exercise_deadlift";
 }

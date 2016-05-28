@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,8 @@ import android.view.ViewGroup;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.adapters.FitnessAdapter;
+import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
+import com.shalskar.fitnesscalculator.adapters.ItemOffsetDecoration;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.utils.DialogUtil;
 
@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class BodyFragment extends Fragment implements FitnessAdapter.AdapterListener {
+public class BodyFragment extends Fragment implements BodyAdapter.AdapterListener {
 
     private static final String TAG_BMI_DIALOG_FRAGMENT = "fragment_bmi";
     private static final String TAG_CALORIE_DIALOG_FRAGMENT = "fragment_calorie";
@@ -35,7 +35,7 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
     RecyclerView recyclerView;
 
     private GridLayoutManager gridLayoutManager;
-    private FitnessAdapter fitnessAdapter;
+    private BodyAdapter bodyAdapter;
 
     public BodyFragment() {
     }
@@ -68,13 +68,14 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return fitnessAdapter.getSpanForPosition(position);
+                return bodyAdapter.getSpanForPosition(position);
             }
         });
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        fitnessAdapter = new FitnessAdapter(this);
-        recyclerView.setAdapter(fitnessAdapter);
+        bodyAdapter = new BodyAdapter(this);
+        recyclerView.setAdapter(bodyAdapter);
+        recyclerView.addItemDecoration(new ItemOffsetDecoration(getContext(), R.dimen.viewholder_padding));
     }
 
     @Override
@@ -131,6 +132,12 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
     }
 
     @Override
+    public void showIdealWeightDialog() {
+        // todo change
+        showBMIDialog();
+    }
+
+    @Override
     public void showBMIInfoDialog() {
         DialogUtil.showMessageDialog(getActivity(),
                 getActivity().getString(R.string.bmi_description_title),
@@ -147,6 +154,7 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
         boolean updateCalories = false;
         boolean updateMacro = false;
         boolean updateWater = false;
+        boolean updateIdealWeight = false;
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_AGE)) {
             updateCalories = true;
@@ -172,6 +180,7 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
             updateCalories = true;
             updateMacro = true;
             updateWater = true;
+            updateIdealWeight = true;
         }
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_ACTIVITY_LEVEL)) {
@@ -184,15 +193,16 @@ public class BodyFragment extends Fragment implements FitnessAdapter.AdapterList
             updateMacro = true;
         }
 
-        if(updateBMI) fitnessAdapter.updateBMI();
-        if(updateCalories) fitnessAdapter.updateCalorie();
-        if(updateMacro) fitnessAdapter.updateMacro();
-        if(updateWater) fitnessAdapter.updateWater();
+        if(updateBMI) bodyAdapter.updateBMI();
+        if(updateCalories) bodyAdapter.updateCalorie();
+        if(updateMacro) bodyAdapter.updateMacro();
+        if(updateWater) bodyAdapter.updateWater();
+        if(updateIdealWeight) bodyAdapter.updateIdealWeight();
 
     }
 
     public void refresh(){
-        fitnessAdapter.notifyDataSetChanged();
+        bodyAdapter.notifyDataSetChanged();
     }
 
     public static boolean listContains(int[] list, int item) {

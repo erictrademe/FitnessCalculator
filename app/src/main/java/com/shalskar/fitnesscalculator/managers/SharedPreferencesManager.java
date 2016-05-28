@@ -19,6 +19,8 @@ public class SharedPreferencesManager {
     private static final String KEY_GENDER = "gender";
     private static final String KEY_ACTIVITY_LEVEL = "activity_level";
     private static final String KEY_GOAL = "goal";
+    private static final String KEY_WEIGHT_LIFTED = "weight_lifted";
+    private static final String KEY_REPS_LIFTED = "reps_lifted";
 
     private static SharedPreferencesManager sharedPreferencesManager;
 
@@ -97,6 +99,46 @@ public class SharedPreferencesManager {
 
     public static int getGoal(){
         return sharedPreferencesManager.sharedPreferences.getInt(KEY_GOAL, -1);
+    }
+
+    public static void saveWeightLifted(float weight){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putFloat(KEY_WEIGHT_LIFTED, weight);
+        editor.apply();
+    }
+
+    public static void saveWeightLifted(@NonNull String exercise, float weight){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putFloat(KEY_WEIGHT_LIFTED + exercise, weight);
+        editor.apply();
+    }
+
+    public static float getWeightLifted(){
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_WEIGHT_LIFTED, -1);
+    }
+
+    public static float getWeightLifted(@NonNull String exercise){
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_WEIGHT_LIFTED + exercise, -1);
+    }
+
+    public static void saveRepsLifted(int reps){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_REPS_LIFTED, reps);
+        editor.apply();
+    }
+
+    public static int getRepsLifted(@NonNull String exercise){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_REPS_LIFTED + exercise, -1);
+    }
+
+    public static void saveRepsLifted(@NonNull String exercise, int reps){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_REPS_LIFTED + exercise, reps);
+        editor.apply();
+    }
+
+    public static int getRepsLifted(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_REPS_LIFTED, -1);
     }
 
     public static void clearAll(){

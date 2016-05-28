@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/edit_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="24dp">
+
+    <Button
+        android:id="@+id/button_unit"
+        style="@android:style/Widget.Material.Light.Button.Toggle"
+        android:layout_width="72dp"
+        android:layout_height="36dp"
+        android:layout_gravity="end"
+        android:layout_marginBottom="-28dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/metric"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/textview_weight_lifted"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="@string/weight"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+        android:textSize="16sp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edittext_layout_weight_lifted"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+        <EditText
+            android:id="@+id/edittext_weight_lifted"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/kilograms"
+            android:imeOptions="actionGo"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textview_reps_lifted"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="@string/reps_lifted"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+        android:textSize="16sp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edittext_layout_reps_lifted"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+        <EditText
+            android:id="@+id/edittext_reps_lifted"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/reps"
+            android:imeOptions="actionGo"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_cancel"
+            style="@android:style/Widget.Material.Light.Button.Borderless"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/button_ok"
+            style="@android:style/Widget.Material.Light.Button.Borderless"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/ok" />
+
+    </LinearLayout>
+
+</LinearLayout>

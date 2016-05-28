@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.adapters.FitnessAdapter;
+import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
-import com.squareup.picasso.Picasso;
+import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import lecho.lib.hellocharts.view.PieChartView;
  */
 public class BMIViewHolder extends RecyclerView.ViewHolder {
 
-    private FitnessAdapter fitnessAdapter;
+    private BodyAdapter bodyAdapter;
 
     private View baseView;
 
@@ -58,18 +58,25 @@ public class BMIViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.title_textview)
     TextView titleTextView;
 
-    public BMIViewHolder(@NonNull FitnessAdapter fitnessAdapter, @NonNull View baseView) {
+    public BMIViewHolder(@NonNull BodyAdapter bodyAdapter, @NonNull View baseView) {
         super(baseView);
-        this.fitnessAdapter = fitnessAdapter;
+        this.bodyAdapter = bodyAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
-        Picasso.with(baseView.getContext()).load(R.drawable.bmi_image).into(imageView);
     }
 
-    public void initialiseViews(){
+    public void initialiseViews() {
         titleTextView.setText(baseView.getContext().getString(R.string.body_mass_index));
         title2TextView.setText(baseView.getContext().getString(R.string.body_mass_index));
+        loadImage();
         updateAll();
+    }
+
+    private void loadImage() {
+        float bucketSize = baseView.getResources().getDisplayMetrics().density;
+        int width = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_width) / bucketSize);
+        int height = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.bmi_image, width, height));
     }
 
     public void updateAll() {
@@ -157,7 +164,7 @@ public class BMIViewHolder extends RecyclerView.ViewHolder {
             BMIColor = R.color.deepRed;
         }
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        DecimalFormat decimalFormat = new DecimalFormat("#.#");
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1(decimalFormat.format(BMI));
         pieChartData.setCenterText2(BMIClassification);
@@ -181,14 +188,14 @@ public class BMIViewHolder extends RecyclerView.ViewHolder {
         chartView.setPieChartData(pieChartData);
     }
 
-    @OnClick({R.id.card_view, R.id.edit_button})
+    @OnClick(R.id.card_view)
     void showBMIDialog() {
-        fitnessAdapter.showBMIDialog();
+        bodyAdapter.showBMIDialog();
     }
 
     @OnClick(R.id.info_button)
     void showBMIInfoDialog() {
-        fitnessAdapter.showBMIInfoDialog();
+        bodyAdapter.showBMIInfoDialog();
     }
 
 

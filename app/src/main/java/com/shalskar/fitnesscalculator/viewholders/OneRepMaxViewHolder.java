@@ -12,9 +12,10 @@ import android.widget.TextView;
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
+import com.shalskar.fitnesscalculator.adapters.StrengthAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
+import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
 import java.text.DecimalFormat;
@@ -31,9 +32,9 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class WaterViewHolder extends RecyclerView.ViewHolder {
+public class OneRepMaxViewHolder extends RecyclerView.ViewHolder {
 
-    private BodyAdapter bodyAdapter;
+    private StrengthAdapter strengthAdapter;
 
     private View baseView;
 
@@ -56,38 +57,37 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.title_textview)
     TextView titleTextView;
 
-    public WaterViewHolder(@NonNull BodyAdapter bodyAdapter, @NonNull View baseView) {
+    public OneRepMaxViewHolder(@NonNull StrengthAdapter strengthAdapter, @NonNull View baseView) {
         super(baseView);
-        this.bodyAdapter = bodyAdapter;
+        this.strengthAdapter = strengthAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
     }
 
-    public void initialiseViews(){
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.bmi_image, 180, 180));
-        titleTextView.setText(baseView.getContext().getString(R.string.water_intake));
-        title2TextView.setText(baseView.getContext().getString(R.string.water_intake));
+    public void initialiseViews() {
+        initialiseTitle();
         loadImage();
         updateAll();
     }
 
+    private void initialiseTitle() {
+        titleTextView.setText(baseView.getContext().getString(R.string.one_rep_max));
+        title2TextView.setText(baseView.getContext().getString(R.string.one_rep_max));
+    }
+
     private void loadImage() {
         float bucketSize = baseView.getResources().getDisplayMetrics().density;
-        int width = (int) (baseView.getResources().getDimension(R.dimen.small_viewholder_width) / bucketSize);
-        int height = (int) (baseView.getResources().getDimension(R.dimen.small_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.water_image, width, height));
+        int width = (int) (baseView.getResources().getDimension(R.dimen.thin_viewholder_width) / bucketSize);
+        int height = (int) (baseView.getResources().getDimension(R.dimen.thin_viewholder_height) / bucketSize);
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.one_rep_max_image, width, height));
     }
 
     public void updateAll() {
-        double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
-        if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1) {
-            updateWater();
-            if (titleTextView.getVisibility() == View.VISIBLE) {
-                animateChartView();
+        double weightLifted = SharedPreferencesManager.getWeightLifted();
+        int repsLifted = SharedPreferencesManager.getRepsLifted();
+        if (weightLifted > 0 && repsLifted > 0) {
+            updateOneRepMax();
+            if (titleTextView.getVisibility() == View.VISIBLE) {animateSideLayout();
                 animateTitle();
             } else {
                 AnimationUtil.refreshView(chartView);
@@ -99,7 +99,7 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void animateChartView() {
+    private void animateSideLayout() {
         chartView.setTranslationX(chartView.getWidth());
         chartView.setAlpha(0);
         chartView.setVisibility(View.VISIBLE);
@@ -135,51 +135,69 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
         title2TextView.animate().alpha(1).start();
     }
 
-    private void updateWater() {
-        int unit = SharedPreferencesManager.getUnit();
-        double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
+    private void updateOneRepMax() {
+        float weightLifted = SharedPreferencesManager.getWeightLifted();
+        int repsLifted = SharedPreferencesManager.getRepsLifted();
 
-        int waterIntake = FitnessCalculator.calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
-        if (unit == Constants.UNIT_IMPERIAL)
-            waterIntake *= 0.033814;
+        double oneRepMax = FitnessCalculator.calculateOneRepMax(repsLifted, weightLifted);
 
-        updateChart(unit, waterIntake);
+        updateChart(oneRepMax);
     }
 
-    private void updateChart(int unit, double waterIntake) {
+    private void updateChart(double oneRepMax) {
         Context context = baseView.getContext();
+        int unit = SharedPreferencesManager.getUnit();
 
-        DecimalFormat decimalFormat = new DecimalFormat("#");
+//        String BMIClassification = "";
+//        int BMIColor = R.color.paleGreen;
+//        if (BMI < 18.5) {
+//            BMIClassification = context.getString(R.string.bmi_underweight);
+//            BMIColor = R.color.yellowGreen;
+//        } else if (BMI < 25) {
+//            BMIClassification = context.getString(R.string.bmi_normal);
+//            BMIColor = R.color.paleGreen;
+//        } else if (BMI < 30) {
+//            BMIClassification = context.getString(R.string.bmi_overweight);
+//            BMIColor = R.color.mustardOrange;
+//        } else if (BMI < 40) {
+//            BMIClassification = context.getString(R.string.bmi_obese);
+//            BMIColor = R.color.lightRed;
+//        } else if (BMI >= 40) {
+//            BMIClassification = context.getString(R.string.bmi_morbidly_obese);
+//            BMIColor = R.color.deepRed;
+//        }
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.#");
         PieChartData pieChartData = new PieChartData();
-        pieChartData.setCenterText1(decimalFormat.format(waterIntake));
-        if (unit == Constants.UNIT_IMPERIAL)
-            pieChartData.setCenterText2(context.getString(R.string.ounces_daily));
-        else
-            pieChartData.setCenterText2(context.getString(R.string.mls_daily));
-
+        if (unit == Constants.UNIT_IMPERIAL) {
+            oneRepMax = ConverterUtil.kgsToPounds(oneRepMax);
+            pieChartData.setCenterText2(baseView.getContext().getString(R.string.pounds));
+        } else if (unit == Constants.UNIT_METRIC) {
+            pieChartData.setCenterText2(baseView.getContext().getString(R.string.kilograms));
+        }
+        pieChartData.setCenterText1(decimalFormat.format(oneRepMax));
+        pieChartData.setCenterText2(baseView.getContext().getString(R.string.kilograms));
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.lightBlue)));
+        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.deepRed)));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size));
-        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size_small));
+        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.one_rep_max_pie_chart_text_size));
+        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.one_rep_max_pie_chart_text_size_small));
         pieChartData.setCenterCircleScale(0.95f);
+        pieChartData.setSlicesSpacing(4);
 
         chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
     }
 
     @OnClick(R.id.card_view)
-    void showWaterDialog() {
-        bodyAdapter.showWaterDialog();
+    void onCardViewClicked() {
+        strengthAdapter.showOneRepMaxDialog();
     }
+
 
 }
