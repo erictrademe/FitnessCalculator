@@ -9,6 +9,7 @@ public class Constants {
 
     public static final int NO_SELECTION = -1;
 
+    public static final int DETAIL_UNIT = 1233;
     public static final int DETAIL_WEIGHT = 1234;
     public static final int DETAIL_HEIGHT = 1235;
     public static final int DETAIL_AGE = 1236;
@@ -17,6 +18,7 @@ public class Constants {
     public static final int DETAIL_GOAL = 1239;
     public static final int DETAIL_ONE_REP_MAX = 1240;
     public static final int DETAIL_EXERCISE = 1241;
+    public static final int DETAIL_MEASUREMENT = 1242;
 
     public final static int UNIT_METRIC = 1111;
     public final static int UNIT_IMPERIAL = 2222;
@@ -34,7 +36,16 @@ public class Constants {
     public final static int GENDER_FEMALE = 0;
     public final static int GENDER_MALE = 1;
 
+    public final static int STRENGTH_STANDARD_UNTRAINED = 101;
+    public final static int STRENGTH_STANDARD_NOVICE = 202;
+    public final static int STRENGTH_STANDARD_INTERMEDIATE = 303;
+    public final static int STRENGTH_STANDARD_ADVANCED = 404;
+    public final static int STRENGTH_STANDARD_ELITE = 505;
+
     public static final String EXERCISE_SQUAT = "exercise_squat";
     public static final String EXERCISE_BENCH_PRESS = "exercise_bench_press";
     public static final String EXERCISE_DEADLIFT = "exercise_deadlift";
+
+    public static final String BODY_PART_WRIST = "body_part_wrist";
+    public static final String BODY_PART_ANKLE = "body_part_ankle";
 }

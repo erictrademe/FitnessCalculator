@@ -84,12 +84,13 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     /**
      * Return how many columns the viewholder should span for the position given.
+     *
      * @param position
      * @return
      */
-    public int getSpanForPosition(int position){
+    public int getSpanForPosition(int position) {
         int viewType = getItemViewType(position);
-        switch(viewType){
+        switch (viewType) {
             case VIEW_TYPE_ONE_REP_MAX:
                 return 2;
             case VIEW_TYPE_WILKS:
@@ -98,12 +99,14 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return 2;
     }
 
-    public void updateOneRepMax() {
-        ((OneRepMaxViewHolder) viewHolders[1]).updateAll();
+    public void updateWilks() {
+        if (viewHolders[0] != null)
+            ((WilksViewHolder) viewHolders[0]).updateAll();
     }
 
-    public void updateWilks() {
-        ((WilksViewHolder) viewHolders[0]).updateAll();
+    public void updateOneRepMax() {
+        if (viewHolders[1] != null)
+            ((OneRepMaxViewHolder) viewHolders[1]).updateAll();
     }
 
     public void showOneRepMaxDialog() {

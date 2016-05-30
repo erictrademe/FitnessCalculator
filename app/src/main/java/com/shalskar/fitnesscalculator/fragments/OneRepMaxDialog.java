@@ -111,6 +111,7 @@ public class OneRepMaxDialog extends DialogFragment {
         }
         convertFields();
         addListeners();
+        EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_UNIT));
     }
 
     private void convertFields() {

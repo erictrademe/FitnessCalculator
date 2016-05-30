@@ -85,7 +85,7 @@ public class MacroDialog extends DialogFragment {
     @BindView(R.id.radio_button_maintain)
     RadioButton maintainRadioButton;
 
-    @BindView(R.id.calorie_button_unit)
+    @BindView(R.id.button_unit)
     Button macroUnitButton;
 
     private int unit = Constants.UNIT_METRIC;
@@ -240,7 +240,7 @@ public class MacroDialog extends DialogFragment {
     }
 
 
-    @OnClick(R.id.calorie_button_unit)
+    @OnClick(R.id.button_unit)
     void onClickMacroUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
@@ -260,6 +260,7 @@ public class MacroDialog extends DialogFragment {
         }
         convertFields();
         addListeners();
+        EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_UNIT));
     }
 
     private void convertFields() {

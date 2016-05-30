@@ -48,8 +48,8 @@ public class BMIDialog extends DialogFragment {
     @BindView(R.id.height_inches_layout)
     ViewGroup heightInchesLayout;
 
-    @BindView(R.id.bmi_button_unit)
-    Button BMIUnitButton;
+    @BindView(R.id.button_unit)
+    Button unitButton;
 
     private int unit = Constants.UNIT_METRIC;
     private double height = 0;
@@ -82,7 +82,7 @@ public class BMIDialog extends DialogFragment {
         weight = SharedPreferencesManager.getWeight();
         unit = SharedPreferencesManager.getUnit();
         if (unit == Constants.UNIT_IMPERIAL) {
-            BMIUnitButton.setText(getString(R.string.imperial));
+            unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
@@ -104,18 +104,18 @@ public class BMIDialog extends DialogFragment {
     }
 
 
-    @OnClick(R.id.bmi_button_unit)
+    @OnClick(R.id.button_unit)
     void onClickBmiUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
-            BMIUnitButton.setText(getString(R.string.imperial));
+            unitButton.setText(getString(R.string.imperial));
             SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
             unit = Constants.UNIT_IMPERIAL;
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
         } else if (unit == Constants.UNIT_IMPERIAL) {
-            BMIUnitButton.setText(getString(R.string.metric));
+            unitButton.setText(getString(R.string.metric));
             SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
             unit = Constants.UNIT_METRIC;
             heightLayout.setHint(getString(R.string.centimeters));
@@ -124,6 +124,7 @@ public class BMIDialog extends DialogFragment {
         }
         convertFields();
         addListeners();
+        EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_UNIT));
     }
 
     private void convertFields() {
@@ -144,7 +145,7 @@ public class BMIDialog extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.bmi_button_ok)
+    @OnClick(R.id.button_ok)
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveWeight(weight);
@@ -154,7 +155,7 @@ public class BMIDialog extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.bmi_button_cancel)
+    @OnClick(R.id.button_cancel)
     void onCancelClick() {
         this.dismiss();
     }

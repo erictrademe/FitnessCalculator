@@ -73,8 +73,8 @@ public class CalorieDialog extends DialogFragment {
     @BindView(R.id.textview_activity_level_amount)
     TextView activityLevelAmountTextView;
 
-    @BindView(R.id.calorie_button_unit)
-    Button calorieUnitButton;
+    @BindView(R.id.button_unit)
+    Button unitButton;
 
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
@@ -154,7 +154,7 @@ public class CalorieDialog extends DialogFragment {
         heightLayout.setErrorEnabled(false);
         weightLayout.setErrorEnabled(false);
         if (unit == Constants.UNIT_IMPERIAL) {
-            calorieUnitButton.setText(getString(R.string.imperial));
+            unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
@@ -195,18 +195,18 @@ public class CalorieDialog extends DialogFragment {
     }
 
 
-    @OnClick(R.id.calorie_button_unit)
-    void onClickBmiUnitButton() {
+    @OnClick(R.id.button_unit)
+    void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
-            calorieUnitButton.setText(getString(R.string.imperial));
+            unitButton.setText(getString(R.string.imperial));
             SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
             unit = Constants.UNIT_IMPERIAL;
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
         } else if (unit == Constants.UNIT_IMPERIAL) {
-            calorieUnitButton.setText(getString(R.string.metric));
+            unitButton.setText(getString(R.string.metric));
             SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
             unit = Constants.UNIT_METRIC;
             heightLayout.setHint(getString(R.string.centimeters));
@@ -215,6 +215,7 @@ public class CalorieDialog extends DialogFragment {
         }
         convertFields();
         addListeners();
+        EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_UNIT));
     }
 
     private void convertFields() {
@@ -235,7 +236,7 @@ public class CalorieDialog extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.calorie_button_ok)
+    @OnClick(R.id.button_ok)
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveAge(age);
@@ -249,7 +250,7 @@ public class CalorieDialog extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.calorie_button_cancel)
+    @OnClick(R.id.button_cancel)
     void onCancelClick() {
         this.dismiss();
     }

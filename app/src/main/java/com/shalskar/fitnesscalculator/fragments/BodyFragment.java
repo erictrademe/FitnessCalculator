@@ -30,6 +30,7 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
     private static final String TAG_BMI_DIALOG_FRAGMENT = "fragment_bmi";
     private static final String TAG_CALORIE_DIALOG_FRAGMENT = "fragment_calorie";
     private static final String TAG_MACRO_DIALOG_FRAGMENT = "fragment_macro";
+    private static final String TAG_IDEAL_PHYSIQUE_DIALOG_FRAGMENT = "fragment_ideal_physique";
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -138,6 +139,22 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
     }
 
     @Override
+    public void showIdealPhysiqueDialog() {
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag(TAG_IDEAL_PHYSIQUE_DIALOG_FRAGMENT);
+        if (frag != null)
+            manager.beginTransaction().remove(frag).commit();
+
+        IdealPhysiqueDialog idealPhysiqueDialog = new IdealPhysiqueDialog();
+        idealPhysiqueDialog.show(manager, TAG_IDEAL_PHYSIQUE_DIALOG_FRAGMENT);
+    }
+
+    @Override
+    public void showIdealPhysiqueInfoDialog() {
+
+    }
+
+    @Override
     public void showBMIInfoDialog() {
         DialogUtil.showMessageDialog(getActivity(),
                 getActivity().getString(R.string.bmi_description_title),
@@ -155,6 +172,7 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
         boolean updateMacro = false;
         boolean updateWater = false;
         boolean updateIdealWeight = false;
+        boolean updateIdealPhysique = false;
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_AGE)) {
             updateCalories = true;
@@ -173,6 +191,7 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
             updateCalories = true;
             updateMacro = true;
             updateWater = true;
+            updateIdealWeight = true;
         }
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_HEIGHT)) {
@@ -193,11 +212,25 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
             updateMacro = true;
         }
 
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_MEASUREMENT)) {
+            updateIdealPhysique = true;
+        }
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_UNIT)) {
+            updateBMI = true;
+            updateCalories = true;
+            updateMacro = true;
+            updateWater = true;
+            updateIdealWeight = true;
+            updateIdealPhysique = true;
+        }
+
         if(updateBMI) bodyAdapter.updateBMI();
         if(updateCalories) bodyAdapter.updateCalorie();
         if(updateMacro) bodyAdapter.updateMacro();
         if(updateWater) bodyAdapter.updateWater();
         if(updateIdealWeight) bodyAdapter.updateIdealWeight();
+        if(updateIdealPhysique) bodyAdapter.updateIdealPhysique();
 
     }
 

@@ -63,7 +63,7 @@ public class FitnessCalculator {
         return weightLifted * (1 + (repsLifted / 30f));
     }
 
-    public static float calculateWilks(int unit, int gender, float weight, float total){
+    public static float calculateWilks(int unit, int gender, float weight, float total) {
         float a;
         float b;
         float c;
@@ -92,9 +92,67 @@ public class FitnessCalculator {
         }
         double denom = a + b * weight + c * Math.pow(weight, 2.0) + d * Math.pow(weight, 3.0)
                 + e * Math.pow(weight, 4.0) + f * Math.pow(weight, 5.0);
-        return total * (500.0f / (float)denom);
+        return total * (500.0f / (float) denom);
     }
 
-    /** Strength standard calculators. **/
+    public static Physique calculateIdealPhysique(float wrist, float ankle) {
+        float chest = (6.5f * wrist * 100) / 100;
+        float shoulder = (1.618f * 0.7f * 6.5f * wrist * 100) / 100;
+        float neck = (0.37f * 6.5f * wrist * 100) / 100;
+        float waist = (0.7f * 6.5f * wrist * 100) / 100;
+        float arm = (2.5f * wrist * 100) / 100;
+        float forearm = (0.3f * 6.5f * wrist * 100) / 100;
+        float thigh = (2.9f * ankle * 100) / 100;
+        float calf = (1.9f * ankle * 100) / 100;
+        return new Physique(chest, shoulder, neck, waist, arm, forearm, thigh, calf);
+    }
+
+    public static final float[][] BENCH_PRESS_STANDARDS_MALE =
+                   {{52, 37.5f, 50, 60, 82.5f, 100},
+                    {56, 40, 52.5f, 62.5f, 90, 110},
+                    {60, 45f, 57.5f, 70, 95, 117.5f},
+                    {67, 50, 65, 77.5f, 107.5f, 132.5f},
+                    {75, 55, 70, 85, 115, 145},
+                    {82, 60, 75, 90, 125, 157.5f},
+                    {90, 62.5f, 80, 97.5f, 132.5f, 162.5f},
+                    {100, 62.5f, 82.5f, 102.5f, 137.5f, 172.5f},
+                    {110, 65, 85, 105, 142.5f, 180},
+                    {125, 67.5f, 87.5f, 107.5f, 147.5f, 185},
+                    {145, 70, 90, 112.5f, 152.5f, 190},
+                    {999, 72.5f, 92.5f, 115, 155, 192.5f}};
+
+    public static int calculateBenchStrengthStandard(int gender, float bodyweight, float weightLifted) {
+        if (gender == Constants.GENDER_MALE) {
+            for (int weightClass = 0; weightClass < BENCH_PRESS_STANDARDS_MALE.length; bodyweight++) {
+                if (bodyweight <= BENCH_PRESS_STANDARDS_MALE[weightClass][0]
+                        || weightClass == BENCH_PRESS_STANDARDS_MALE.length - 1) {
+                    for (int standard = 1; standard < BENCH_PRESS_STANDARDS_MALE[weightClass].length; standard++) {
+                        if (standard == BENCH_PRESS_STANDARDS_MALE[weightClass].length - 1)
+                            return Constants.STRENGTH_STANDARD_ELITE;
+                        if (weightLifted > BENCH_PRESS_STANDARDS_MALE[weightClass][standard] &&
+                                weightLifted < BENCH_PRESS_STANDARDS_MALE[weightClass][standard + 1])
+                            return getStrengthStandard(standard);
+                    }
+                }
+            }
+        }
+        return Constants.STRENGTH_STANDARD_NOVICE;
+    }
+
+    public static int getStrengthStandard(int standard) {
+        switch (standard) {
+            case 0:
+                return Constants.STRENGTH_STANDARD_UNTRAINED;
+            case 1:
+                return Constants.STRENGTH_STANDARD_NOVICE;
+            case 2:
+                return Constants.STRENGTH_STANDARD_INTERMEDIATE;
+            case 3:
+                return Constants.STRENGTH_STANDARD_ADVANCED;
+            case 4:
+                return Constants.STRENGTH_STANDARD_ELITE;
+        }
+        return Constants.STRENGTH_STANDARD_NOVICE;
+    }
 }
 

@@ -31,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class WilksDialog extends DialogFragment {
+public class StrengthStandardsDialog extends DialogFragment {
 
     @BindView(R.id.radio_group_gender)
     RadioGroup radioGroupGender;
@@ -77,7 +77,7 @@ public class WilksDialog extends DialogFragment {
     private float squatWeightLifted = 0;
     private float deadliftWeightLifted = 0;
 
-    public WilksDialog() {
+    public StrengthStandardsDialog() {
 
     }
 

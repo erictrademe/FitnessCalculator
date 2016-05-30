@@ -92,4 +92,15 @@
     <string name="squat_1rm">Squat 1RM</string>
     <string name="bench_press_1rm">Bench Press 1RM</string>
     <string name="deadlift_1rm">Deadlift 1RM</string>
+    <string name="ideal_physique_neck_title">Neck:</string>
+    <string name="ideal_physique_shoulders_title">Shoulders:</string>
+    <string name="ideal_physique_chest_title">Chest:</string>
+    <string name="ideal_physique_waist_title">Waist:</string>
+    <string name="ideal_physique_arm_title">Arm:</string>
+    <string name="ideal_physique_forearm_title">Forearm:</string>
+    <string name="ideal_physique_thigh_title">Thigh:</string>
+    <string name="ideal_physique_calf_title">Calf:</string>
+    <string name="ideal_physique">Ideal Physique</string>
+    <string name="wrist">Wrist</string>
+    <string name="ankle">Ankle</string>
 </resources>

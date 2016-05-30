@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.viewholders.BMIViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.IdealPhysiqueViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.IdealWeightViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
@@ -30,10 +31,11 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_MACRO = 2;
     private static final int VIEW_TYPE_WATER = 3;
     private static final int VIEW_TYPE_IDEAL_WEIGHT = 4;
+    private static final int VIEW_TYPE_IDEAL_PHYSIQUE = 5;
 
     public BodyAdapter(@NonNull AdapterListener adapterListener) {
         this.adapterListener = adapterListener;
-        this.viewHolders = new RecyclerView.ViewHolder[5];
+        this.viewHolders = new RecyclerView.ViewHolder[6];
     }
 
     @Override
@@ -61,6 +63,10 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case VIEW_TYPE_IDEAL_WEIGHT:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_small, parent, false);
                 viewHolder = new IdealWeightViewHolder(this, view);
+                break;
+            case VIEW_TYPE_IDEAL_PHYSIQUE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_ideal_physique, parent, false);
+                viewHolder = new IdealPhysiqueViewHolder(this, view);
                 break;
         }
 
@@ -93,6 +99,10 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolder;
                 idealWeightViewHolder.initialiseViews();
                 break;
+            case VIEW_TYPE_IDEAL_PHYSIQUE:
+                IdealPhysiqueViewHolder idealPhysiqueViewHolder = (IdealPhysiqueViewHolder) viewHolder;
+                idealPhysiqueViewHolder.initialiseViews();
+                break;
         }
     }
 
@@ -109,6 +119,8 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return VIEW_TYPE_WATER;
             case 4:
                 return VIEW_TYPE_IDEAL_WEIGHT;
+            case 5:
+                return VIEW_TYPE_IDEAL_PHYSIQUE;
         }
         return VIEW_TYPE_BMI;
     }
@@ -120,12 +132,13 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
      * Return how many columns the viewholder should span for the position given.
+     *
      * @param position
      * @return
      */
-    public int getSpanForPosition(int position){
+    public int getSpanForPosition(int position) {
         int viewType = getItemViewType(position);
-        switch(viewType){
+        switch (viewType) {
             case VIEW_TYPE_BMI:
                 return 2;
             case VIEW_TYPE_CALORIE:
@@ -136,33 +149,40 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return 1;
             case VIEW_TYPE_IDEAL_WEIGHT:
                 return 1;
+            case VIEW_TYPE_IDEAL_PHYSIQUE:
+                return 2;
         }
         return 0;
     }
 
     public void updateBMI() {
-        BMIViewHolder bmiViewHolder = (BMIViewHolder) viewHolders[0];
-        bmiViewHolder.updateAll();
+        if (viewHolders[0] != null)
+            ((BMIViewHolder) viewHolders[0]).updateAll();
     }
 
     public void updateCalorie() {
-        CalorieViewHolder calorieViewHolder = (CalorieViewHolder) viewHolders[1];
-        calorieViewHolder.updateAll();
+        if (viewHolders[1] != null)
+            ((CalorieViewHolder) viewHolders[1]).updateAll();
     }
 
     public void updateMacro() {
-        MacroViewHolder macroViewHolder = (MacroViewHolder) viewHolders[2];
-        macroViewHolder.updateAll();
+        if (viewHolders[2] != null)
+            ((MacroViewHolder) viewHolders[2]).updateAll();
     }
 
     public void updateWater() {
-        WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolders[3];
-        waterViewHolder.updateAll();
+        if (viewHolders[3] != null)
+            ((WaterViewHolder) viewHolders[3]).updateAll();
     }
 
     public void updateIdealWeight() {
-        IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolders[4];
-        idealWeightViewHolder.updateAll();
+        if (viewHolders[4] != null)
+            ((IdealWeightViewHolder) viewHolders[4]).updateAll();
+    }
+
+    public void updateIdealPhysique() {
+        if (viewHolders[5] != null)
+            ((IdealPhysiqueViewHolder) viewHolders[5]).updateAll();
     }
 
     public void showBMIDialog() {
@@ -197,6 +217,14 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         adapterListener.showIdealWeightDialog();
     }
 
+    public void showIdealPhysiqueDialog() {
+        adapterListener.showIdealPhysiqueDialog();
+    }
+
+    public void showIdealPhysiqueInfoDialog() {
+        adapterListener.showIdealPhysiqueInfoDialog();
+    }
+
     public interface AdapterListener {
         void showBMIDialog();
 
@@ -213,6 +241,10 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void showWaterDialog();
 
         void showIdealWeightDialog();
+
+        void showIdealPhysiqueDialog();
+
+        void showIdealPhysiqueInfoDialog();
     }
 
 }

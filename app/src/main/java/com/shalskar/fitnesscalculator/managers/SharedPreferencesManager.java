@@ -21,6 +21,7 @@ public class SharedPreferencesManager {
     private static final String KEY_GOAL = "goal";
     private static final String KEY_WEIGHT_LIFTED = "weight_lifted";
     private static final String KEY_REPS_LIFTED = "reps_lifted";
+    private static final String KEY_MEASUREMENT = "measurement";
 
     private static SharedPreferencesManager sharedPreferencesManager;
 
@@ -141,14 +142,35 @@ public class SharedPreferencesManager {
         return sharedPreferencesManager.sharedPreferences.getInt(KEY_REPS_LIFTED, -1);
     }
 
+    public static void saveMeasurement(@NonNull String bodyPart, float measurement){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putFloat(KEY_MEASUREMENT + bodyPart, measurement);
+        editor.apply();
+    }
+
+    public static float getMeasurement(@NonNull String bodyPart){
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_MEASUREMENT + bodyPart, -1);
+    }
+
     public static void clearAll(){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.remove(KEY_UNIT);
         editor.remove(KEY_AGE);
         editor.remove(KEY_GENDER);
         editor.remove(KEY_HEIGHT);
         editor.remove(KEY_WEIGHT);
         editor.remove(KEY_ACTIVITY_LEVEL);
         editor.remove(KEY_GOAL);
+        editor.remove(KEY_WEIGHT_LIFTED);
+        editor.remove(KEY_REPS_LIFTED);
+
+        editor.remove(KEY_WEIGHT_LIFTED + Constants.EXERCISE_SQUAT);
+        editor.remove(KEY_WEIGHT_LIFTED + Constants.EXERCISE_BENCH_PRESS);
+        editor.remove(KEY_WEIGHT_LIFTED + Constants.EXERCISE_DEADLIFT);
+
+        editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_ANKLE);
+        editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_WRIST);
+
         editor.apply();
     }
 

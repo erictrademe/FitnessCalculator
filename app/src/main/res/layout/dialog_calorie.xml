@@ -14,7 +14,7 @@
         android:paddingTop="24dp">
 
         <Button
-            android:id="@+id/calorie_button_unit"
+            android:id="@+id/button_unit"
             style="@android:style/Widget.Material.Light.Button.Toggle"
             android:layout_width="72dp"
             android:layout_height="36dp"
@@ -217,14 +217,14 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/calorie_button_cancel"
+                android:id="@+id/button_cancel"
                 style="@android:style/Widget.Material.Light.Button.Borderless"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="@string/cancel" />
 
             <Button
-                android:id="@+id/calorie_button_ok"
+                android:id="@+id/button_ok"
                 style="@android:style/Widget.Material.Light.Button.Borderless"
                 android:layout_width="64dp"
                 android:layout_height="wrap_content"

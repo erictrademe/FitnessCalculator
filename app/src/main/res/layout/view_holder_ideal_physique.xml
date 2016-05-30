@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="@dimen/ideal_physique_viewholder_width"
+    android:layout_height="@dimen/ideal_physique_viewholder_height"
+    android:layout_gravity="center"
+    android:clickable="true"
+    android:elevation="4dp"
+    android:foreground="@drawable/white_ripple_border"
+    card_view:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/bmi_image" />
+
+        <RelativeLayout
+            android:id="@+id/side_layout"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="#44000000">
+
+            <TextView
+                android:id="@+id/chest_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/ideal_physique_chest_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/chest_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@id/chest_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="80 cm" />
+
+            <TextView
+                android:id="@+id/shoulders_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chest_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/ideal_physique_shoulders_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/shoulders_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chest_textview"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/shoulders_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="100 cm" />
+
+            <TextView
+                android:id="@+id/neck_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shoulders_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/ideal_physique_neck_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/neck_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shoulders_textview"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/neck_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="50 cm" />
+
+            <TextView
+                android:id="@+id/waist_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/neck_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/ideal_physique_waist_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/waist_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/neck_textview"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/waist_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="70 cm" />
+
+            <TextView
+                android:id="@+id/arm_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/waist_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/ideal_physique_arm_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/arm_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/waist_textview"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/arm_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="30 cm" />
+
+            <TextView
+                android:id="@+id/forearm_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/arm_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/ideal_physique_forearm_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/forearm_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/arm_textview"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/forearm_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="25 cm" />
+
+            <TextView
+                android:id="@+id/thigh_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/forearm_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/ideal_physique_thigh_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/thigh_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/forearm_textview"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/thigh_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="60 cm" />
+
+            <TextView
+                android:id="@+id/calf_textview"
+                android:layout_width="@dimen/ideal_physique_textview_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/thigh_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/ideal_physique_calf_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/calf_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/thigh_textview"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/calf_textview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix"
+                tools:text="30 cm" />
+
+            <!--<ImageButton-->
+            <!--android:id="@+id/info_button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/white_ripple"-->
+            <!--android:padding="16dp"-->
+            <!--android:src="@drawable/ic_information_white_24dp" />-->
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title_textview"
+            fontPath="fonts/RobotoSlab-Regular.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="#ffffff"
+            android:textSize="26sp"
+            tools:ignore="MissingPrefix"
+            tools:text="@string/body_mass_index"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/title2_textview"
+            fontPath="fonts/RobotoSlab-Regular.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toLeftOf="@id/side_layout"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="#ffffff"
+            android:textSize="26sp"
+            android:visibility="gone"
+            tools:ignore="MissingPrefix"
+            tools:text="@string/body_mass_index"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -14,7 +14,7 @@
         android:paddingTop="24dp">
 
         <Button
-            android:id="@+id/calorie_button_unit"
+            android:id="@+id/button_unit"
             style="@android:style/Widget.Material.Light.Button.Toggle"
             android:layout_width="72dp"
             android:layout_height="36dp"

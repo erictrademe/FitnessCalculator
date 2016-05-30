@@ -26,4 +26,20 @@ public class ConverterUtil {
         double feet = Math.floor(inches / 12);
         return new double[] {feet, inches % 12};
     }
+
+    public static double cmToInches(double cm){
+        return cm / 2.54;
+    }
+
+    public static float cmToInches(float cm){
+        return cm / 2.54f;
+    }
+
+    public static double inchesToCm(double inches){
+        return inches * 2.54;
+    }
+
+    public static float inchesToCm(float inches){
+        return inches * 2.54f;
+    }
 }
