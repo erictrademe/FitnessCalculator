@@ -12,6 +12,7 @@ import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.IdealWeightViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.OneRepMaxViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.StrengthStandardsViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WilksViewHolder;
 
@@ -26,10 +27,11 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static final int VIEW_TYPE_ONE_REP_MAX = 0;
     private static final int VIEW_TYPE_WILKS = 1;
+    private static final int VIEW_TYPE_STRENGTH_STANDARDS = 2;
 
     public StrengthAdapter(@NonNull AdapterListener adapterListener) {
         this.adapterListener = adapterListener;
-        this.viewHolders = new RecyclerView.ViewHolder[2];
+        this.viewHolders = new RecyclerView.ViewHolder[3];
     }
 
     @Override
@@ -45,6 +47,10 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case VIEW_TYPE_WILKS:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
                 viewHolder = new WilksViewHolder(this, view);
+                break;
+            case VIEW_TYPE_STRENGTH_STANDARDS:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic_column, parent, false);
+                viewHolder = new StrengthStandardsViewHolder(this, view);
                 break;
         }
 
@@ -63,6 +69,9 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case VIEW_TYPE_WILKS:
                 ((WilksViewHolder) viewHolder).initialiseViews();
                 break;
+            case VIEW_TYPE_STRENGTH_STANDARDS:
+                ((StrengthStandardsViewHolder) viewHolder).initialiseViews();
+                break;
         }
     }
 
@@ -73,6 +82,8 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return VIEW_TYPE_WILKS;
             case 1:
                 return VIEW_TYPE_ONE_REP_MAX;
+            case 2:
+                return VIEW_TYPE_STRENGTH_STANDARDS;
         }
         return VIEW_TYPE_ONE_REP_MAX;
     }
@@ -95,6 +106,8 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return 2;
             case VIEW_TYPE_WILKS:
                 return 2;
+            case VIEW_TYPE_STRENGTH_STANDARDS:
+                return 2;
         }
         return 2;
     }
@@ -109,6 +122,11 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((OneRepMaxViewHolder) viewHolders[1]).updateAll();
     }
 
+    public void updateStrengthStandards() {
+        if (viewHolders[2] != null)
+            ((StrengthStandardsViewHolder) viewHolders[2]).updateAll();
+    }
+
     public void showOneRepMaxDialog() {
         adapterListener.showOneRepMaxDialog();
     }
@@ -121,12 +139,24 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         adapterListener.showWilksInfoDialog();
     }
 
+    public void showStrengthStandardsDialog() {
+        adapterListener.showStrengthStandardsDialog();
+    }
+
+    public void showStrengthStandardsInfoDialog() {
+        adapterListener.showStrengthStandardsInfoDialog();
+    }
+
     public interface AdapterListener {
         void showOneRepMaxDialog();
 
         void showWilksDialog();
 
         void showWilksInfoDialog();
+
+        void showStrengthStandardsDialog();
+
+        void showStrengthStandardsInfoDialog();
     }
 
 }

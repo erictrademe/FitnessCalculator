@@ -29,6 +29,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
 
     private static final String TAG_ONE_REP_MAX_DIALOG_FRAGMENT = "fragment_1rm";
     private static final String TAG_WILKS_DIALOG_FRAGMENT = "fragment_wilks";
+    private static final String TAG_STRENGTH_STANDARDS_DIALOG_FRAGMENT = "fragment_strength_standards";
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -95,7 +96,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
         if (frag != null)
             manager.beginTransaction().remove(frag).commit();
 
-        WilksDialog wilksDialog = new WilksDialog();
+        WilksDialog wilksDialog = WilksDialog.newInstance(getContext().getString(R.string.wilks));
         wilksDialog.show(manager, TAG_WILKS_DIALOG_FRAGMENT);
     }
 
@@ -107,6 +108,24 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
                 "Wilks info here");
     }
 
+    @Override
+    public void showStrengthStandardsDialog() {
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag(TAG_STRENGTH_STANDARDS_DIALOG_FRAGMENT);
+        if (frag != null)
+            manager.beginTransaction().remove(frag).commit();
+
+        WilksDialog wilksDialog = WilksDialog.newInstance(getContext().getString(R.string.strength_standards));
+        wilksDialog.show(manager, TAG_STRENGTH_STANDARDS_DIALOG_FRAGMENT);
+    }
+
+    @Override
+    public void showStrengthStandardsInfoDialog() {
+        DialogUtil.showMessageDialog(getActivity(),
+                getActivity().getString(R.string.strength_standards),
+                "Strength standards info here");
+    }
+
     /**
      * Respond to various events.
      **/
@@ -115,6 +134,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
     public void onDetailsUpdatedEvent(DetailsUpdatedEvent detailsUpdatedEvent) {
         boolean updateOneRepMax = false;
         boolean updateWilks = false;
+        boolean updateStrengthStandards = false;
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_ONE_REP_MAX)) {
             updateOneRepMax = true;
@@ -122,18 +142,22 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_EXERCISE)) {
             updateWilks = true;
+            updateStrengthStandards = true;
         }
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_WEIGHT)) {
             updateWilks = true;
+            updateStrengthStandards = true;
         }
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_GENDER)) {
             updateWilks = true;
+            updateStrengthStandards = true;
         }
 
         if(updateOneRepMax) strengthAdapter.updateOneRepMax();
         if(updateWilks) strengthAdapter.updateWilks();
+        if(updateStrengthStandards) strengthAdapter.updateStrengthStandards();
 
     }
 

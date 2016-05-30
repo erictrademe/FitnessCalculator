@@ -33,6 +33,8 @@ import butterknife.OnClick;
  */
 public class WilksDialog extends DialogFragment {
 
+    private static final String ARG_TITLE = "title";
+
     @BindView(R.id.radio_group_gender)
     RadioGroup radioGroupGender;
 
@@ -70,6 +72,8 @@ public class WilksDialog extends DialogFragment {
     @BindView(R.id.button_unit)
     Button unitButton;
 
+    private String title;
+
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
     private double weight = 0;
@@ -81,12 +85,22 @@ public class WilksDialog extends DialogFragment {
 
     }
 
+    public static WilksDialog newInstance(@NonNull String title){
+        WilksDialog wilksDialog = new WilksDialog();
+        Bundle args = new Bundle();
+        args.putString(ARG_TITLE, title);
+        wilksDialog.setArguments(args);
+        return wilksDialog;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_wilks, container);
-
         ButterKnife.bind(this, view);
+
+        title = getArguments().getString(ARG_TITLE);
+
         initialiseViews();
         prepopulateFields();
 
@@ -95,7 +109,7 @@ public class WilksDialog extends DialogFragment {
 
     private void initialiseViews() {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(getString(R.string.calorie_intake));
+        getDialog().setTitle(title);
         addListeners();
     }
 

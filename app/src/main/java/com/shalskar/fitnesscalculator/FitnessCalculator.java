@@ -108,7 +108,7 @@ public class FitnessCalculator {
     }
 
     public static final float[][] BENCH_PRESS_STANDARDS_MALE =
-                   {{52, 37.5f, 50, 60, 82.5f, 100},
+            {{52, 37.5f, 50, 60, 82.5f, 100},
                     {56, 40, 52.5f, 62.5f, 90, 110},
                     {60, 45f, 57.5f, 70, 95, 117.5f},
                     {67, 50, 65, 77.5f, 107.5f, 132.5f},
@@ -123,7 +123,7 @@ public class FitnessCalculator {
 
     public static int calculateBenchStrengthStandard(int gender, float bodyweight, float weightLifted) {
         if (gender == Constants.GENDER_MALE) {
-            for (int weightClass = 0; weightClass < BENCH_PRESS_STANDARDS_MALE.length; bodyweight++) {
+            for (int weightClass = 0; weightClass < BENCH_PRESS_STANDARDS_MALE.length; weightClass++) {
                 if (bodyweight <= BENCH_PRESS_STANDARDS_MALE[weightClass][0]
                         || weightClass == BENCH_PRESS_STANDARDS_MALE.length - 1) {
                     for (int standard = 1; standard < BENCH_PRESS_STANDARDS_MALE[weightClass].length; standard++) {
@@ -139,7 +139,7 @@ public class FitnessCalculator {
         return Constants.STRENGTH_STANDARD_NOVICE;
     }
 
-    public static int getStrengthStandard(int standard) {
+    private static int getStrengthStandard(int standard) {
         switch (standard) {
             case 0:
                 return Constants.STRENGTH_STANDARD_UNTRAINED;

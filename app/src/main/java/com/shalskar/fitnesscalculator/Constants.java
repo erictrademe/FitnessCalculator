@@ -36,11 +36,11 @@ public class Constants {
     public final static int GENDER_FEMALE = 0;
     public final static int GENDER_MALE = 1;
 
-    public final static int STRENGTH_STANDARD_UNTRAINED = 101;
-    public final static int STRENGTH_STANDARD_NOVICE = 202;
-    public final static int STRENGTH_STANDARD_INTERMEDIATE = 303;
-    public final static int STRENGTH_STANDARD_ADVANCED = 404;
-    public final static int STRENGTH_STANDARD_ELITE = 505;
+    public final static int STRENGTH_STANDARD_UNTRAINED = 1;
+    public final static int STRENGTH_STANDARD_NOVICE = 2;
+    public final static int STRENGTH_STANDARD_INTERMEDIATE = 3;
+    public final static int STRENGTH_STANDARD_ADVANCED = 4;
+    public final static int STRENGTH_STANDARD_ELITE = 5;
 
     public static final String EXERCISE_SQUAT = "exercise_squat";
     public static final String EXERCISE_BENCH_PRESS = "exercise_bench_press";

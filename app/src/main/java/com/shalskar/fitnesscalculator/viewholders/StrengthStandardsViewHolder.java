@@ -24,8 +24,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.view.ColumnChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
 /**
@@ -44,7 +50,7 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
     View sideLayout;
 
     @BindView(R.id.chart)
-    PieChartView chartView;
+    ColumnChartView chartView;
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -67,8 +73,8 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void initialiseViews(){
-        titleTextView.setText(baseView.getContext().getString(R.string.wilks));
-        title2TextView.setText(baseView.getContext().getString(R.string.wilks));
+        titleTextView.setText(baseView.getContext().getString(R.string.strength_standards));
+        title2TextView.setText(baseView.getContext().getString(R.string.strength_standards));
         loadImage();
         updateAll();
     }
@@ -77,7 +83,7 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
         float bucketSize = baseView.getResources().getDisplayMetrics().density;
         int width = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_width) / bucketSize);
         int height = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.wilks_image, width, height));
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.strength_standards_image, width, height));
     }
 
     public void updateAll() {
@@ -140,42 +146,70 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
 
     private void updateWilks(double weight, int gender, float squatWeightLifted, float benchWeightLifted, float deadliftWeightLifted) {
         int unit = SharedPreferencesManager.getUnit();
-        float total = squatWeightLifted + benchWeightLifted +deadliftWeightLifted;
-        float wilks = FitnessCalculator.calculateWilks(unit, gender, (float) weight, total);
 
-        updateChart(wilks);
+        int squatStrengthStandard = Constants.STRENGTH_STANDARD_ADVANCED;//FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
+        int benchStrengthStandard = FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
+        int deadliftStrengthStandard = Constants.STRENGTH_STANDARD_INTERMEDIATE;//FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
+
+        updateChart(squatWeightLifted,squatStrengthStandard, benchWeightLifted, benchStrengthStandard, deadliftWeightLifted, deadliftStrengthStandard);
     }
 
-    private void updateChart(float wilks) {
-        Context context = baseView.getContext();
+    private void updateChart(float squatWeightLifted, int squatStrengthStandard, float benchWeightLifted, int benchStrengthStandard,
+                             float deadliftWeightLifted, int deadliftStrengthStandard) {
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.#");
-        PieChartData pieChartData = new PieChartData();
-        pieChartData.setCenterText1(decimalFormat.format(wilks));
-        pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
-        pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
-        List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.white)));
+        ColumnChartData columnChartData = new ColumnChartData();
 
-        pieChartData.setValues(sliceValues);
-        pieChartData.setHasCenterCircle(true);
+        List<Column> columns = new ArrayList<>();
+        columns.add(makeColumn(squatStrengthStandard, squatStrengthStandard));
+        columns.add(makeColumn(benchStrengthStandard, benchStrengthStandard));
+        columns.add(makeColumn(deadliftStrengthStandard, deadliftStrengthStandard));
 
-        chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.wilks_pie_chart_text_size));
-        pieChartData.setCenterCircleScale(0.95f);
+        Axis axisX = new Axis();
+        List<AxisValue> axisValues = new ArrayList<>();
+        axisValues.add(new AxisValue(0).setLabel("Squat"));
+        axisValues.add(new AxisValue(1).setLabel("Bench"));
+        axisValues.add(new AxisValue(2).setLabel("Dead"));
+        axisX.setValues(axisValues);
+
+        columnChartData.setAxisXBottom(axisX);
+        columnChartData.setColumns(columns);
 
         chartView.setInteractive(false);
-        chartView.setPieChartData(pieChartData);
+        chartView.setColumnChartData(columnChartData);
+    }
+
+    private Column makeColumn(float weightLifted, int standard){
+        int color = R.color.paleGreen;
+        switch (standard){
+            case Constants.STRENGTH_STANDARD_UNTRAINED:
+                color = R.color.paleGreen;
+                break;
+            case Constants.STRENGTH_STANDARD_NOVICE:
+                color = R.color.yellowGreen;
+                break;
+            case Constants.STRENGTH_STANDARD_INTERMEDIATE:
+                color = R.color.mustardOrange;
+                break;
+            case Constants.STRENGTH_STANDARD_ADVANCED:
+                color = R.color.lightRed;
+                break;
+            case Constants.STRENGTH_STANDARD_ELITE:
+                color = R.color.deepRed;
+                break;
+        }
+        List<SubcolumnValue> subcolumnValues = new ArrayList<>();
+        subcolumnValues.add(new SubcolumnValue(weightLifted, baseView.getContext().getResources().getColor(color)));
+        return new Column(subcolumnValues);
     }
 
     @OnClick(R.id.card_view)
     void showCalorieDialog() {
-        strengthAdapter.showWilksDialog();
+        strengthAdapter.showStrengthStandardsDialog();
     }
 
     @OnClick(R.id.info_button)
     void showInfoDialog() {
-        strengthAdapter.showWilksInfoDialog();
+        strengthAdapter.showStrengthStandardsInfoDialog();
     }
 
 
