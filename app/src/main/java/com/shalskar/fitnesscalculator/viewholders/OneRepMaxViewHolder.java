@@ -148,25 +148,6 @@ public class OneRepMaxViewHolder extends RecyclerView.ViewHolder {
         Context context = baseView.getContext();
         int unit = SharedPreferencesManager.getUnit();
 
-//        String BMIClassification = "";
-//        int BMIColor = R.color.paleGreen;
-//        if (BMI < 18.5) {
-//            BMIClassification = context.getString(R.string.bmi_underweight);
-//            BMIColor = R.color.yellowGreen;
-//        } else if (BMI < 25) {
-//            BMIClassification = context.getString(R.string.bmi_normal);
-//            BMIColor = R.color.paleGreen;
-//        } else if (BMI < 30) {
-//            BMIClassification = context.getString(R.string.bmi_overweight);
-//            BMIColor = R.color.mustardOrange;
-//        } else if (BMI < 40) {
-//            BMIClassification = context.getString(R.string.bmi_obese);
-//            BMIColor = R.color.lightRed;
-//        } else if (BMI >= 40) {
-//            BMIClassification = context.getString(R.string.bmi_morbidly_obese);
-//            BMIColor = R.color.deepRed;
-//        }
-
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         PieChartData pieChartData = new PieChartData();
         if (unit == Constants.UNIT_IMPERIAL) {
@@ -176,7 +157,6 @@ public class OneRepMaxViewHolder extends RecyclerView.ViewHolder {
             pieChartData.setCenterText2(baseView.getContext().getString(R.string.kilograms));
         }
         pieChartData.setCenterText1(decimalFormat.format(oneRepMax));
-        pieChartData.setCenterText2(baseView.getContext().getString(R.string.kilograms));
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();

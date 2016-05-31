@@ -169,16 +169,23 @@ public class WilksDialog extends DialogFragment {
             unitButton.setText(getString(R.string.imperial));
             SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
             unit = Constants.UNIT_IMPERIAL;
-            weightLayout.setHint(getString(R.string.pounds));
+            setHints(getString(R.string.pounds));
         } else if (unit == Constants.UNIT_IMPERIAL) {
             unitButton.setText(getString(R.string.metric));
             SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
             unit = Constants.UNIT_METRIC;
-            weightLayout.setHint(getString(R.string.kilograms));
+            setHints(getString(R.string.kilograms));
         }
         convertFields();
         addListeners();
         EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_UNIT));
+    }
+
+    private void setHints(@NonNull String unit){
+        weightLayout.setHint(unit);
+        squatLayout.setHint(unit);
+        benchPressLayout.setHint(unit);
+        deadliftLayout.setHint(unit);
     }
 
     private void convertFields() {

@@ -145,16 +145,14 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void updateWilks(double weight, int gender, float squatWeightLifted, float benchWeightLifted, float deadliftWeightLifted) {
-        int squatStrengthStandard = Constants.STRENGTH_STANDARD_ADVANCED;//FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
+        int squatStrengthStandard = FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_SQUAT, gender, (float) weight, squatWeightLifted);
         int benchStrengthStandard = FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_BENCH_PRESS, gender, (float) weight, benchWeightLifted);
-        int deadliftStrengthStandard = Constants.STRENGTH_STANDARD_INTERMEDIATE;//FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
+        int deadliftStrengthStandard = FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_DEADLIFT, gender, (float) weight, deadliftWeightLifted);
 
-        updateChart(squatWeightLifted,squatStrengthStandard, benchWeightLifted, benchStrengthStandard, deadliftWeightLifted, deadliftStrengthStandard);
+        updateChart(squatStrengthStandard, benchStrengthStandard, deadliftStrengthStandard);
     }
 
-    private void updateChart(float squatWeightLifted, int squatStrengthStandard, float benchWeightLifted, int benchStrengthStandard,
-                             float deadliftWeightLifted, int deadliftStrengthStandard) {
-
+    private void updateChart(int squatStrengthStandard, int benchStrengthStandard, int deadliftStrengthStandard) {
         ColumnChartData columnChartData = new ColumnChartData();
 
         List<Column> columns = new ArrayList<>();
@@ -168,6 +166,8 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
         axisValues.add(new AxisValue(1).setLabel("Bench"));
         axisValues.add(new AxisValue(2).setLabel("Dead"));
         axisX.setValues(axisValues);
+        axisX.setTextSize((int) baseView.getContext().getResources().getDimension(R.dimen.strength_standards_axis_text_size));
+        axisX.setTextColor(baseView.getContext().getResources().getColor(R.color.white));
 
         columnChartData.setAxisXBottom(axisX);
         columnChartData.setColumns(columns);

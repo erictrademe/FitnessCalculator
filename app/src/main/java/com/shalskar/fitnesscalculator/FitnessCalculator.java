@@ -61,8 +61,9 @@ public class FitnessCalculator {
     }
 
     public static float calculateOneRepMax(int repsLifted, float weightLifted) {
-        // Epley formula
-        return weightLifted * (1 + (repsLifted / 30f));
+        // Epley formula only works if reps lifted > 1
+        if(repsLifted == 1) return weightLifted;
+        else return weightLifted * (1 + (repsLifted / 30f));
     }
 
     public static float calculateWilks(int unit, int gender, float weight, float total) {
@@ -109,6 +110,34 @@ public class FitnessCalculator {
         return new Physique(chest, shoulder, neck, waist, arm, forearm, thigh, calf);
     }
 
+    /** Strength standards. **/
+
+    public static final float[][] SQUAT_STANDARDS_MALE =
+            {{52, 35, 60, 80, 107.5f, 145},
+                    {56, 37.5f, 70, 87.5f, 117.5f, 157.5f},
+                    {60, 40, 77.5f, 92.5f, 127.5f, 167.5f},
+                    {67, 45, 85, 105, 142.5f, 185.5f},
+                    {75, 50, 92.5f, 112.5f, 155, 202.5f},
+                    {82, 55, 100, 122.5f, 167.5f, 217.5f},
+                    {90, 57.5f, 105, 130, 177.5f, 230},
+                    {100, 60, 110, 135, 185, 240},
+                    {110, 62.5f, 115, 140, 192.5f, 250},
+                    {125, 65, 117.5f, 145, 197.5f, 257.5f},
+                    {145, 67.5f, 122.5f, 147.5f, 202.5f, 262.5f},
+                    {999, 70, 125, 150, 207.5f, 270}};
+
+    public static final float[][] SQUAT_STANDARDS_FEMALE =
+            {{44, 20, 37.5f, 45, 60, 75},
+                    {48, 22.5f, 40, 47.5f, 65, 80},
+                    {52, 25, 45, 52.5f, 67.5f, 87.5f},
+                    {56, 25, 47.5f, 55, 72.5f, 90},
+                    {60, 27.5f, 50, 60, 77.5f, 95},
+                    {67, 30, 55, 62.5f, 85, 105},
+                    {75, 32.5f, 57.5f, 67.5f, 90, 115},
+                    {82, 35, 62.5f, 75, 97.5f, 122.5f},
+                    {90, 37.5f, 67.5f, 80, 105, 132.5f},
+                    {90, 40, 72.5f, 85, 110, 137.5f}};
+
     public static final float[][] BENCH_PRESS_STANDARDS_MALE =
             {{52, 37.5f, 50, 60, 82.5f, 100},
                     {56, 40, 52.5f, 62.5f, 90, 110},
@@ -124,7 +153,7 @@ public class FitnessCalculator {
                     {999, 72.5f, 92.5f, 115, 155, 192.5f}};
 
     public static final float[][] BENCH_PRESS_STANDARDS_FEMALE =
-                   {{44, 22.5f, 30, 35, 42.5f, 52.5f},
+            {{44, 22.5f, 30, 35, 42.5f, 52.5f},
                     {48, 25, 32.5f, 37.5f, 45, 57.5f},
                     {52, 27.5f, 35, 37.5f, 50, 62.5f},
                     {56, 30, 37.5f, 40, 52.5f, 65},
@@ -135,12 +164,44 @@ public class FitnessCalculator {
                     {90, 40, 52.5f, 60, 75, 95},
                     {90, 42.5f, 55f, 62.5f, 80, 100}};
 
+    public static final float[][] DEADLIFT_STANDARDS_MALE =
+            {{52, 42.5f, 82.5f, 92.5f, 135, 175},
+                    {56, 47.5f, 87.5f, 100, 145, 187.5f},
+                    {60, 50, 95, 110, 155, 200},
+                    {67, 57.5f, 107.5f, 122.5f, 172.5f, 215.5f},
+                    {75, 62.5f, 115, 135, 185, 235},
+                    {82, 67.5f, 125, 142.5f, 200, 250},
+                    {90, 70, 132.5f, 152.5f, 207.5f, 257.5f},
+                    {100, 75, 137.5f, 160, 217.5f, 265},
+                    {110, 77.5f, 145, 165, 222.5f, 270},
+                    {125, 80, 147.5f, 170, 227.5f, 272.5f},
+                    {145, 82.5f, 152.5f, 230, 202.5f, 277.5f},
+                    {999, 85, 155, 177.5f, 232.5f, 280}};
 
-    public static int calculateStrengthStandard(@NonNull String exercise, int gender, float bodyweight, float weightLifted){
+
+    public static final float[][] DEADLIFT_STANDARDS_FEMALE =
+            {{44, 25, 47.5f, 50, 80, 105},
+                    {48, 27.5f, 52.5f, 60, 85, 110},
+                    {52, 30, 55, 62.5f, 90, 115},
+                    {56, 32.5f, 60, 67.5f, 95, 120},
+                    {60, 35, 62.5f, 72.5f, 100, 125},
+                    {67, 37.5f, 67.5f, 80, 110, 135},
+                    {75, 40, 72.5f, 85, 117.5f, 145},
+                    {82, 42.5f, 80, 92.5f, 125, 150},
+                    {90, 45, 87.5f, 97.5f, 130, 160},
+                    {90, 50, 90, 105, 137.5f, 165}};
+
+    public static int calculateStrengthStandard(@NonNull String exercise, int gender, float bodyweight, float weightLifted) {
         float[][] standards = {};
-        if(exercise.equals(Constants.EXERCISE_BENCH_PRESS)){
-            if(gender == Constants.GENDER_MALE) standards = BENCH_PRESS_STANDARDS_MALE;
-            else if(gender == Constants.GENDER_FEMALE) standards = BENCH_PRESS_STANDARDS_FEMALE;
+        if (exercise.equals(Constants.EXERCISE_BENCH_PRESS)) {
+            if (gender == Constants.GENDER_MALE) standards = BENCH_PRESS_STANDARDS_MALE;
+            else if (gender == Constants.GENDER_FEMALE) standards = BENCH_PRESS_STANDARDS_FEMALE;
+        } else if (exercise.equals(Constants.EXERCISE_SQUAT)) {
+            if (gender == Constants.GENDER_MALE) standards = SQUAT_STANDARDS_MALE;
+            else if (gender == Constants.GENDER_FEMALE) standards = SQUAT_STANDARDS_FEMALE;
+        } else if (exercise.equals(Constants.EXERCISE_DEADLIFT)) {
+            if (gender == Constants.GENDER_MALE) standards = DEADLIFT_STANDARDS_MALE;
+            else if (gender == Constants.GENDER_FEMALE) standards = DEADLIFT_STANDARDS_FEMALE;
         }
 
         for (int weightClass = 0; weightClass < standards.length; weightClass++) {
