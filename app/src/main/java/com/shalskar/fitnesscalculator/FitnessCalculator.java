@@ -1,5 +1,7 @@
 package com.shalskar.fitnesscalculator;
 
+import android.support.annotation.NonNull;
+
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 
 /**
@@ -121,22 +123,39 @@ public class FitnessCalculator {
                     {145, 70, 90, 112.5f, 152.5f, 190},
                     {999, 72.5f, 92.5f, 115, 155, 192.5f}};
 
-    public static int calculateBenchStrengthStandard(int gender, float bodyweight, float weightLifted) {
-        if (gender == Constants.GENDER_MALE) {
-            for (int weightClass = 0; weightClass < BENCH_PRESS_STANDARDS_MALE.length; weightClass++) {
-                if (bodyweight <= BENCH_PRESS_STANDARDS_MALE[weightClass][0]
-                        || weightClass == BENCH_PRESS_STANDARDS_MALE.length - 1) {
-                    for (int standard = 1; standard < BENCH_PRESS_STANDARDS_MALE[weightClass].length; standard++) {
-                        if (standard == BENCH_PRESS_STANDARDS_MALE[weightClass].length - 1)
-                            return Constants.STRENGTH_STANDARD_ELITE;
-                        if (weightLifted > BENCH_PRESS_STANDARDS_MALE[weightClass][standard] &&
-                                weightLifted < BENCH_PRESS_STANDARDS_MALE[weightClass][standard + 1])
-                            return getStrengthStandard(standard);
-                    }
+    public static final float[][] BENCH_PRESS_STANDARDS_FEMALE =
+                   {{44, 22.5f, 30, 35, 42.5f, 52.5f},
+                    {48, 25, 32.5f, 37.5f, 45, 57.5f},
+                    {52, 27.5f, 35, 37.5f, 50, 62.5f},
+                    {56, 30, 37.5f, 40, 52.5f, 65},
+                    {60, 32.5f, 40, 42.5f, 57.5f, 67.5f},
+                    {67, 35, 40, 47.5f, 62.5f, 75},
+                    {75, 37.5f, 42.5f, 52.5f, 65, 85},
+                    {82, 37.5f, 50, 55, 72.5f, 90},
+                    {90, 40, 52.5f, 60, 75, 95},
+                    {90, 42.5f, 55f, 62.5f, 80, 100}};
+
+
+    public static int calculateStrengthStandard(@NonNull String exercise, int gender, float bodyweight, float weightLifted){
+        float[][] standards = {};
+        if(exercise.equals(Constants.EXERCISE_BENCH_PRESS)){
+            if(gender == Constants.GENDER_MALE) standards = BENCH_PRESS_STANDARDS_MALE;
+            else if(gender == Constants.GENDER_FEMALE) standards = BENCH_PRESS_STANDARDS_FEMALE;
+        }
+
+        for (int weightClass = 0; weightClass < standards.length; weightClass++) {
+            if (bodyweight <= standards[weightClass][0]
+                    || weightClass == standards.length - 1) {
+                for (int standard = 1; standard < standards[weightClass].length; standard++) {
+                    if (standard == standards[weightClass].length - 1)
+                        return Constants.STRENGTH_STANDARD_ELITE;
+                    if (weightLifted > standards[weightClass][standard] &&
+                            weightLifted < standards[weightClass][standard + 1])
+                        return getStrengthStandard(standard - 1);
                 }
             }
         }
-        return Constants.STRENGTH_STANDARD_NOVICE;
+        return Constants.STRENGTH_STANDARD_UNTRAINED;
     }
 
     private static int getStrengthStandard(int standard) {

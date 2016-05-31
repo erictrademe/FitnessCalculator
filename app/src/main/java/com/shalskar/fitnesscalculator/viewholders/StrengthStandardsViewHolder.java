@@ -145,10 +145,8 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void updateWilks(double weight, int gender, float squatWeightLifted, float benchWeightLifted, float deadliftWeightLifted) {
-        int unit = SharedPreferencesManager.getUnit();
-
         int squatStrengthStandard = Constants.STRENGTH_STANDARD_ADVANCED;//FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
-        int benchStrengthStandard = FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
+        int benchStrengthStandard = FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_BENCH_PRESS, gender, (float) weight, benchWeightLifted);
         int deadliftStrengthStandard = Constants.STRENGTH_STANDARD_INTERMEDIATE;//FitnessCalculator.calculateBenchStrengthStandard(gender, (float) weight, benchWeightLifted);
 
         updateChart(squatWeightLifted,squatStrengthStandard, benchWeightLifted, benchStrengthStandard, deadliftWeightLifted, deadliftStrengthStandard);

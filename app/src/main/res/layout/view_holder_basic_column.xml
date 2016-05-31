@@ -34,7 +34,7 @@
                 android:layout_height="130dp"
                 android:layout_centerVertical="true"
                 android:padding="8dp"
-                android:layout_marginRight="-8dp"
+                android:layout_marginRight="-16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_toLeftOf="@+id/info_button" />
 
