@@ -81,11 +81,7 @@ public class IdealWeightViewHolder extends RecyclerView.ViewHolder {
 
     public void updateAll() {
         double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
-        if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1) {
+        if (height > 0) {
             updateWater();
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateChartView();

@@ -30,6 +30,7 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
     private static final String TAG_BMI_DIALOG_FRAGMENT = "fragment_bmi";
     private static final String TAG_CALORIE_DIALOG_FRAGMENT = "fragment_calorie";
     private static final String TAG_MACRO_DIALOG_FRAGMENT = "fragment_macro";
+    private static final String TAG_IDEAL_WEIGHT_DIALOG_FRAGMENT = "fragment_ideal_weight";
     private static final String TAG_IDEAL_PHYSIQUE_DIALOG_FRAGMENT = "fragment_ideal_physique";
 
     @BindView(R.id.recycler_view)
@@ -134,8 +135,13 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
 
     @Override
     public void showIdealWeightDialog() {
-        // todo change
-        showBMIDialog();
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag(TAG_IDEAL_WEIGHT_DIALOG_FRAGMENT);
+        if (frag != null)
+            manager.beginTransaction().remove(frag).commit();
+
+        IdealWeightDialog idealWeightDialog = new IdealWeightDialog();
+        idealWeightDialog.show(manager, TAG_IDEAL_WEIGHT_DIALOG_FRAGMENT);
     }
 
     @Override
