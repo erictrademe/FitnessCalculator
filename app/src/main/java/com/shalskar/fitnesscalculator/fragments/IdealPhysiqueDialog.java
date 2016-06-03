@@ -28,7 +28,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class IdealPhysiqueDialog extends DialogFragment {
+public class IdealPhysiqueDialog extends BaseDialogFragment {
 
     @BindView(R.id.edittext_layout_wrist)
     TextInputLayout wristLayout;
@@ -149,10 +149,14 @@ public class IdealPhysiqueDialog extends DialogFragment {
     }
 
     private boolean validateFields() {
-        if (ankleEditText.length() > 0 && wristEditText.length() > 0) {
-            if (wristMeasurement > 0 && ankleMeasurement > 0) return true;
-        }
-        return false;
+        boolean validated = true;
+
+        if(!validateWeightField(ankleLayout, ankleEditText, ankleMeasurement))
+            validated = false;
+        if(!validateWeightField(wristLayout, wristEditText, wristMeasurement))
+            validated = false;
+
+        return validated;
     }
 
     private void removeListeners() {

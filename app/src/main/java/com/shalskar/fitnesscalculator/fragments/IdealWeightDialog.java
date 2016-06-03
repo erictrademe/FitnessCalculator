@@ -137,11 +137,16 @@ public class IdealWeightDialog extends DialogFragment {
         this.dismiss();
     }
 
+
     private boolean validateFields() {
-        if (heightEditText.length() > 0) {
-            if (height > 0) return true;
+        boolean validated = true;
+
+        if (heightEditText.length() == 0 && height <= 0) {
+            validated = false;
+            heightLayout.setError(" ");
+            heightLayout.setErrorEnabled(true);
         }
-        return false;
+        return validated;
     }
 
     private void removeListeners(){

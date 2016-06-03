@@ -32,7 +32,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class CalorieDialog extends DialogFragment {
+public class CalorieDialog extends BaseDialogFragment {
 
     @BindView(R.id.radio_group_gender)
     RadioGroup radioGroupGender;
@@ -258,23 +258,12 @@ public class CalorieDialog extends DialogFragment {
     private boolean validateFields() {
         boolean validated = true;
 
-        if (ageEditText.length() == 0 && age <= 0) {
+        if(!validateWeightField(ageLayout, ageEditText, age))
             validated = false;
-            ageLayout.setError(" ");
-            ageLayout.setErrorEnabled(true);
-        }
-
-        if (heightEditText.length() == 0 && height <= 0) {
+        if(!validateWeightField(heightLayout, heightEditText, (float) height))
             validated = false;
-            heightLayout.setError(" ");
-            heightLayout.setErrorEnabled(true);
-        }
-
-        if (weightEditText.length() == 0 && weight <= 0) {
+        if(!validateWeightField(weightLayout, weightEditText, (float) weight))
             validated = false;
-            weightLayout.setError(" ");
-            weightLayout.setErrorEnabled(true);
-        }
 
         return validated;
     }

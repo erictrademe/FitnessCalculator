@@ -31,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class WilksDialog extends DialogFragment {
+public class WilksDialog extends BaseDialogFragment {
 
     private static final String ARG_TITLE = "title";
 
@@ -244,15 +244,6 @@ public class WilksDialog extends DialogFragment {
             validated = false;
 
         return validated;
-    }
-
-    private boolean validateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
-        if (editText.length() == 0 && value <= 0) {
-            textInputLayout.setError(" ");
-            textInputLayout.setErrorEnabled(true);
-            return false;
-        } else
-            return true;
     }
 
     private void removeListeners() {

@@ -28,7 +28,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class BMIDialog extends DialogFragment {
+public class BMIDialog extends BaseDialogFragment {
 
     @BindView(R.id.edittext_layout_weight)
     TextInputLayout weightLayout;
@@ -161,19 +161,23 @@ public class BMIDialog extends DialogFragment {
     }
 
     private boolean validateFields() {
-        if (heightEditText.length() > 0 && weightEditText.length() > 0) {
-            if (height > 0 && weight > 0) return true;
-        }
-        return false;
+        boolean validated = true;
+
+        if (!validateWeightField(heightLayout, heightEditText, (float) height))
+            validated = false;
+        if (!validateWeightField(weightLayout, weightEditText, (float) weight))
+            validated = false;
+
+        return validated;
     }
 
-    private void removeListeners(){
+    private void removeListeners() {
         weightEditText.removeTextChangedListener(weightEditTextWatcher);
         heightEditText.removeTextChangedListener(heightEditTextWatcher);
         heightInchesEditText.removeTextChangedListener(heightEditTextWatcher);
     }
 
-    private void addListeners(){
+    private void addListeners() {
         weightEditText.addTextChangedListener(weightEditTextWatcher);
         heightEditText.addTextChangedListener(heightEditTextWatcher);
         heightInchesEditText.addTextChangedListener(heightEditTextWatcher);

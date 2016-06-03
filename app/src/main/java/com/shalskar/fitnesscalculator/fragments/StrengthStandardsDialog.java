@@ -31,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class StrengthStandardsDialog extends DialogFragment {
+public class StrengthStandardsDialog extends BaseDialogFragment {
 
     @BindView(R.id.radio_group_gender)
     RadioGroup radioGroupGender;
@@ -210,6 +210,7 @@ public class StrengthStandardsDialog extends DialogFragment {
         this.dismiss();
     }
 
+    // todo
     private boolean validateFields() {
         boolean validated = true;
 
@@ -223,15 +224,6 @@ public class StrengthStandardsDialog extends DialogFragment {
             validated = false;
 
         return validated;
-    }
-
-    private boolean validateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
-        if (editText.length() == 0 && value <= 0) {
-            textInputLayout.setError(" ");
-            textInputLayout.setErrorEnabled(true);
-            return false;
-        } else
-            return true;
     }
 
     private void removeListeners() {

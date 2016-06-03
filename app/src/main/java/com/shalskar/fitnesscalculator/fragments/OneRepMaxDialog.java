@@ -29,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class OneRepMaxDialog extends DialogFragment {
+public class OneRepMaxDialog extends BaseDialogFragment {
 
     @BindView(R.id.edittext_layout_weight_lifted)
     TextInputLayout weightLiftedLayout;
@@ -141,10 +141,14 @@ public class OneRepMaxDialog extends DialogFragment {
     }
 
     private boolean validateFields() {
-        if (repsLiftedEditText.length() > 0 && weightLiftedEditText.length() > 0) {
-            if (repsLifted > 0 && weightLifted > 0) return true;
-        }
-        return false;
+        boolean validated = true;
+
+        if(!validateWeightField(repsLiftedLayout, repsLiftedEditText, repsLifted))
+            validated = false;
+        if(!validateWeightField(weightLiftedLayout, weightLiftedEditText, weightLifted))
+            validated = false;
+
+        return validated;
     }
 
     private void removeListeners() {
