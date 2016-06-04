@@ -32,8 +32,8 @@
                 android:id="@+id/squat_textview"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="46dp"
                 android:text="@string/squat"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="#ffffff"
@@ -44,8 +44,8 @@
                 android:id="@+id/squatStrengthView"
                 android:layout_width="75dp"
                 android:layout_height="@dimen/strength_view_height"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="68dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="51dp"
                 android:layout_toRightOf="@id/squat_textview"
                 tools:background="#ffffff" />
 
@@ -54,21 +54,19 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/squat_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginLeft="32dp"
                 android:text="@string/bench"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="#ffffff"
-                android:textSize="16sp"
-                tools:ignore="MissingPrefix" />
+                android:textSize="16sp" />
 
             <com.shalskar.fitnesscalculator.StrengthView
                 android:id="@+id/benchStrengthView"
                 android:layout_width="75dp"
                 android:layout_height="@dimen/strength_view_height"
                 android:layout_below="@id/squatStrengthView"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
                 android:layout_toRightOf="@id/bench_textview"
                 tools:background="#ffffff" />
 
@@ -77,21 +75,19 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bench_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/deadlift"
+                android:layout_marginLeft="32dp"
+                android:text="@string/dead"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="#ffffff"
-                android:textSize="16sp"
-                tools:ignore="MissingPrefix" />
+                android:textSize="16sp" />
 
             <com.shalskar.fitnesscalculator.StrengthView
                 android:id="@+id/deadliftStrengthView"
                 android:layout_width="75dp"
                 android:layout_height="@dimen/strength_view_height"
                 android:layout_below="@id/benchStrengthView"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
                 android:layout_toRightOf="@id/bench_textview"
                 tools:background="#ffffff" />
 
@@ -101,8 +97,85 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/white_ripple"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:src="@drawable/ic_information_white_24dp" />
+
+            <TextView
+                android:id="@+id/untrained_textview"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/deadlift_textview"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/key_background_pale_green"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/untrained"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/novice_textview"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/deadlift_textview"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_toRightOf="@id/untrained_textview"
+                android:background="@drawable/key_background_yellow"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/novice"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/intermediate_textview"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/untrained_textview"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/key_background_orange"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/intermediate"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/advanced_textview"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/intermediate_textview"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/key_background_red"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/advanced"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/elite_textview"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/intermediate_textview"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/advanced_textview"
+                android:background="@drawable/key_background_dark_red"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/elite"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="9sp" />
 
         </RelativeLayout>
 

@@ -105,4 +105,10 @@
     <string name="ankle">Ankle</string>
     <string name="strength_standards">Strength Standards</string>
     <string name="bench">Bench</string>
+    <string name="dead">Dead</string>
+    <string name="novice">Novice</string>
+    <string name="untrained">Untrained</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
+    <string name="elite">Elite</string>
 </resources>
