@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
+import com.shalskar.fitnesscalculator.StrengthView;
 import com.shalskar.fitnesscalculator.adapters.StrengthAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
@@ -49,8 +50,14 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.side_layout)
     View sideLayout;
 
-    @BindView(R.id.chart)
-    ColumnChartView chartView;
+    @BindView(R.id.squatStrengthView)
+    StrengthView squatStrengthView;
+
+    @BindView(R.id.benchStrengthView)
+    StrengthView benchStrengthView;
+
+    @BindView(R.id.deadliftStrengthView)
+    StrengthView deadliftStrengthView;
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -99,7 +106,7 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
                 animateSideLayout();
                 animateTitle();
             } else {
-                AnimationUtil.refreshView(chartView);
+                //AnimationUtil.refreshView(squatStrengthView);
             }
         } else {
             titleTextView.setVisibility(View.VISIBLE);
@@ -149,31 +156,9 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
         int benchStrengthStandard = FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_BENCH_PRESS, gender, (float) weight, benchWeightLifted);
         int deadliftStrengthStandard = FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_DEADLIFT, gender, (float) weight, deadliftWeightLifted);
 
-        updateChart(squatStrengthStandard, benchStrengthStandard, deadliftStrengthStandard);
-    }
-
-    private void updateChart(int squatStrengthStandard, int benchStrengthStandard, int deadliftStrengthStandard) {
-        ColumnChartData columnChartData = new ColumnChartData();
-
-        List<Column> columns = new ArrayList<>();
-        columns.add(makeColumn(squatStrengthStandard, squatStrengthStandard));
-        columns.add(makeColumn(benchStrengthStandard, benchStrengthStandard));
-        columns.add(makeColumn(deadliftStrengthStandard, deadliftStrengthStandard));
-
-        Axis axisX = new Axis();
-        List<AxisValue> axisValues = new ArrayList<>();
-        axisValues.add(new AxisValue(0).setLabel("Squat"));
-        axisValues.add(new AxisValue(1).setLabel("Bench"));
-        axisValues.add(new AxisValue(2).setLabel("Dead"));
-        axisX.setValues(axisValues);
-        axisX.setTextSize((int) baseView.getContext().getResources().getDimension(R.dimen.strength_standards_axis_text_size));
-        axisX.setTextColor(baseView.getContext().getResources().getColor(R.color.white));
-
-        columnChartData.setAxisXBottom(axisX);
-        columnChartData.setColumns(columns);
-
-        chartView.setInteractive(false);
-        chartView.setColumnChartData(columnChartData);
+        squatStrengthView.setLevel(squatStrengthStandard);
+        benchStrengthView.setLevel(benchStrengthStandard);
+        deadliftStrengthView.setLevel(deadliftStrengthStandard);
     }
 
     private Column makeColumn(float weightLifted, int standard){

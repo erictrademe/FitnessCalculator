@@ -6,8 +6,8 @@
     android:layout_width="@dimen/basic_viewholder_column_width"
     android:layout_height="@dimen/basic_viewholder_column_height"
     android:layout_gravity="center"
-    android:elevation="4dp"
     android:clickable="true"
+    android:elevation="4dp"
     android:foreground="@drawable/white_ripple_border"
     card_view:cardCornerRadius="4dp">
 
@@ -28,15 +28,72 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true">
 
-            <lecho.lib.hellocharts.view.ColumnChartView
-                android:id="@+id/chart"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginTop="16dp"
-                android:padding="8dp"
-                android:layout_marginRight="-16dp"
+            <TextView
+                android:id="@+id/squat_textview"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="64dp"
+                android:text="@string/squat"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                tools:ignore="MissingPrefix" />
+
+            <com.shalskar.fitnesscalculator.StrengthView
+                android:id="@+id/squatStrengthView"
+                android:layout_width="75dp"
+                android:layout_height="@dimen/strength_view_height"
                 android:layout_marginLeft="16dp"
-                android:layout_toLeftOf="@+id/info_button" />
+                android:layout_marginTop="68dp"
+                android:layout_toRightOf="@id/squat_textview"
+                tools:background="#ffffff" />
+
+            <TextView
+                android:id="@+id/bench_textview"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/squat_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/bench"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                tools:ignore="MissingPrefix" />
+
+            <com.shalskar.fitnesscalculator.StrengthView
+                android:id="@+id/benchStrengthView"
+                android:layout_width="75dp"
+                android:layout_height="@dimen/strength_view_height"
+                android:layout_below="@id/squatStrengthView"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_toRightOf="@id/bench_textview"
+                tools:background="#ffffff" />
+
+            <TextView
+                android:id="@+id/deadlift_textview"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bench_textview"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/deadlift"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                tools:ignore="MissingPrefix" />
+
+            <com.shalskar.fitnesscalculator.StrengthView
+                android:id="@+id/deadliftStrengthView"
+                android:layout_width="75dp"
+                android:layout_height="@dimen/strength_view_height"
+                android:layout_below="@id/benchStrengthView"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_toRightOf="@id/bench_textview"
+                tools:background="#ffffff" />
 
             <ImageButton
                 android:id="@+id/info_button"
@@ -56,11 +113,12 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            tools:text="@string/body_mass_index"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="#ffffff"
             android:textSize="26sp"
-            tools:ignore="MissingPrefix" />
+            tools:ignore="MissingPrefix"
+            tools:text="@string/body_mass_index"
+            tools:visibility="gone" />
 
         <TextView
             android:id="@+id/title2_textview"
@@ -71,12 +129,12 @@
             android:layout_marginLeft="16dp"
             android:layout_toLeftOf="@id/side_layout"
             android:gravity="center"
-            tools:text="@string/body_mass_index"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="#ffffff"
             android:textSize="26sp"
             android:visibility="gone"
             tools:ignore="MissingPrefix"
+            tools:text="@string/body_mass_index"
             tools:visibility="visible" />
 
     </RelativeLayout>

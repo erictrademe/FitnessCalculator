@@ -1,8 +1,8 @@
 package com.shalskar.fitnesscalculator.fragments;
 
-import android.app.DialogFragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.widget.EditText;
 
 /**
