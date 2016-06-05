@@ -126,10 +126,6 @@ public class NavigationDrawerFragment extends Fragment {
         this.drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeButtonEnabled(true);
-
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
         drawerToggle = new ActionBarDrawerToggle(
@@ -234,7 +230,7 @@ public class NavigationDrawerFragment extends Fragment {
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (drawerLayout != null && isDrawerOpen()) {
             inflater.inflate(R.menu.global, menu);
-            showGlobalContextActionBar();
+            //showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -245,10 +241,6 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-//        if (item.getItemId() == R.id.action_example) {
-//            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -257,7 +249,6 @@ public class NavigationDrawerFragment extends Fragment {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
     }
 
     private ActionBar getActionBar() {

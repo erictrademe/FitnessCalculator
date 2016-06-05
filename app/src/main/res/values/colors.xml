@@ -13,7 +13,13 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
-    <color name="colorAccent">#c8e8ff</color>
+    <color name="colorAccent">#00ffa2</color>
+
+    <color name="colorAccent90">#9000ffa2</color>
+    <color name="colorAccent80">#8000ffa2</color>
+    <color name="colorAccent70">#7000ffa2</color>
+    <color name="colorAccent60">#6000ffa2</color>
+    <color name="colorAccent50">#5000ffa2</color>
 
 
     <color name="deepRed">#BA3131</color>

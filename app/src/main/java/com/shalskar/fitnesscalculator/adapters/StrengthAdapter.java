@@ -124,18 +124,18 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void updateWilks() {
-        if (viewHolders[0] != null)
-            ((WilksViewHolder) viewHolders[0]).updateAll();
+        if (viewHolders[1] != null)
+            ((WilksViewHolder) viewHolders[1]).updateAll();
     }
 
     public void updateOneRepMax() {
-        if (viewHolders[1] != null)
-            ((OneRepMaxViewHolder) viewHolders[1]).updateAll();
+        if (viewHolders[2] != null)
+            ((OneRepMaxViewHolder) viewHolders[2]).updateAll();
     }
 
     public void updateStrengthStandards() {
-        if (viewHolders[2] != null)
-            ((StrengthStandardsViewHolder) viewHolders[2]).updateAll();
+        if (viewHolders[3] != null)
+            ((StrengthStandardsViewHolder) viewHolders[3]).updateAll();
     }
 
     public void showOneRepMaxDialog() {

@@ -16,6 +16,9 @@
 
     <dimen name="appbar_height">84dp</dimen>
 
+    <dimen name="dialog_image_height">64dp</dimen>
+    <dimen name="dialog_width">220dp</dimen>
+
     <dimen name="basic_viewholder_height">160dp</dimen>
     <dimen name="basic_viewholder_width">360dp</dimen>
 

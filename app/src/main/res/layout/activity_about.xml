@@ -1,93 +1,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/base_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AboutActivity">
+    tools:context=".activities.AboutActivity"
+    tools:background="@drawable/about_background">
 
-    <FrameLayout
-        android:id="@+id/header_layout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:elevation="4dp">
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/bmi_image" />
-
-        <TextView
-            android:id="@+id/title_textview"
-            fontPath="fonts/RobotoSlab-Regular.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Fit(x)"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="#ffffff"
-            android:textSize="36sp"
-            tools:ignore="MissingPrefix"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/subtitle_textview"
-            fontPath="fonts/RobotoSlab-Regular.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:text="Your Fitness Solution"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="#bbffffff"
-            android:textSize="14sp"
-            tools:ignore="MissingPrefix"
-            tools:visibility="visible" />
-
-    </FrameLayout>
+    <TextView
+        android:id="@+id/subtitle_textview"
+        fontPath="fonts/Raleway-Regular.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/logo"
+        android:text="Your Fitness Solution"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#bbffffff"
+        android:textSize="14sp"
+        tools:ignore="MissingPrefix"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/description_textview"
-        fontPath="fonts/RobotoSlab-Regular.ttf"
+        fontPath="fonts/Raleway-Regular.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header_layout"
+        android:layout_below="@+id/subtitle_textview"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="64dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:textColor="#ddffffff"
         tools:ignore="MissingPrefix"
-        android:text="FitXMaXIPro offers a range of calculators to help you streamline your fitness journey, we hope that with these sick calcs you will be able to achieve the highest level of shred. " />
+        android:text="Fit(X) offers a range of calculators to help you streamline your fitness journey, we hope that with these sick calcs you will be able to achieve the highest level of shred. " />
 
     <TextView
-        android:id="@+id/donation_textview"
-        fontPath="fonts/RobotoSlab-Regular.ttf"
-        android:layout_width="match_parent"
+        android:id="@+id/donate_textview"
+        fontPath="fonts/Raleway-Bold.ttf"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/description_textview"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="12sp"
-        android:text="To keep this going we gonna need money, please help us."
-        tools:ignore="MissingPrefix"/>
+        android:text="Help Us"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
+        tools:ignore="MissingPrefix"
+        tools:visibility="visible" />
 
     <lecho.lib.hellocharts.view.PieChartView
         android:id="@+id/chart"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_margin="16dp"
-        android:layout_below="@+id/donation_textview"
+        android:layout_below="@+id/donate_textview"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/copyright_textview"
-        fontPath="fonts/RobotoSlab-Regular.ttf"
+        fontPath="fonts/Raleway-Regular.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -95,6 +81,7 @@
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textSize="10sp"
+        android:textColor="#ffffff"
         tools:ignore="MissingPrefix"
         android:text="Fake copyright @ 2016"/>
 

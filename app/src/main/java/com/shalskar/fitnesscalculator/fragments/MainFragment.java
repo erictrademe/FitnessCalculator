@@ -1,5 +1,6 @@
 package com.shalskar.fitnesscalculator.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.ViewPagerAdapter;
@@ -54,8 +56,9 @@ public class MainFragment extends Fragment {
 
     private void initialiseViews() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.title_toolbar_general);
-
+        //toolbar.setLogo(getActivity().getDrawable(R.drawable.fitx_logo));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setLogo(getActivity().getDrawable(R.drawable.logo));
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
     }

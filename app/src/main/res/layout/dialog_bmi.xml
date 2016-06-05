@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/edit_name"
-    android:layout_width="wrap_content"
+    android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="24dp">
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_image_height"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/bmi_image"/>
+
+        <TextView
+            android:id="@+id/title_textview"
+            fontPath="fonts/Raleway-Regular.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/body_mass_index"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            tools:ignore="MissingPrefix" />
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/button_unit"
@@ -17,6 +40,7 @@
         android:layout_width="72dp"
         android:layout_height="36dp"
         android:layout_gravity="end"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="-28dp"
         android:layout_marginRight="16dp"
         android:text="@string/metric"
@@ -24,7 +48,7 @@
 
     <TextView
         android:id="@+id/textview_weight"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:text="@string/weight"
@@ -36,14 +60,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
         <EditText
             android:id="@+id/edittext_weight"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:hint="@string/kilograms"
             android:imeOptions="actionGo"
             android:inputType="numberDecimal"
@@ -54,7 +78,7 @@
 
     <TextView
         android:id="@+id/textview_height"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="32dp"
@@ -63,8 +87,8 @@
         android:textSize="16sp" />
 
     <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal">
@@ -116,6 +140,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
         android:orientation="horizontal">
 
         <Button

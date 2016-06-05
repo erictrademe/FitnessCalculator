@@ -8,12 +8,15 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
+import com.shalskar.fitnesscalculator.utils.ImageUtil;
 import com.shalskar.fitnesscalculator.utils.ParserUtil;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
@@ -29,6 +32,9 @@ import butterknife.OnClick;
  * Created by Vincent on 7/05/2016.
  */
 public class BMIDialog extends BaseDialogFragment {
+
+    @BindView(R.id.image)
+    ImageView imageView;
 
     @BindView(R.id.edittext_layout_weight)
     TextInputLayout weightLayout;
@@ -62,10 +68,13 @@ public class BMIDialog extends BaseDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
         View view = inflater.inflate(R.layout.dialog_bmi, container);
 
         ButterKnife.bind(this, view);
         initialiseViews();
+        loadImage();
         prepopulateFields();
 
         return view;
@@ -73,8 +82,16 @@ public class BMIDialog extends BaseDialogFragment {
 
     private void initialiseViews() {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(getString(R.string.body_mass_index));
+        //getDialog().setTitle(getString(R.string.body_mass_index));
         addListeners();
+    }
+
+    private void loadImage() {
+        float bucketSize = getResources().getDisplayMetrics().density;
+
+        int width = getDialog().getWindow().getDecorView().getWidth();
+        int height = (int) (getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.bmi_image, width, height));
     }
 
     private void prepopulateFields() {

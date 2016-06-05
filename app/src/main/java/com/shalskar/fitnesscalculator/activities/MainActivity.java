@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(toolbarTitle);
     }
 
 
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!navigationDrawerFragment.isDrawerOpen()) {
             getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
+            //restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
