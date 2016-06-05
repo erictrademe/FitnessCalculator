@@ -36,7 +36,7 @@ public class AboutActivity extends AppCompatActivity {
     private static final int POSITION_TWO_DOLLAR = 1;
     private static final int POSITION_FIVE_DOLLAR = 2;
     private static final int POSITION_TEN_DOLLAR = 3;
-    private static final int POSITION_CUSTOM = 4;
+    private static final int POSITION_TWENTY_DOLLAR = 4;
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -82,7 +82,7 @@ public class AboutActivity extends AppCompatActivity {
         sliceValues.add(new SliceValue(20, getResources().getColor(R.color.yellowGreen)).setLabel("$2"));
         sliceValues.add(new SliceValue(25, getResources().getColor(R.color.mustardOrange)).setLabel("$5"));
         sliceValues.add(new SliceValue(30, getResources().getColor(R.color.lightRed)).setLabel("$10"));
-        sliceValues.add(new SliceValue(35, getResources().getColor(R.color.deepRed)).setLabel("$#"));
+        sliceValues.add(new SliceValue(35, getResources().getColor(R.color.deepRed)).setLabel("$20"));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
@@ -135,8 +135,8 @@ public class AboutActivity extends AppCompatActivity {
                 case POSITION_TEN_DOLLAR:
                     SnackbarUtil.showDonationSnackBar(contentView, 10);
                     break;
-                case POSITION_CUSTOM:
-                    // todo implement custom dialog
+                case POSITION_TWENTY_DOLLAR:
+                    SnackbarUtil.showDonationSnackBar(contentView, 20);
                     break;
             }
         }

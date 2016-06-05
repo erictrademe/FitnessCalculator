@@ -12,6 +12,7 @@ import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.IdealWeightViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.OneRepMaxViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.PlaceholderViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.StrengthStandardsViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WilksViewHolder;
@@ -25,13 +26,14 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private RecyclerView.ViewHolder[] viewHolders;
 
-    private static final int VIEW_TYPE_ONE_REP_MAX = 0;
-    private static final int VIEW_TYPE_WILKS = 1;
-    private static final int VIEW_TYPE_STRENGTH_STANDARDS = 2;
+    private static final int VIEW_TYPE_PLACEHOLDER = 0;
+    private static final int VIEW_TYPE_ONE_REP_MAX = 1;
+    private static final int VIEW_TYPE_WILKS = 2;
+    private static final int VIEW_TYPE_STRENGTH_STANDARDS = 3;
 
     public StrengthAdapter(@NonNull AdapterListener adapterListener) {
         this.adapterListener = adapterListener;
-        this.viewHolders = new RecyclerView.ViewHolder[3];
+        this.viewHolders = new RecyclerView.ViewHolder[4];
     }
 
     @Override
@@ -40,6 +42,10 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         View view;
         switch (viewType) {
+            case VIEW_TYPE_PLACEHOLDER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_placeholder, parent, false);
+                viewHolder = new PlaceholderViewHolder(view);
+                break;
             case VIEW_TYPE_ONE_REP_MAX:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_thin, parent, false);
                 viewHolder = new OneRepMaxViewHolder(this, view);
@@ -63,6 +69,7 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         int viewType = getItemViewType(position);
         switch (viewType) {
+            case VIEW_TYPE_PLACEHOLDER: break;
             case VIEW_TYPE_ONE_REP_MAX:
                 ((OneRepMaxViewHolder) viewHolder).initialiseViews();
                 break;
@@ -79,10 +86,12 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
         switch (position) {
             case 0:
-                return VIEW_TYPE_WILKS;
+                return VIEW_TYPE_PLACEHOLDER;
             case 1:
-                return VIEW_TYPE_ONE_REP_MAX;
+                return VIEW_TYPE_WILKS;
             case 2:
+                return VIEW_TYPE_ONE_REP_MAX;
+            case 3:
                 return VIEW_TYPE_STRENGTH_STANDARDS;
         }
         return VIEW_TYPE_ONE_REP_MAX;
@@ -102,6 +111,8 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getSpanForPosition(int position) {
         int viewType = getItemViewType(position);
         switch (viewType) {
+            case VIEW_TYPE_PLACEHOLDER:
+                return 2;
             case VIEW_TYPE_ONE_REP_MAX:
                 return 2;
             case VIEW_TYPE_WILKS:

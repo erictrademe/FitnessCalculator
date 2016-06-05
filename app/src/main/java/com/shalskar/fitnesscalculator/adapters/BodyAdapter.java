@@ -13,6 +13,7 @@ import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.IdealPhysiqueViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.IdealWeightViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.PlaceholderViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
 
 import java.util.ArrayList;
@@ -26,16 +27,18 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private RecyclerView.ViewHolder[] viewHolders;
 
-    private static final int VIEW_TYPE_BMI = 0;
-    private static final int VIEW_TYPE_CALORIE = 1;
-    private static final int VIEW_TYPE_MACRO = 2;
-    private static final int VIEW_TYPE_WATER = 3;
-    private static final int VIEW_TYPE_IDEAL_WEIGHT = 4;
-    private static final int VIEW_TYPE_IDEAL_PHYSIQUE = 5;
+
+    private static final int VIEW_TYPE_PLACEHOLDER = 0;
+    private static final int VIEW_TYPE_BMI = 1;
+    private static final int VIEW_TYPE_CALORIE = 2;
+    private static final int VIEW_TYPE_MACRO = 3;
+    private static final int VIEW_TYPE_WATER = 4;
+    private static final int VIEW_TYPE_IDEAL_WEIGHT = 5;
+    private static final int VIEW_TYPE_IDEAL_PHYSIQUE = 6;
 
     public BodyAdapter(@NonNull AdapterListener adapterListener) {
         this.adapterListener = adapterListener;
-        this.viewHolders = new RecyclerView.ViewHolder[6];
+        this.viewHolders = new RecyclerView.ViewHolder[7];
     }
 
     @Override
@@ -44,6 +47,10 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         View view;
         switch (viewType) {
+            case VIEW_TYPE_PLACEHOLDER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_placeholder, parent, false);
+                viewHolder = new PlaceholderViewHolder(view);
+                break;
             case VIEW_TYPE_BMI:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
                 viewHolder = new BMIViewHolder(this, view);
@@ -79,6 +86,7 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         int viewType = getItemViewType(position);
         switch (viewType) {
+            case VIEW_TYPE_PLACEHOLDER: break;
             case VIEW_TYPE_BMI:
                 BMIViewHolder BMIViewHolder = (BMIViewHolder) viewHolder;
                 BMIViewHolder.initialiseViews();
@@ -110,16 +118,18 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         switch (position) {
             case 0:
-                return VIEW_TYPE_BMI;
+                return VIEW_TYPE_PLACEHOLDER;
             case 1:
-                return VIEW_TYPE_CALORIE;
+                return VIEW_TYPE_BMI;
             case 2:
-                return VIEW_TYPE_MACRO;
+                return VIEW_TYPE_CALORIE;
             case 3:
-                return VIEW_TYPE_WATER;
+                return VIEW_TYPE_MACRO;
             case 4:
-                return VIEW_TYPE_IDEAL_WEIGHT;
+                return VIEW_TYPE_WATER;
             case 5:
+                return VIEW_TYPE_IDEAL_WEIGHT;
+            case 6:
                 return VIEW_TYPE_IDEAL_PHYSIQUE;
         }
         return VIEW_TYPE_BMI;
@@ -139,6 +149,8 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getSpanForPosition(int position) {
         int viewType = getItemViewType(position);
         switch (viewType) {
+            case VIEW_TYPE_PLACEHOLDER:
+                return 2;
             case VIEW_TYPE_BMI:
                 return 2;
             case VIEW_TYPE_CALORIE:
@@ -156,33 +168,33 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void updateBMI() {
-        if (viewHolders[0] != null)
-            ((BMIViewHolder) viewHolders[0]).updateAll();
+        if (viewHolders[1] != null)
+            ((BMIViewHolder) viewHolders[1]).updateAll();
     }
 
     public void updateCalorie() {
-        if (viewHolders[1] != null)
-            ((CalorieViewHolder) viewHolders[1]).updateAll();
+        if (viewHolders[2] != null)
+            ((CalorieViewHolder) viewHolders[2]).updateAll();
     }
 
     public void updateMacro() {
-        if (viewHolders[2] != null)
-            ((MacroViewHolder) viewHolders[2]).updateAll();
+        if (viewHolders[3] != null)
+            ((MacroViewHolder) viewHolders[3]).updateAll();
     }
 
     public void updateWater() {
-        if (viewHolders[3] != null)
-            ((WaterViewHolder) viewHolders[3]).updateAll();
+        if (viewHolders[4] != null)
+            ((WaterViewHolder) viewHolders[4]).updateAll();
     }
 
     public void updateIdealWeight() {
-        if (viewHolders[4] != null)
-            ((IdealWeightViewHolder) viewHolders[4]).updateAll();
+        if (viewHolders[5] != null)
+            ((IdealWeightViewHolder) viewHolders[5]).updateAll();
     }
 
     public void updateIdealPhysique() {
-        if (viewHolders[5] != null)
-            ((IdealPhysiqueViewHolder) viewHolders[5]).updateAll();
+        if (viewHolders[6] != null)
+            ((IdealPhysiqueViewHolder) viewHolders[6]).updateAll();
     }
 
     public void showBMIDialog() {
