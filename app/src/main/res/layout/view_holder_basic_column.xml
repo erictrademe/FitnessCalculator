@@ -35,7 +35,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="46dp"
                 android:text="@string/squat"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 tools:ignore="MissingPrefix" />
@@ -46,8 +46,7 @@
                 android:layout_height="@dimen/strength_view_height"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="51dp"
-                android:layout_toRightOf="@id/squat_textview"
-                tools:background="#ffffff" />
+                android:layout_toRightOf="@id/squat_textview" />
 
             <TextView
                 android:id="@+id/bench_textview"
@@ -56,7 +55,7 @@
                 android:layout_below="@id/squat_textview"
                 android:layout_marginLeft="32dp"
                 android:text="@string/bench"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 
@@ -67,8 +66,7 @@
                 android:layout_below="@id/squatStrengthView"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/bench_textview"
-                tools:background="#ffffff" />
+                android:layout_toRightOf="@id/bench_textview" />
 
             <TextView
                 android:id="@+id/deadlift_textview"
@@ -77,7 +75,7 @@
                 android:layout_below="@id/bench_textview"
                 android:layout_marginLeft="32dp"
                 android:text="@string/dead"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 
@@ -88,8 +86,7 @@
                 android:layout_below="@id/benchStrengthView"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/bench_textview"
-                tools:background="#ffffff" />
+                android:layout_toRightOf="@id/bench_textview" />
 
             <ImageButton
                 android:id="@+id/info_button"
@@ -97,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/white_ripple"
-                android:padding="8dp"
+                android:padding="16dp"
                 android:src="@drawable/ic_information_white_24dp" />
 
             <TextView

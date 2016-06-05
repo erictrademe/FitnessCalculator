@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -97,10 +98,16 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            SharedPreferencesManager.clearAll();
-            getMainFragment().refreshAll();
-            return true;
+        switch (id){
+            case R.id.action_settings:
+                SharedPreferencesManager.clearAll();
+                getMainFragment().refreshAll();
+                return true;
+
+            case R.id.action_about:
+                Intent intent = new Intent(this, AboutActivity.class);
+                this.startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -51,4 +51,6 @@
     <dimen name="wilks_pie_chart_text_size">8.5sp</dimen>
 
     <dimen name="strength_standards_axis_text_size">4.25sp</dimen>
+
+    <dimen name="donation_pie_chart_text_size">4.5sp</dimen>
 </resources>
