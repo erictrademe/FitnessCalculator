@@ -23,10 +23,10 @@ public class FitnessApplication extends Application {
         new SharedPreferencesManager(this);
         singleton = this;
 
-//        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-//                .setDefaultFontPath("fonts/RobotoSlab-Regular.ttf")
-//                .setFontAttrId(R.attr.fontPath)
-//                .build());
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Raleway-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
     }
 
     @Override

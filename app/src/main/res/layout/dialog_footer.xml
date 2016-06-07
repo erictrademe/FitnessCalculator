@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:paddingRight="8dp"
+    android:paddingBottom="8dp"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/button_cancel"
+        style="@android:style/Widget.Material.Light.Button.Borderless"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel" />
+
+    <Button
+        android:id="@+id/button_ok"
+        style="@android:style/Widget.Material.Light.Button.Borderless"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="@string/ok" />
+
+</LinearLayout>

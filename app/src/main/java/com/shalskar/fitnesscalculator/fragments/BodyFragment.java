@@ -87,7 +87,7 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
         if (frag != null)
             manager.beginTransaction().remove(frag).commit();
 
-        BMIDialog BMIDialog = new BMIDialog();
+        BMIDialog BMIDialog = com.shalskar.fitnesscalculator.fragments.BMIDialog.newInstance(getString(R.string.body_mass_index));
         BMIDialog.show(manager, TAG_BMI_DIALOG_FRAGMENT);
     }
 

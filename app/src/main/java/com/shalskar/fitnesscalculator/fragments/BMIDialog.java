@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -54,8 +55,6 @@ public class BMIDialog extends BaseDialogFragment {
     @BindView(R.id.height_inches_layout)
     ViewGroup heightInchesLayout;
 
-    @BindView(R.id.button_unit)
-    Button unitButton;
 
     private int unit = Constants.UNIT_METRIC;
     private double height = 0;
@@ -65,14 +64,20 @@ public class BMIDialog extends BaseDialogFragment {
 
     }
 
+    public static BMIDialog newInstance(@NonNull String title){
+        BMIDialog bmiDialog = new BMIDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_bmi);
+        args.putString(KEY_TITLE, title);
+        bmiDialog.setArguments(args);
+        return bmiDialog;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
-        View view = inflater.inflate(R.layout.dialog_bmi, container);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        ButterKnife.bind(this, view);
         initialiseViews();
         loadImage();
         prepopulateFields();
@@ -81,8 +86,6 @@ public class BMIDialog extends BaseDialogFragment {
     }
 
     private void initialiseViews() {
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        //getDialog().setTitle(getString(R.string.body_mass_index));
         addListeners();
     }
 
@@ -121,7 +124,7 @@ public class BMIDialog extends BaseDialogFragment {
     }
 
 
-    @OnClick(R.id.button_unit)
+    @Override
     void onClickBmiUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
@@ -162,7 +165,7 @@ public class BMIDialog extends BaseDialogFragment {
         }
     }
 
-    @OnClick(R.id.button_ok)
+    @Override
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveWeight(weight);
@@ -170,11 +173,6 @@ public class BMIDialog extends BaseDialogFragment {
             EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT));
             this.dismiss();
         }
-    }
-
-    @OnClick(R.id.button_cancel)
-    void onCancelClick() {
-        this.dismiss();
     }
 
     private boolean validateFields() {

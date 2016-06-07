@@ -3,6 +3,8 @@ package com.shalskar.fitnesscalculator.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
@@ -28,6 +31,7 @@ import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.PieChartView;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class AboutActivity extends AppCompatActivity {
@@ -38,8 +42,11 @@ public class AboutActivity extends AppCompatActivity {
     private static final int POSITION_TEN_DOLLAR = 3;
     private static final int POSITION_TWENTY_DOLLAR = 4;
 
-    @BindView(R.id.image)
-    ImageView imageView;
+//    @BindView(R.id.image)
+//    ImageView imageView;
+
+    @BindView(R.id.base_layout)
+    RelativeLayout relativeLayout;
 
     @BindView(R.id.chart)
     PieChartView chartView;
@@ -68,21 +75,23 @@ public class AboutActivity extends AppCompatActivity {
 
     private void loadImage() {
         float bucketSize = getResources().getDisplayMetrics().density;
-        int width = (int) (getResources().getDimension(R.dimen.ideal_physique_viewholder_width) / bucketSize);
-        int height = (int) (getResources().getDimension(R.dimen.ideal_physique_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.ideal_physique_image, width, height));
+        int width = (int) (getResources().getConfiguration().screenWidthDp);
+        int height = (int) (getResources().getConfiguration().screenHeightDp);
+        Drawable drawable = new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.about_background, width, height));
+        relativeLayout.setBackground(drawable);
+        //imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.ideal_physique_image, width, height));
     }
 
     private void updateChart() {
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1(getResources().getString(R.string.donation));
-        pieChartData.setCenterText1Color(getResources().getColor(android.R.color.primary_text_light));
+        pieChartData.setCenterText1Color(getResources().getColor(android.R.color.primary_text_dark));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(15, getResources().getColor(R.color.paleGreen)).setLabel("$1"));
-        sliceValues.add(new SliceValue(20, getResources().getColor(R.color.yellowGreen)).setLabel("$2"));
-        sliceValues.add(new SliceValue(25, getResources().getColor(R.color.mustardOrange)).setLabel("$5"));
-        sliceValues.add(new SliceValue(30, getResources().getColor(R.color.lightRed)).setLabel("$10"));
-        sliceValues.add(new SliceValue(35, getResources().getColor(R.color.deepRed)).setLabel("$20"));
+        sliceValues.add(new SliceValue(15, getResources().getColor(R.color.colorAccent50)).setLabel("$1"));
+        sliceValues.add(new SliceValue(20, getResources().getColor(R.color.colorAccent60)).setLabel("$2"));
+        sliceValues.add(new SliceValue(25, getResources().getColor(R.color.colorAccent70)).setLabel("$5"));
+        sliceValues.add(new SliceValue(30, getResources().getColor(R.color.colorAccent80)).setLabel("$10"));
+        sliceValues.add(new SliceValue(35, getResources().getColor(R.color.colorAccent90)).setLabel("$20"));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
@@ -94,6 +103,11 @@ public class AboutActivity extends AppCompatActivity {
 
         chartView.setOnValueTouchListener(pieChartOnValueSelectListener);
         chartView.setPieChartData(pieChartData);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 

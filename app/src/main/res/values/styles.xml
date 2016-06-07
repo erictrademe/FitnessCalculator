@@ -4,7 +4,9 @@
     </style>
 
     <style name="FitnessCalculatorTheme" parent="MaterialTheme.Base">
-
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
     <style name="MaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
