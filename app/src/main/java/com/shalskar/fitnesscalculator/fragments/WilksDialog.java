@@ -33,8 +33,6 @@ import butterknife.OnClick;
  */
 public class WilksDialog extends BaseDialogFragment {
 
-    private static final String ARG_TITLE = "title";
-
     @BindView(R.id.radio_group_gender)
     RadioGroup radioGroupGender;
 
@@ -68,12 +66,6 @@ public class WilksDialog extends BaseDialogFragment {
     @BindView(R.id.edittext_deadlift)
     EditText deadliftEditText;
 
-
-    @BindView(R.id.button_unit)
-    Button unitButton;
-
-    private String title;
-
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
     private double weight = 0;
@@ -88,7 +80,23 @@ public class WilksDialog extends BaseDialogFragment {
     public static WilksDialog newInstance(@NonNull String title){
         WilksDialog wilksDialog = new WilksDialog();
         Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
+        args.putInt(KEY_LAYOUT, R.layout.dialog_wilks);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, R.drawable.wilks_image);
+        wilksDialog.setArguments(args);
+        return wilksDialog;
+    }
+
+    /**
+     * Alternative builder for using alternative images (this is used for strength standards,
+     * which uses the exact same parameters.)
+     */
+    public static WilksDialog newInstance(@NonNull String title, int imageResource){
+        WilksDialog wilksDialog = new WilksDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_wilks);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, imageResource);
         wilksDialog.setArguments(args);
         return wilksDialog;
     }
@@ -96,21 +104,12 @@ public class WilksDialog extends BaseDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_wilks, container);
-        ButterKnife.bind(this, view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        title = getArguments().getString(ARG_TITLE);
-
-        initialiseViews();
+        addListeners();
         prepopulateFields();
 
         return view;
-    }
-
-    private void initialiseViews() {
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(title);
-        addListeners();
     }
 
     private void loadFields() {
@@ -162,7 +161,7 @@ public class WilksDialog extends BaseDialogFragment {
         }
     }
 
-    @OnClick(R.id.button_unit)
+    @Override
     void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
@@ -210,7 +209,7 @@ public class WilksDialog extends BaseDialogFragment {
         }
     }
 
-    @OnClick(R.id.button_ok)
+    @Override
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveGender(gender);
@@ -224,11 +223,6 @@ public class WilksDialog extends BaseDialogFragment {
             EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_GENDER, Constants.DETAIL_WEIGHT, Constants.DETAIL_EXERCISE));
             this.dismiss();
         }
-    }
-
-    @OnClick(R.id.button_cancel)
-    void onCancelClick() {
-        this.dismiss();
     }
 
     private boolean validateFields() {

@@ -38,8 +38,8 @@
 
     <dimen name="strength_view_height">15dp</dimen>
 
-    <dimen name="bmi_pie_chart_text_size">7.5sp</dimen>
-    <dimen name="bmi_pie_chart_text_size_small">4.5sp</dimen>
+    <dimen name="bmi_pie_chart_text_size">8.5sp</dimen>
+    <dimen name="bmi_pie_chart_text_size_small">5.5sp</dimen>
 
     <dimen name="calorie_pie_chart_text_size">7sp</dimen>
     <dimen name="calorie_pie_chart_text_size_small">4.5sp</dimen>

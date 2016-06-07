@@ -3,6 +3,7 @@ package com.shalskar.fitnesscalculator.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -86,6 +87,8 @@ public class AboutActivity extends AppCompatActivity {
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1(getResources().getString(R.string.donation));
         pieChartData.setCenterText1Color(getResources().getColor(android.R.color.primary_text_dark));
+        pieChartData.setValueLabelTypeface(Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf"));
+        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf"));
         List<SliceValue> sliceValues = new ArrayList<>();
         sliceValues.add(new SliceValue(15, getResources().getColor(R.color.colorAccent50)).setLabel("$1"));
         sliceValues.add(new SliceValue(20, getResources().getColor(R.color.colorAccent60)).setLabel("$2"));

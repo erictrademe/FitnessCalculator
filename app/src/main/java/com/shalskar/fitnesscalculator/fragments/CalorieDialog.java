@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -73,9 +74,6 @@ public class CalorieDialog extends BaseDialogFragment {
     @BindView(R.id.textview_activity_level_amount)
     TextView activityLevelAmountTextView;
 
-    @BindView(R.id.button_unit)
-    Button unitButton;
-
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
     private int age = 0;
@@ -87,22 +85,40 @@ public class CalorieDialog extends BaseDialogFragment {
 
     }
 
+    public static CalorieDialog newInstance(@NonNull String title){
+        CalorieDialog calorieDialog = new CalorieDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_calorie);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, R.drawable.calorie_image);
+        calorieDialog.setArguments(args);
+        return calorieDialog;
+    }
+
+    /**
+     * Alternative builder for using alternative images (this is used for the water intake,
+     * which uses the exact same parameters.)
+     */
+    public static CalorieDialog newInstance(@NonNull String title, int imageResource){
+        CalorieDialog calorieDialog = new CalorieDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_calorie);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, imageResource);
+        calorieDialog.setArguments(args);
+        return calorieDialog;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_calorie, container);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        initialiseViews();
+        addListeners();
         prepopulateFields();
 
         return view;
-    }
-
-    private void initialiseViews() {
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(getString(R.string.calorie_intake));
-        addListeners();
     }
 
     private void loadFields() {
@@ -194,8 +210,7 @@ public class CalorieDialog extends BaseDialogFragment {
         }
     }
 
-
-    @OnClick(R.id.button_unit)
+    @Override
     void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
@@ -236,7 +251,7 @@ public class CalorieDialog extends BaseDialogFragment {
         }
     }
 
-    @OnClick(R.id.button_ok)
+    @Override
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveAge(age);
@@ -248,11 +263,6 @@ public class CalorieDialog extends BaseDialogFragment {
                     Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT, Constants.DETAIL_ACTIVITY_LEVEL));
             this.dismiss();
         }
-    }
-
-    @OnClick(R.id.button_cancel)
-    void onCancelClick() {
-        this.dismiss();
     }
 
     private boolean validateFields() {

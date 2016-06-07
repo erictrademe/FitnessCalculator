@@ -9,6 +9,7 @@
 
     <Button
         android:id="@+id/button_cancel"
+        fontPath="fonts/Raleway-Medium.ttf"
         style="@android:style/Widget.Material.Light.Button.Borderless"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
@@ -16,6 +17,7 @@
 
     <Button
         android:id="@+id/button_ok"
+        fontPath="fonts/Raleway-Medium.ttf"
         style="@android:style/Widget.Material.Light.Button.Borderless"
         android:layout_width="64dp"
         android:layout_height="wrap_content"

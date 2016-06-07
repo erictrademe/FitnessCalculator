@@ -12,12 +12,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,6 +43,10 @@ public class BaseDialogFragment extends DialogFragment {
 
     protected static final String KEY_LAYOUT = "layout";
     protected static final String KEY_TITLE = "title";
+    protected static final String KEY_IMAGE = "image";
+
+    @BindView(R.id.image)
+    ImageView imageView;
 
     @BindView(R.id.title_textview)
     TextView titleTextView;
@@ -65,8 +71,16 @@ public class BaseDialogFragment extends DialogFragment {
 
         ButterKnife.bind(this, view);
         titleTextView.setText(getArguments().getString(KEY_TITLE));
+        loadImage(getArguments().getInt(KEY_IMAGE));
 
         return view;
+    }
+
+    private void loadImage(int imageResource) {
+        float bucketSize = getResources().getDisplayMetrics().density;
+        int width = getDialog().getWindow().getDecorView().getWidth();
+        int height = (int) (getResources().getDimension(R.dimen.dialog_header_height) / bucketSize);
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), imageResource, width, height));
     }
 
     protected boolean validateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
@@ -79,7 +93,7 @@ public class BaseDialogFragment extends DialogFragment {
     }
 
     @OnClick(R.id.button_unit)
-    void onClickBmiUnitButton() {
+    void onClickUnitButton() {
 
     }
 

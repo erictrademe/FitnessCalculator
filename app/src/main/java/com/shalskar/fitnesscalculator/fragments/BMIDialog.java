@@ -34,9 +34,6 @@ import butterknife.OnClick;
  */
 public class BMIDialog extends BaseDialogFragment {
 
-    @BindView(R.id.image)
-    ImageView imageView;
-
     @BindView(R.id.edittext_layout_weight)
     TextInputLayout weightLayout;
 
@@ -69,6 +66,7 @@ public class BMIDialog extends BaseDialogFragment {
         Bundle args = new Bundle();
         args.putInt(KEY_LAYOUT, R.layout.dialog_bmi);
         args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, R.drawable.bmi_image);
         bmiDialog.setArguments(args);
         return bmiDialog;
     }
@@ -78,23 +76,10 @@ public class BMIDialog extends BaseDialogFragment {
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        initialiseViews();
-        loadImage();
+        addListeners();
         prepopulateFields();
 
         return view;
-    }
-
-    private void initialiseViews() {
-        addListeners();
-    }
-
-    private void loadImage() {
-        float bucketSize = getResources().getDisplayMetrics().density;
-
-        int width = getDialog().getWindow().getDecorView().getWidth();
-        int height = (int) (getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.bmi_image, width, height));
     }
 
     private void prepopulateFields() {
@@ -125,7 +110,7 @@ public class BMIDialog extends BaseDialogFragment {
 
 
     @Override
-    void onClickBmiUnitButton() {
+    void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
             unitButton.setText(getString(R.string.imperial));

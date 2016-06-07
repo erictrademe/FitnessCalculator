@@ -2,6 +2,7 @@ package com.shalskar.fitnesscalculator.viewholders;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -163,6 +164,8 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
 
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
+        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
+        pieChartData.setCenterText2Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         List<SliceValue> sliceValues = new ArrayList<>();
         sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.colorAccent)));
 
@@ -171,7 +174,7 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
         chartView.setChartRotationEnabled(false);
         pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size));
         pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size_small));
-        pieChartData.setCenterCircleScale(0.95f);
+        pieChartData.setCenterCircleScale(0.975f);
 
         chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);

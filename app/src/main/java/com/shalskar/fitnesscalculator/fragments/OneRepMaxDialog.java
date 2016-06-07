@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -43,9 +44,6 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     @BindView(R.id.edittext_reps_lifted)
     EditText repsLiftedEditText;
 
-    @BindView(R.id.button_unit)
-    Button unitButton;
-
     private int unit = Constants.UNIT_METRIC;
     private int repsLifted = 0;
     private float weightLifted = 0;
@@ -53,27 +51,25 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     public OneRepMaxDialog() {
     }
 
-    public static OneRepMaxDialog newInstance() {
+    public static OneRepMaxDialog newInstance(@NonNull String title){
         OneRepMaxDialog oneRepMaxDialog = new OneRepMaxDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_one_rep_max);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, R.drawable.one_rep_max_image);
+        oneRepMaxDialog.setArguments(args);
         return oneRepMaxDialog;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_one_rep_max, container);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        ButterKnife.bind(this, view);
-        initialiseViews();
+        addListeners();
         prepopulateFields();
 
         return view;
-    }
-
-    private void initialiseViews() {
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(getString(R.string.body_mass_index));
-        addListeners();
     }
 
     private void prepopulateFields() {
@@ -95,8 +91,8 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     }
 
 
-    @OnClick(R.id.button_unit)
-    void onClickBmiUnitButton() {
+    @Override
+    void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
             unitButton.setText(getString(R.string.imperial));
@@ -125,7 +121,7 @@ public class OneRepMaxDialog extends BaseDialogFragment {
         }
     }
 
-    @OnClick(R.id.button_ok)
+    @Override
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveWeightLifted(weightLifted);
@@ -133,11 +129,6 @@ public class OneRepMaxDialog extends BaseDialogFragment {
             EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_ONE_REP_MAX));
             this.dismiss();
         }
-    }
-
-    @OnClick(R.id.button_cancel)
-    void onCancelClick() {
-        this.dismiss();
     }
 
     private boolean validateFields() {

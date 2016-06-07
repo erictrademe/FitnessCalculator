@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -42,9 +43,6 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
     @BindView(R.id.edittext_layout_ankle)
     TextInputLayout ankleLayout;
 
-    @BindView(R.id.button_unit)
-    Button unitButton;
-
     private int unit = Constants.UNIT_METRIC;
     private float wristMeasurement = 0;
     private float ankleMeasurement = 0;
@@ -53,22 +51,27 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
 
     }
 
+    public static IdealPhysiqueDialog newInstance(@NonNull String title){
+        IdealPhysiqueDialog idealPhysiqueDialog = new IdealPhysiqueDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_ideal_physique);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, R.drawable.ideal_physique_image);
+        idealPhysiqueDialog.setArguments(args);
+        return idealPhysiqueDialog;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_ideal_physique, container);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        initialiseViews();
+        addListeners();
         prepopulateFields();
 
         return view;
-    }
-
-    private void initialiseViews() {
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(getString(R.string.ideal_physique));
-        addListeners();
     }
 
     private void prepopulateFields() {
@@ -95,8 +98,8 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
     }
 
 
-    @OnClick(R.id.button_unit)
-    void onClickBmiUnitButton() {
+    @Override
+    void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
             unitButton.setText(getString(R.string.imperial));
@@ -133,7 +136,7 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
         }
     }
 
-    @OnClick(R.id.button_ok)
+    @Override
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveMeasurement(Constants.BODY_PART_ANKLE, ankleMeasurement);
@@ -141,11 +144,6 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
             EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_MEASUREMENT));
             this.dismiss();
         }
-    }
-
-    @OnClick(R.id.button_cancel)
-    void onCancelClick() {
-        this.dismiss();
     }
 
     private boolean validateFields() {

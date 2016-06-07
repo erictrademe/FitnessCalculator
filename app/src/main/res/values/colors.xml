@@ -32,5 +32,6 @@
 
     <color name="white">#ffffff</color>
 
-    <color name="divider">#666666</color>
+    <color name="divider">#66000000</color>
+    <color name="faint_divider">#22000000</color>
 </resources>

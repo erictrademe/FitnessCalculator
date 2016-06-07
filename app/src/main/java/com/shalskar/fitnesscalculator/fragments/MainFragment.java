@@ -1,5 +1,6 @@
 package com.shalskar.fitnesscalculator.fragments;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.ViewPagerAdapter;
+import com.shalskar.fitnesscalculator.utils.ViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,11 +59,13 @@ public class MainFragment extends Fragment {
 
     private void initialiseViews() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        //toolbar.setLogo(getActivity().getDrawable(R.drawable.fitx_logo));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setLogo(getActivity().getDrawable(R.drawable.logo));
+        toolbar.setLogo(getActivity().getDrawable(R.drawable.logo));
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Raleway-Medium.ttf");
+        ViewUtil.setTabLayoutTypeFace(tabLayout, typeface);
     }
 
     private void setupViewPager(@NonNull ViewPager viewPager) {

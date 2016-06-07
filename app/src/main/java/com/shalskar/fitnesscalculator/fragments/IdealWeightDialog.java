@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 7/05/2016.
  */
-public class IdealWeightDialog extends DialogFragment {
+public class IdealWeightDialog extends BaseDialogFragment {
 
     @BindView(R.id.edittext_height)
     EditText heightEditText;
@@ -42,9 +43,6 @@ public class IdealWeightDialog extends DialogFragment {
     @BindView(R.id.height_inches_layout)
     ViewGroup heightInchesLayout;
 
-    @BindView(R.id.button_unit)
-    Button unitButton;
-
     private int unit = Constants.UNIT_METRIC;
     private double height = 0;
 
@@ -52,22 +50,26 @@ public class IdealWeightDialog extends DialogFragment {
 
     }
 
+    public static IdealWeightDialog newInstance(@NonNull String title){
+        IdealWeightDialog idealWeightDialog = new IdealWeightDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_ideal_weight);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, R.drawable.ideal_weight_image);
+        idealWeightDialog.setArguments(args);
+        return idealWeightDialog;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_ideal_weight, container);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        initialiseViews();
+        addListeners();
         prepopulateFields();
 
         return view;
-    }
-
-    private void initialiseViews() {
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(getString(R.string.ideal_weight));
-        addListeners();
     }
 
     private void prepopulateFields() {
@@ -90,8 +92,8 @@ public class IdealWeightDialog extends DialogFragment {
     }
 
 
-    @OnClick(R.id.button_unit)
-    void onClickBmiUnitButton() {
+    @Override
+    void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
             unitButton.setText(getString(R.string.imperial));
@@ -123,7 +125,7 @@ public class IdealWeightDialog extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.button_ok)
+    @Override
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveHeight(height);
@@ -131,12 +133,6 @@ public class IdealWeightDialog extends DialogFragment {
             this.dismiss();
         }
     }
-
-    @OnClick(R.id.button_cancel)
-    void onCancelClick() {
-        this.dismiss();
-    }
-
 
     private boolean validateFields() {
         boolean validated = true;

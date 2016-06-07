@@ -85,7 +85,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
         if (frag != null)
             manager.beginTransaction().remove(frag).commit();
 
-        OneRepMaxDialog oneRepMaxDialog = OneRepMaxDialog.newInstance();
+        OneRepMaxDialog oneRepMaxDialog = OneRepMaxDialog.newInstance(getString(R.string.one_rep_max));
         oneRepMaxDialog.show(manager, TAG_ONE_REP_MAX_DIALOG_FRAGMENT);
     }
 
@@ -115,7 +115,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
         if (frag != null)
             manager.beginTransaction().remove(frag).commit();
 
-        WilksDialog wilksDialog = WilksDialog.newInstance(getContext().getString(R.string.strength_standards));
+        WilksDialog wilksDialog = WilksDialog.newInstance(getContext().getString(R.string.strength_standards), R.drawable.strength_standards_image);
         wilksDialog.show(manager, TAG_STRENGTH_STANDARDS_DIALOG_FRAGMENT);
     }
 

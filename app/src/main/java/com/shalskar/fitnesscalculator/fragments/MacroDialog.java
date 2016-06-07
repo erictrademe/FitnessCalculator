@@ -1,6 +1,7 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -85,9 +86,6 @@ public class MacroDialog extends BaseDialogFragment {
     @BindView(R.id.radio_button_maintain)
     RadioButton maintainRadioButton;
 
-    @BindView(R.id.button_unit)
-    Button macroUnitButton;
-
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
     private int age = 0;
@@ -100,23 +98,27 @@ public class MacroDialog extends BaseDialogFragment {
 
     }
 
+    public static MacroDialog newInstance(@NonNull String title){
+        MacroDialog macroDialog = new MacroDialog();
+        Bundle args = new Bundle();
+        args.putInt(KEY_LAYOUT, R.layout.dialog_macro);
+        args.putString(KEY_TITLE, title);
+        args.putInt(KEY_IMAGE, R.drawable.macro_image);
+        macroDialog.setArguments(args);
+        return macroDialog;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_macro, container);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        initialiseViews();
+        addListeners();
         presetDetails();
         prepopulateFields();
 
         return view;
-    }
-
-    private void initialiseViews() {
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().setTitle(getString(R.string.calorie_intake));
-        addListeners();
     }
 
     /**
@@ -183,7 +185,7 @@ public class MacroDialog extends BaseDialogFragment {
         heightLayout.setErrorEnabled(false);
         weightLayout.setErrorEnabled(false);
         if (unit == Constants.UNIT_IMPERIAL) {
-            macroUnitButton.setText(getString(R.string.imperial));
+            unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
@@ -240,18 +242,18 @@ public class MacroDialog extends BaseDialogFragment {
     }
 
 
-    @OnClick(R.id.button_unit)
-    void onClickMacroUnitButton() {
+    @Override
+    void onClickUnitButton() {
         removeListeners();
         if (unit == Constants.UNIT_METRIC) {
-            macroUnitButton.setText(getString(R.string.imperial));
+            unitButton.setText(getString(R.string.imperial));
             SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
             unit = Constants.UNIT_IMPERIAL;
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
         } else if (unit == Constants.UNIT_IMPERIAL) {
-            macroUnitButton.setText(getString(R.string.metric));
+            unitButton.setText(getString(R.string.metric));
             SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
             unit = Constants.UNIT_METRIC;
             heightLayout.setHint(getString(R.string.centimeters));
@@ -281,7 +283,7 @@ public class MacroDialog extends BaseDialogFragment {
         }
     }
 
-    @OnClick(R.id.calorie_button_ok)
+    @Override
     void onOkClick() {
         if (validateFields()) {
             SharedPreferencesManager.saveAge(age);
@@ -294,11 +296,6 @@ public class MacroDialog extends BaseDialogFragment {
                     Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT, Constants.DETAIL_ACTIVITY_LEVEL, Constants.DETAIL_GOAL));
             this.dismiss();
         }
-    }
-
-    @OnClick(R.id.calorie_button_cancel)
-    void onCancelClick() {
-        this.dismiss();
     }
 
     private boolean validateFields() {

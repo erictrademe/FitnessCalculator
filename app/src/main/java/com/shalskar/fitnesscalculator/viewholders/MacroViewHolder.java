@@ -2,6 +2,7 @@ package com.shalskar.fitnesscalculator.viewholders;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -157,7 +158,9 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1("Breakdown");
         pieChartData.setCenterText2("C: " + decimalFormat.format(macros[0]) + " | F: " + decimalFormat.format(macros[1]) + " | P: " + decimalFormat.format(macros[2]));
-        //pieChartData.setCenterText2(context.getString(R.string.macros_daily));
+        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
+        pieChartData.setCenterText2Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
+        pieChartData.setValueLabelTypeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
@@ -171,7 +174,7 @@ public class MacroViewHolder extends RecyclerView.ViewHolder {
         pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.macro_pie_chart_text_size));
         pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.macro_pie_chart_text_size_small));
         pieChartData.setHasLabels(true);
-        pieChartData.setCenterCircleScale(0.95f);
+        pieChartData.setCenterCircleScale(0.975f);
         pieChartData.setSlicesSpacing(4);
 
         chartView.setInteractive(false);

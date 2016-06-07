@@ -23,14 +23,11 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
 
     private NavigationDrawerFragment navigationDrawerFragment;
 
-    private CharSequence toolbarTitle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbarTitle = getTitle();
         initialiseNavigationDrawer();
         if (savedInstanceState == null)
             initialiseMainFragment();
@@ -65,21 +62,15 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                toolbarTitle = getString(R.string.general_calculators);
+                //toolbarTitle = getString(R.string.general_calculators);
                 break;
             case 2:
-                toolbarTitle = getString(R.string.title_section2);
+                //toolbarTitle = getString(R.string.title_section2);
                 break;
             case 3:
-                toolbarTitle = getString(R.string.title_section3);
+                //toolbarTitle = getString(R.string.title_section3);
                 break;
         }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
     }
 
 

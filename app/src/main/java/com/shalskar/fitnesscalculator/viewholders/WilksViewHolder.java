@@ -2,6 +2,7 @@ package com.shalskar.fitnesscalculator.viewholders;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -152,6 +153,8 @@ public class WilksViewHolder extends RecyclerView.ViewHolder {
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1(decimalFormat.format(wilks));
+        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
+        pieChartData.setCenterText2Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
@@ -162,7 +165,7 @@ public class WilksViewHolder extends RecyclerView.ViewHolder {
 
         chartView.setChartRotationEnabled(false);
         pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.wilks_pie_chart_text_size));
-        pieChartData.setCenterCircleScale(0.95f);
+        pieChartData.setCenterCircleScale(0.975f);
 
         chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
