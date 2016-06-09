@@ -73,6 +73,7 @@ public class StrengthView extends View {
             currentPaint.setStyle(Paint.Style.STROKE);
             currentPaint.setStrokeWidth(1.5f);
         }
+        currentPaint.setAntiAlias(true);
         currentRect.set((position * circleRadius + buffer) - buffer / 2, buffer / 2, ((position + 1) * circleRadius) - buffer / 2, getHeight() - buffer / 2);
         canvas.drawOval(currentRect, currentPaint);
     }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
+import com.shalskar.fitnesscalculator.MeasurementView;
 import com.shalskar.fitnesscalculator.Physique;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
@@ -41,29 +42,29 @@ public class IdealPhysiqueViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.image)
     ImageView imageView;
 
-    @BindView(R.id.chest_value_textview)
-    TextView chestValueTextView;
+    @BindView(R.id.chest_measurementview)
+    MeasurementView chestMeasurementView;
 
-    @BindView(R.id.shoulders_value_textview)
-    TextView shouldersValueTextView;
+    @BindView(R.id.shoulders_measurementview)
+    MeasurementView shouldersMeasurementView;
 
-    @BindView(R.id.neck_value_textview)
-    TextView neckValueTextView;
+    @BindView(R.id.neck_measurementview)
+    MeasurementView neckMeasurementView;
 
-    @BindView(R.id.waist_value_textview)
-    TextView waistValueTextView;
+    @BindView(R.id.waist_measurementview)
+    MeasurementView waistMeasurementView;
 
-    @BindView(R.id.arm_value_textview)
-    TextView armValueTextView;
+    @BindView(R.id.arm_measurementview)
+    MeasurementView armMeasurementView;
 
-    @BindView(R.id.forearm_value_textview)
-    TextView forearmValueTextView;
+    @BindView(R.id.forearm_measurementview)
+    MeasurementView forearmMeasurementView;
 
-    @BindView(R.id.thigh_value_textview)
-    TextView thighValueTextView;
+    @BindView(R.id.thigh_measurementview)
+    MeasurementView thighMeasurementView;
 
-    @BindView(R.id.calf_value_textview)
-    TextView calfValueTextView;
+    @BindView(R.id.calf_measurementview)
+    MeasurementView calfMeasurementView;
 
     /**
      * We have 2 title text views in 2 different positions
@@ -87,6 +88,14 @@ public class IdealPhysiqueViewHolder extends RecyclerView.ViewHolder {
         title2TextView.setText(baseView.getContext().getString(R.string.ideal_physique));
         loadImage();
         updateAll();
+        chestMeasurementView.setText("Chest");
+        shouldersMeasurementView.setText("Shoulders");
+        neckMeasurementView.setText("Neck");
+        waistMeasurementView.setText("Waist");
+        armMeasurementView.setText("Arm");
+        forearmMeasurementView.setText("Forearm");
+        thighMeasurementView.setText("Thigh");
+        calfMeasurementView.setText("Calf");
     }
 
     private void loadImage() {
@@ -150,24 +159,26 @@ public class IdealPhysiqueViewHolder extends RecyclerView.ViewHolder {
 
     private void updateIdealPhysique(float wristMeasurement, float ankleMeasurement) {
         Physique physique = FitnessCalculator.calculateIdealPhysique(wristMeasurement, ankleMeasurement);
-        DecimalFormat decimalFormat = new DecimalFormat("#.#");
         int unit = SharedPreferencesManager.getUnit();
 
-        updateValueTextView(chestValueTextView, decimalFormat, unit, physique.getChest());
-        updateValueTextView(shouldersValueTextView, decimalFormat, unit, physique.getShoulders());
-        updateValueTextView(neckValueTextView, decimalFormat, unit, physique.getNeck());
-        updateValueTextView(waistValueTextView, decimalFormat, unit, physique.getWaist());
-        updateValueTextView(armValueTextView, decimalFormat, unit, physique.getArm());
-        updateValueTextView(forearmValueTextView, decimalFormat, unit, physique.getForearm());
-        updateValueTextView(thighValueTextView, decimalFormat, unit, physique.getThigh());
-        updateValueTextView(calfValueTextView, decimalFormat, unit, physique.getCalf());
-    }
-
-    private void updateValueTextView(@NonNull TextView textView, @NonNull DecimalFormat decimalFormat, int unit, float value){
-        if(unit == Constants.UNIT_IMPERIAL){
-            textView.setText(decimalFormat.format(ConverterUtil.cmToInches(value)) + " in");
-        } else if(unit == Constants.UNIT_METRIC) {
-            textView.setText(decimalFormat.format(value) + " cm");
+        if(unit == Constants.UNIT_IMPERIAL) {
+            chestMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getChest()), unit);
+            shouldersMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getShoulders()), unit);
+            neckMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getNeck()), unit);
+            waistMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getWaist()), unit);
+            armMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getArm()), unit);
+            forearmMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getForearm()), unit);
+            thighMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getThigh()), unit);
+            calfMeasurementView.setValueAndUnit(ConverterUtil.cmToInches(physique.getCalf()), unit);
+        } else if (unit == Constants.UNIT_METRIC){
+            chestMeasurementView.setValueAndUnit(physique.getChest(), unit);
+            shouldersMeasurementView.setValueAndUnit(physique.getShoulders(), unit);
+            neckMeasurementView.setValueAndUnit(physique.getNeck(), unit);
+            waistMeasurementView.setValueAndUnit(physique.getWaist(), unit);
+            armMeasurementView.setValueAndUnit(physique.getArm(), unit);
+            forearmMeasurementView.setValueAndUnit(physique.getForearm(), unit);
+            thighMeasurementView.setValueAndUnit(physique.getThigh(), unit);
+            calfMeasurementView.setValueAndUnit(physique.getCalf(), unit);
         }
     }
 

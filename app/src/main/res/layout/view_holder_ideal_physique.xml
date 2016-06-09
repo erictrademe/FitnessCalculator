@@ -22,218 +22,72 @@
             android:scaleType="centerCrop"
             tools:src="@drawable/bmi_image" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/side_layout"
-            android:layout_width="170dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="#44000000">
+            android:paddingRight="16dp"
+            android:background="#44000000"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/chest_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/ideal_physique_chest_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/chest_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp" />
 
-            <TextView
-                android:id="@+id/chest_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_toRightOf="@id/chest_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="80 cm" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/shoulders_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/shoulders_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/chest_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/ideal_physique_shoulders_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
 
-            <TextView
-                android:id="@+id/shoulders_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/chest_textview"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/shoulders_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="100 cm" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/neck_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/neck_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/shoulders_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/ideal_physique_neck_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/waist_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/neck_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/shoulders_textview"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/neck_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="50 cm" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/arm_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/waist_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/neck_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/ideal_physique_waist_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/forearm_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/waist_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/neck_textview"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/waist_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="70 cm" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/thigh_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/arm_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/waist_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/ideal_physique_arm_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
-
-            <TextView
-                android:id="@+id/arm_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/waist_textview"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/arm_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="30 cm" />
-
-            <TextView
-                android:id="@+id/forearm_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/arm_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/ideal_physique_forearm_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
-
-            <TextView
-                android:id="@+id/forearm_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/arm_textview"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/forearm_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="25 cm" />
-
-            <TextView
-                android:id="@+id/thigh_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/forearm_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/ideal_physique_thigh_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
-
-            <TextView
-                android:id="@+id/thigh_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/forearm_textview"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/thigh_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="60 cm" />
-
-            <TextView
-                android:id="@+id/calf_textview"
-                android:layout_width="@dimen/ideal_physique_textview_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/thigh_textview"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/ideal_physique_calf_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix" />
-
-            <TextView
-                android:id="@+id/calf_value_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/thigh_textview"
-                android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/calf_textview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                tools:ignore="MissingPrefix"
-                tools:text="30 cm" />
+            <com.shalskar.fitnesscalculator.MeasurementView
+                android:id="@+id/calf_measurementview"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/measurement_view_height"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center_horizontal" />
 
             <!--<ImageButton-->
             <!--android:id="@+id/info_button"-->
@@ -243,7 +97,7 @@
             <!--android:padding="16dp"-->
             <!--android:src="@drawable/ic_information_white_24dp" />-->
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/title_textview"
