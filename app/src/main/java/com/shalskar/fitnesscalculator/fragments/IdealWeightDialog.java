@@ -81,13 +81,13 @@ public class IdealWeightDialog extends BaseDialogFragment {
             heightInchesLayout.setVisibility(View.VISIBLE);
             if (height > 0) {
                 double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
-                heightEditText.setText(String.format("%.0f", feetAndInches[0]));
-                heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
+                heightEditText.setText(numberFormat.format(feetAndInches[0]));
+                heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
         } else if (unit == Constants.UNIT_METRIC) {
             heightLayout.setHint(getString(R.string.centimeters));
             if (height > 0)
-                heightEditText.setText(String.format("%.0f", height));
+                heightEditText.setText(numberFormat.format(height));
         }
     }
 
@@ -115,13 +115,14 @@ public class IdealWeightDialog extends BaseDialogFragment {
 
     private void convertFields() {
         if (unit == Constants.UNIT_IMPERIAL) {
-            double[] feetAndInches = {0, 0};
-            if (heightEditText.getText().length() > 0)
-                feetAndInches = ConverterUtil.cmToFeetAndInches(height);
-            heightEditText.setText(String.format("%.0f", feetAndInches[0]));
-            heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
+            if (height > 0 && heightEditText.length() > 0) {
+                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                heightEditText.setText(numberFormat.format(feetAndInches[0]));
+                heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
+            }
         } else if (unit == Constants.UNIT_METRIC) {
-            heightEditText.setText(String.format("%.0f", height));
+            if (height > 0 && heightEditText.length() > 0)
+                heightEditText.setText(numberFormat.format(height));
         }
     }
 

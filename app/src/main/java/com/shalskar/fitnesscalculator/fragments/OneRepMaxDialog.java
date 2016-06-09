@@ -51,7 +51,7 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     public OneRepMaxDialog() {
     }
 
-    public static OneRepMaxDialog newInstance(@NonNull String title){
+    public static OneRepMaxDialog newInstance(@NonNull String title) {
         OneRepMaxDialog oneRepMaxDialog = new OneRepMaxDialog();
         Bundle args = new Bundle();
         args.putInt(KEY_LAYOUT, R.layout.dialog_one_rep_max);
@@ -80,14 +80,14 @@ public class OneRepMaxDialog extends BaseDialogFragment {
             unitButton.setText(getString(R.string.imperial));
             weightLiftedLayout.setHint(getString(R.string.pounds));
             if (weightLifted > 0)
-                weightLiftedEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weightLifted)));
+                weightLiftedEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weightLifted)));
         } else if (unit == Constants.UNIT_METRIC) {
             weightLiftedLayout.setHint(getString(R.string.kilograms));
-            if (weightLifted > 0)
+            if (weightLifted > 0 )
                 weightLiftedEditText.setText(String.format("%.0f", weightLifted));
         }
         if (repsLifted > 0)
-            repsLiftedEditText.setText(String.format("%d", repsLifted));
+            repsLiftedEditText.setText(numberFormat.format(repsLifted));
     }
 
 
@@ -111,15 +111,14 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     }
 
     private void convertFields() {
-        if (unit == Constants.UNIT_IMPERIAL) {
-            double convertedWeight = 0;
-            if (weightLifted > 0)
-                convertedWeight = ConverterUtil.kgsToPounds(weightLifted);
-            weightLiftedEditText.setText(String.format("%.0f", convertedWeight));
-        } else if (unit == Constants.UNIT_METRIC) {
-            weightLiftedEditText.setText(String.format("%.0f", weightLifted));
+        if (weightLifted > 0 && weightLiftedEditText.length() > 0) {
+            if (unit == Constants.UNIT_IMPERIAL)
+                weightLiftedEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weightLifted)));
+            else if (unit == Constants.UNIT_METRIC)
+                weightLiftedEditText.setText(numberFormat.format(weightLifted));
         }
     }
+
 
     @Override
     void onOkClick() {
@@ -134,9 +133,9 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     private boolean validateFields() {
         boolean validated = true;
 
-        if(!validateWeightField(repsLiftedLayout, repsLiftedEditText, repsLifted))
+        if (!validateWeightField(repsLiftedLayout, repsLiftedEditText, repsLifted))
             validated = false;
-        if(!validateWeightField(weightLiftedLayout, weightLiftedEditText, weightLifted))
+        if (!validateWeightField(weightLiftedLayout, weightLiftedEditText, weightLifted))
             validated = false;
 
         return validated;
@@ -152,51 +151,51 @@ public class OneRepMaxDialog extends BaseDialogFragment {
         repsLiftedEditText.addTextChangedListener(repsLiftedEditTextWatcher);
     }
 
-    /**
-     * Listeners
-     */
+/**
+ * Listeners
+ */
 
-    private TextWatcher weightLiftedEditTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+private TextWatcher weightLiftedEditTextWatcher = new TextWatcher() {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (weightLiftedEditText.length() == 0) {
-                weightLiftedLayout.setError(" ");
-                weightLiftedLayout.setErrorEnabled(true);
-            } else {
-                weightLiftedLayout.setErrorEnabled(false);
-                weightLifted = (float) ParserUtil.parseDouble(getContext(), weightLiftedEditText.getText().toString());
-                if (unit == Constants.UNIT_IMPERIAL)
-                    weightLifted = (float) ConverterUtil.poundsToKgs(weightLifted);
-            }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (weightLiftedEditText.length() == 0) {
+            weightLiftedLayout.setError(" ");
+            weightLiftedLayout.setErrorEnabled(true);
+        } else {
+            weightLiftedLayout.setErrorEnabled(false);
+            weightLifted = (float) ParserUtil.parseDouble(getContext(), weightLiftedEditText.getText().toString());
+            if (unit == Constants.UNIT_IMPERIAL)
+                weightLifted = (float) ConverterUtil.poundsToKgs(weightLifted);
         }
+    }
 
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    };
+    @Override
+    public void afterTextChanged(Editable s) {
+    }
+};
 
-    private TextWatcher repsLiftedEditTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+private TextWatcher repsLiftedEditTextWatcher = new TextWatcher() {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (repsLiftedEditText.length() == 0) {
-                repsLiftedLayout.setError(" ");
-                repsLiftedLayout.setErrorEnabled(true);
-            } else {
-                repsLiftedLayout.setErrorEnabled(false);
-                repsLifted = Integer.parseInt(repsLiftedEditText.getText().toString());
-            }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (repsLiftedEditText.length() == 0) {
+            repsLiftedLayout.setError(" ");
+            repsLiftedLayout.setErrorEnabled(true);
+        } else {
+            repsLiftedLayout.setErrorEnabled(false);
+            repsLifted = Integer.parseInt(repsLiftedEditText.getText().toString());
         }
+    }
 
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    };
+    @Override
+    public void afterTextChanged(Editable s) {
+    }
+};
 }

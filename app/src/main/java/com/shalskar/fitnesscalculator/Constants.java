@@ -5,8 +5,6 @@ package com.shalskar.fitnesscalculator;
  */
 public class Constants {
 
-    public final static String TITLE_BODY_FRAGMENT = "body_fragment";
-
     public static final int NO_SELECTION = -1;
 
     public static final int DETAIL_UNIT = 1233;
@@ -48,4 +46,6 @@ public class Constants {
 
     public static final String BODY_PART_WRIST = "body_part_wrist";
     public static final String BODY_PART_ANKLE = "body_part_ankle";
+
+    public static final String FORMAT_NUMBER = "###.#";
 }

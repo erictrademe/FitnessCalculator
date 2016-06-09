@@ -19,11 +19,14 @@ import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.security.Key;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +56,8 @@ public class BaseDialogFragment extends DialogFragment {
 
     @BindView(R.id.button_unit)
     Button unitButton;
+
+    protected NumberFormat numberFormat = new DecimalFormat(Constants.FORMAT_NUMBER);
 
 
     public BaseDialogFragment() {

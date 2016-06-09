@@ -138,6 +138,20 @@ public class WilksDialog extends BaseDialogFragment {
         prepopulateWeightField(deadliftLayout, deadliftEditText, deadliftWeightLifted);
     }
 
+
+    private void prepopulateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
+        textInputLayout.setErrorEnabled(false);
+        if (unit == Constants.UNIT_IMPERIAL) {
+            textInputLayout.setHint(getString(R.string.pounds));
+            if (value > 0)
+                editText.setText(numberFormat.format(ConverterUtil.kgsToPounds(value)));
+        } else if (unit == Constants.UNIT_METRIC) {
+            textInputLayout.setHint(getString(R.string.kilograms));
+            if (value > 0)
+                editText.setText(numberFormat.format(value));
+        }
+    }
+
     private void prepopulateGender() {
         if (gender == Constants.GENDER_FEMALE) {
             femaleRadioButton.setChecked(true);
@@ -148,18 +162,6 @@ public class WilksDialog extends BaseDialogFragment {
         }
     }
 
-    private void prepopulateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
-        textInputLayout.setErrorEnabled(false);
-        if (unit == Constants.UNIT_IMPERIAL) {
-            textInputLayout.setHint(getString(R.string.pounds));
-            if (value > 0)
-                editText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(value)));
-        } else if (unit == Constants.UNIT_METRIC) {
-            textInputLayout.setHint(getString(R.string.kilograms));
-            if (value > 0)
-                editText.setText(String.format("%.0f", value));
-        }
-    }
 
     @Override
     void onClickUnitButton() {
@@ -189,23 +191,23 @@ public class WilksDialog extends BaseDialogFragment {
 
     private void convertFields() {
         if (unit == Constants.UNIT_IMPERIAL) {
-            if (weight > 0)
-                weightEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weight)));
-            if (squatWeightLifted > 0)
-                squatEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(squatWeightLifted)));
-            if (benchPressWeightLifted > 0)
-                benchPressEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(benchPressWeightLifted)));
-            if (deadliftWeightLifted > 0)
-                deadliftEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(deadliftWeightLifted)));
+            if (weight > 0 && weightEditText.length() > 0)
+                weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
+            if (squatWeightLifted > 0 && squatEditText.length() > 0)
+                squatEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(squatWeightLifted)));
+            if (benchPressWeightLifted > 0 && benchPressEditText.length() > 0)
+                benchPressEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(benchPressWeightLifted)));
+            if (deadliftWeightLifted > 0 && deadliftEditText.length() > 0)
+                deadliftEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(deadliftWeightLifted)));
         } else if (unit == Constants.UNIT_METRIC) {
-            if (weight > 0)
-                weightEditText.setText(String.format("%.0f", weight));
-            if (squatWeightLifted > 0)
-                squatEditText.setText(String.format("%.0f", squatWeightLifted));
-            if (benchPressWeightLifted > 0)
-                benchPressEditText.setText(String.format("%.0f", benchPressWeightLifted));
-            if (deadliftWeightLifted > 0)
-                deadliftEditText.setText(String.format("%.0f", deadliftWeightLifted));
+            if (weight > 0 && weightEditText.length() > 0)
+                weightEditText.setText(numberFormat.format(weight));
+            if (squatWeightLifted > 0 && squatEditText.length() > 0)
+                squatEditText.setText(numberFormat.format(squatWeightLifted));
+            if (benchPressWeightLifted > 0 && benchPressEditText.length() > 0)
+                benchPressEditText.setText(numberFormat.format(benchPressWeightLifted));
+            if (deadliftWeightLifted > 0 && deadliftEditText.length() > 0)
+                deadliftEditText.setText(numberFormat.format(deadliftWeightLifted));
         }
     }
 

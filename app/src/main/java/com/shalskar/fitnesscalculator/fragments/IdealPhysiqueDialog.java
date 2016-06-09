@@ -83,17 +83,17 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
             ankleLayout.setHint(getString(R.string.inches));
             wristLayout.setHint(getString(R.string.inches));
             if (wristMeasurement > 0)
-                wristEditText.setText(String.format("%.0f", ConverterUtil.cmToInches(wristMeasurement)));
+                wristEditText.setText(numberFormat.format(ConverterUtil.cmToInches(wristMeasurement)));
             if (ankleMeasurement > 0) {
-                ankleEditText.setText(String.format("%.0f", ConverterUtil.cmToInches(ankleMeasurement)));
+                ankleEditText.setText(numberFormat.format(ConverterUtil.cmToInches(ankleMeasurement)));
             }
         } else if (unit == Constants.UNIT_METRIC) {
             ankleLayout.setHint(getString(R.string.centimeters));
             wristLayout.setHint(getString(R.string.centimeters));
             if (wristMeasurement > 0)
-                wristEditText.setText(String.format("%.0f", wristMeasurement));
+                wristEditText.setText(numberFormat.format(wristMeasurement));
             if (ankleMeasurement > 0)
-                ankleEditText.setText(String.format("%.0f", ankleMeasurement));
+                ankleEditText.setText(numberFormat.format(ankleMeasurement));
         }
     }
 
@@ -121,18 +121,17 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
 
     private void convertFields() {
         if (unit == Constants.UNIT_IMPERIAL) {
-            // todo do this in other dialogs
-            if (wristMeasurement > 0)
-                wristEditText.setText(String.format("%.0f", ConverterUtil.cmToInches(wristMeasurement)));
+            if (wristMeasurement > 0 && wristEditText.length() > 0)
+                wristEditText.setText(numberFormat.format(ConverterUtil.cmToInches(wristMeasurement)));
 
-            if (ankleMeasurement > 0)
-                ankleEditText.setText(String.format("%.0f", ConverterUtil.cmToInches(ankleMeasurement)));
+            if (ankleMeasurement > 0 && ankleEditText.length() > 0)
+                ankleEditText.setText(numberFormat.format(ConverterUtil.cmToInches(ankleMeasurement)));
         } else if (unit == Constants.UNIT_METRIC) {
-            if (wristMeasurement > 0)
-                wristEditText.setText(String.format("%.0f", wristMeasurement));
+            if (wristMeasurement > 0 && wristEditText.length() > 0)
+                wristEditText.setText(numberFormat.format(wristMeasurement));
 
-            if (ankleMeasurement > 0)
-                ankleEditText.setText(String.format("%.0f", ankleMeasurement));
+            if (ankleMeasurement > 0 && ankleEditText.length() > 0)
+                ankleEditText.setText(numberFormat.format(ankleMeasurement));
         }
     }
 

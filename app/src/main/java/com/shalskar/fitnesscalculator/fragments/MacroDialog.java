@@ -182,27 +182,28 @@ public class MacroDialog extends BaseDialogFragment {
     }
 
     private void prepopulateHeightAndWeight() {
-        heightLayout.setErrorEnabled(false);
-        weightLayout.setErrorEnabled(false);
+        height = SharedPreferencesManager.getHeight();
+        weight = SharedPreferencesManager.getWeight();
+        unit = SharedPreferencesManager.getUnit();
         if (unit == Constants.UNIT_IMPERIAL) {
             unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
             if (weight > 0)
-                weightEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weight)));
+                weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
             if (height > 0) {
                 double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
-                heightEditText.setText(String.format("%.0f", feetAndInches[0]));
-                heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
+                heightEditText.setText(numberFormat.format(feetAndInches[0]));
+                heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
         } else if (unit == Constants.UNIT_METRIC) {
             heightLayout.setHint(getString(R.string.centimeters));
             weightLayout.setHint(getString(R.string.kilograms));
             if (weight > 0)
-                weightEditText.setText(String.format("%.0f", weight));
+                weightEditText.setText(numberFormat.format(weight));
             if (height > 0)
-                heightEditText.setText(String.format("%.0f", height));
+                heightEditText.setText(numberFormat.format(height));
         }
     }
 
@@ -267,19 +268,19 @@ public class MacroDialog extends BaseDialogFragment {
 
     private void convertFields() {
         if (unit == Constants.UNIT_IMPERIAL) {
-            double convertedWeight = 0;
-            if (weight > 0)
-                convertedWeight = ConverterUtil.kgsToPounds(weight);
-            weightEditText.setText(String.format("%.0f", convertedWeight));
+            if (weight > 0 && weightEditText.length() > 0)
+                weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
 
-            double[] feetAndInches = {0, 0};
-            if (heightEditText.getText().length() > 0)
-                feetAndInches = ConverterUtil.cmToFeetAndInches(height);
-            heightEditText.setText(String.format("%.0f", feetAndInches[0]));
-            heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
+            if (height > 0 && heightEditText.length() > 0) {
+                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                heightEditText.setText(numberFormat.format(feetAndInches[0]));
+                heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
+            }
         } else if (unit == Constants.UNIT_METRIC) {
-            weightEditText.setText(String.format("%.0f", weight));
-            heightEditText.setText(String.format("%.0f", height));
+            if (weight > 0 && weightEditText.length() > 0)
+                weightEditText.setText(numberFormat.format(weight));
+            if (height > 0 && heightEditText.length() > 0)
+                heightEditText.setText(numberFormat.format(height));
         }
     }
 
