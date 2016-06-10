@@ -4,8 +4,14 @@
     android:id="@+id/base_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/my_stats_background"
     tools:context=".activities.AboutActivity">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@drawable/my_stats_background"
+        android:scaleType="centerCrop"/>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -495,16 +501,29 @@
     <Button
         android:id="@+id/button_unit"
         style="@android:style/Widget.Material.Light.Button.Borderless"
-        android:layout_width="wrap_content"
+        android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@+id/button_clear"
         android:layout_marginTop="4dp"
-        android:layout_alignParentRight="true"
         android:text="@string/metric"
         android:textColor="#ffffff"
         app:elevation="4dp"
         android:elevation="4dp"
-        android:textSize="12dp" />
+        android:textSize="10dp" />
+
+    <Button
+        android:id="@+id/button_clear"
+        style="@android:style/Widget.Material.Light.Button.Borderless"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"
+        android:text="Clear"
+        android:textColor="#ffffff"
+        app:elevation="4dp"
+        android:elevation="4dp"
+        android:textSize="10dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/button_save"

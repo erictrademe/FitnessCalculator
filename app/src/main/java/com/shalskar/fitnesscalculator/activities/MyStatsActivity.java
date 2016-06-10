@@ -16,9 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rey.material.widget.Slider;
@@ -45,15 +45,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MyStatsActivity extends AppCompatActivity {
 
-    @BindView(R.id.base_layout)
-    RelativeLayout relativeLayout;
+    @BindView(R.id.image)
+    ImageView imageView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @BindView(R.id.button_unit)
     Button unitButton;
-    
+
     /**
      * Body
      **/
@@ -145,19 +145,19 @@ public class MyStatsActivity extends AppCompatActivity {
 
     protected NumberFormat numberFormat = new DecimalFormat(Constants.FORMAT_NUMBER);
 
-    private int unit = Constants.UNIT_METRIC;
-    private int gender = Constants.GENDER_FEMALE;
-    private int age = 0;
-    private double height = 0;
-    private double weight = 0;
-    private float wristMeasurement = 0;
-    private float ankleMeasurement = 0;
-    private float activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
-    private int goal = Constants.GOAL_GAIN_MUSCLE;
+    private int unit;
+    private int gender;
+    private int age;
+    private double height;
+    private double weight;
+    private float wristMeasurement;
+    private float ankleMeasurement;
+    private float activityLevel;
+    private int goal;
 
-    private float benchPressWeightLifted = 0;
-    private float squatWeightLifted = 0;
-    private float deadliftWeightLifted = 0;
+    private float benchPressWeightLifted;
+    private float squatWeightLifted;
+    private float deadliftWeightLifted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +168,7 @@ public class MyStatsActivity extends AppCompatActivity {
         addListeners();
         loadImage();
         initialiseToolbar();
+        initialiseStats();
         prepopulateFields();
     }
 
@@ -179,16 +180,30 @@ public class MyStatsActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        int width = (getResources().getConfiguration().screenWidthDp);
-        int height = (getResources().getConfiguration().screenHeightDp);
-        Drawable drawable = new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.my_stats_background, width, height));
-        relativeLayout.setBackground(drawable);
+        int width = (getResources().getConfiguration().screenWidthDp / 2);
+        int height = (getResources().getConfiguration().screenHeightDp / 2);
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.my_stats_background, width, height));
     }
-
 
     /**
      * Preopulation methods.
      */
+
+    private void initialiseStats(){
+        unit = Constants.UNIT_METRIC;
+        gender = Constants.GENDER_FEMALE;
+        age = 0;
+        height = 0;
+        weight = 0;
+        wristMeasurement = 0;
+        ankleMeasurement = 0;
+        activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+        goal = Constants.GOAL_GAIN_MUSCLE;
+
+        benchPressWeightLifted = 0;
+        squatWeightLifted = 0;
+        deadliftWeightLifted = 0;
+    }
 
     private void prepopulateFields() {
         loadFields();
@@ -422,6 +437,42 @@ public class MyStatsActivity extends AppCompatActivity {
         else return true;
     }
 
+    @OnClick(R.id.button_clear)
+    void onClickClearButton(){
+        View view = findViewById(android.R.id.content);
+        Snackbar.make(view, R.string.confirm_clear, Snackbar.LENGTH_LONG)
+                .setAction(R.string.ok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clearStats();
+                    }
+                })
+                .show();
+    }
+
+    private void clearStats(){
+        SharedPreferencesManager.clearAll();
+        initialiseStats();
+        clearViews();
+    }
+
+    private void clearViews(){
+        removeListeners();
+        prepopulateGender();
+        ageEditText.setText(null);
+        weightEditText.setText(null);
+        heightEditText.setText(null);
+        wristEditText.setText(null);
+        ankleEditText.setText(null);
+        prepopulateActivityLevel();
+        prepopulateGoal();
+
+        squatEditText.setText(null);
+        benchPressEditText.setText(null);
+        deadliftEditText.setText(null);
+        addListeners();
+    }
+
     @OnClick(R.id.button_save)
     void onClickSaveButton() {
         List<Integer> detailsUpdated = new ArrayList<>();
@@ -466,7 +517,7 @@ public class MyStatsActivity extends AppCompatActivity {
 
         EventBus.getDefault().post(new DetailsUpdatedEvent(detailsUpdated));
         View view = findViewById(android.R.id.content);
-        Snackbar.make(view, getString(R.string.stats_update_successful), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(view, R.string.stats_update_successful, Snackbar.LENGTH_LONG).show();
     }
 
 

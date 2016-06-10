@@ -122,4 +122,5 @@
     <string name="strength">Strength</string>
     <string name="body">Body</string>
     <string name="stats_update_successful">Stats successfully updated</string>
+    <string name="confirm_clear">Are you sure you\'d like to clear your stats?</string>
 </resources>
