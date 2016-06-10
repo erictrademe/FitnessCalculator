@@ -115,19 +115,9 @@ public class MacroDialog extends BaseDialogFragment {
 
         ButterKnife.bind(this, view);
         addListeners();
-        presetDetails();
         prepopulateFields();
 
         return view;
-    }
-
-    /**
-     * We preset the details to the default values of their respective widgets once the dialog is opened
-     */
-    private void presetDetails() {
-        SharedPreferencesManager.saveGender(gender);
-        SharedPreferencesManager.saveActivityLevel(activityLevel);
-        SharedPreferencesManager.saveGoal(goal);
     }
 
     private void loadFields() {
@@ -182,28 +172,27 @@ public class MacroDialog extends BaseDialogFragment {
     }
 
     private void prepopulateHeightAndWeight() {
-        height = SharedPreferencesManager.getHeight();
-        weight = SharedPreferencesManager.getWeight();
-        unit = SharedPreferencesManager.getUnit();
+        heightLayout.setErrorEnabled(false);
+        weightLayout.setErrorEnabled(false);
         if (unit == Constants.UNIT_IMPERIAL) {
             unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
             if (weight > 0)
-                weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
+                weightEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weight)));
             if (height > 0) {
                 double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
-                heightEditText.setText(numberFormat.format(feetAndInches[0]));
-                heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
+                heightEditText.setText(String.format("%.0f", feetAndInches[0]));
+                heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
             }
         } else if (unit == Constants.UNIT_METRIC) {
             heightLayout.setHint(getString(R.string.centimeters));
             weightLayout.setHint(getString(R.string.kilograms));
             if (weight > 0)
-                weightEditText.setText(numberFormat.format(weight));
+                weightEditText.setText(String.format("%.0f", weight));
             if (height > 0)
-                heightEditText.setText(numberFormat.format(height));
+                heightEditText.setText(String.format("%.0f", height));
         }
     }
 
@@ -225,6 +214,7 @@ public class MacroDialog extends BaseDialogFragment {
             activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
         }
     }
+
 
     private void prepopulateGoal() {
         if (goal == Constants.GOAL_GAIN_MUSCLE) {

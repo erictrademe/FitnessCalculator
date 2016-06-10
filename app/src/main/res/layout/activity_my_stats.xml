@@ -1,0 +1,520 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/base_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/my_stats_background"
+    tools:context=".activities.AboutActivity">
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_body"
+                fontPath="fonts/Raleway-Bold.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/body"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="24dp" />
+
+            <View
+                android:layout_width="80dp"
+                android:layout_height="1dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/textview_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/Gender"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male"
+                    android:textColor="#ffffff" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:checked="true"
+                    android:text="@string/female"
+                    android:textColor="#ffffff" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textview_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/age"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_age"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                <EditText
+                    android:id="@+id/edittext_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/years"
+                    android:imeOptions="actionGo"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textview_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/weight"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_weight"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                <EditText
+                    android:id="@+id/edittext_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/kilograms"
+                    android:imeOptions="actionGo"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textview_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/height"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edittext_layout_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                    <EditText
+                        android:id="@+id/edittext_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/centimeters"
+                        android:imeOptions="actionGo"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/height_inches_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                    <EditText
+                        android:id="@+id/edittext_height_inches"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/inches"
+                        android:imeOptions="actionDone"
+                        android:textColor="#ffffff"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textview_wrist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/wrist"
+                android:textColor="#ffffff"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_wrist"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                <EditText
+                    android:id="@+id/edittext_wrist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/centimeters"
+                    android:textColor="#ffffff"
+                    android:imeOptions="actionGo"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textview_ankle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/ankle"
+                android:textColor="#ffffff"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_ankle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                <EditText
+                    android:id="@+id/edittext_ankle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/centimeters"
+                    android:imeOptions="actionGo"
+                    android:textColor="#ffffff"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textview_activity_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/activity_level"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textview_activity_level_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/sedentary"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="#bbffffff"
+                android:textSize="14sp" />
+
+            <com.rey.material.widget.Slider
+                android:id="@+id/slider_activity_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                app:sl_maxValue="4"
+                app:sl_minValue="0"
+                app:sl_value="0" />
+
+            <TextView
+                android:id="@+id/textview_goal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/goal"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_goal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radio_button_gain_muscle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/muscle_gain"
+                    android:textColor="#ffffff" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_fat_loss"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/fat_loss"
+                    android:textColor="#ffffff" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_maintain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maintain"
+                    android:textColor="#ffffff" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textview_strength"
+                fontPath="fonts/Raleway-Bold.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/strength"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="#ffffff"
+                android:textSize="24dp" />
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="1dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/textview_squat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/squat_1rm"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_squat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                <EditText
+                    android:id="@+id/edittext_squat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/kilograms"
+                    android:imeOptions="actionGo"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textview_bench_press"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/bench_press_1rm"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_bench_press"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                <EditText
+                    android:id="@+id/edittext_bench_press"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/kilograms"
+                    android:imeOptions="actionGo"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textview_deadlift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/deadlift_1rm"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_deadlift"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+
+                <EditText
+                    android:id="@+id/edittext_deadlift"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/kilograms"
+                    android:imeOptions="actionGo"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingRight="16dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <Button
+        android:id="@+id/button_unit"
+        style="@android:style/Widget.Material.Light.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/metric"
+        android:textColor="#ffffff"
+        app:elevation="4dp"
+        android:elevation="4dp"
+        android:textSize="12dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_save_black_24dp"
+        app:elevation="4dp"
+        app:pressedTranslationZ="12dp" />
+
+</RelativeLayout>

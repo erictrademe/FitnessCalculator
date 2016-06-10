@@ -43,9 +43,6 @@ public class AboutActivity extends AppCompatActivity {
     private static final int POSITION_TEN_DOLLAR = 3;
     private static final int POSITION_TWENTY_DOLLAR = 4;
 
-//    @BindView(R.id.image)
-//    ImageView imageView;
-
     @BindView(R.id.base_layout)
     RelativeLayout relativeLayout;
 
@@ -61,7 +58,6 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
 
-        //restoreActionBar();
         loadImage();
         initialiseToolbar();
         updateChart();
@@ -75,9 +71,8 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        float bucketSize = getResources().getDisplayMetrics().density;
-        int width = (int) (getResources().getConfiguration().screenWidthDp);
-        int height = (int) (getResources().getConfiguration().screenHeightDp);
+        int width = (getResources().getConfiguration().screenWidthDp);
+        int height = (getResources().getConfiguration().screenHeightDp);
         Drawable drawable = new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.about_background, width, height));
         relativeLayout.setBackground(drawable);
         //imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.ideal_physique_image, width, height));

@@ -95,8 +95,11 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
                 return true;
 
             case R.id.action_about:
-                Intent intent = new Intent(this, AboutActivity.class);
-                this.startActivity(intent);
+                startActivity(new Intent(this, AboutActivity.class));
+                return true;
+
+            case R.id.action_my_stats:
+                startActivity(new Intent(this, MyStatsActivity.class));
                 return true;
         }
 

@@ -214,6 +214,16 @@
                 app:sl_minValue="0"
                 app:sl_value="0" />
 
+            <TextView
+                android:id="@+id/textview_goal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/goal"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textSize="14sp" />
+
             <RadioGroup
                 android:id="@+id/radio_group_goal"
                 android:layout_width="200dp"

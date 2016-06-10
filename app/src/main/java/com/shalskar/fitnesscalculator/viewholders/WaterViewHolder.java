@@ -167,7 +167,7 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
         pieChartData.setCenterText1Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         pieChartData.setCenterText2Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.colorAccent)));
+        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.white)));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);

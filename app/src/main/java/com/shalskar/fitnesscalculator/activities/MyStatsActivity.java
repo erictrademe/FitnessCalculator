@@ -1,0 +1,733 @@
+package com.shalskar.fitnesscalculator.activities;
+
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.rey.material.widget.Slider;
+import com.shalskar.fitnesscalculator.Constants;
+import com.shalskar.fitnesscalculator.R;
+import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
+import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.utils.ConverterUtil;
+import com.shalskar.fitnesscalculator.utils.ImageUtil;
+import com.shalskar.fitnesscalculator.utils.ParserUtil;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+
+public class MyStatsActivity extends AppCompatActivity {
+
+    @BindView(R.id.base_layout)
+    RelativeLayout relativeLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.button_unit)
+    Button unitButton;
+    
+    /**
+     * Body
+     **/
+
+    @BindView(R.id.radio_group_gender)
+    RadioGroup radioGroupGender;
+
+    @BindView(R.id.radio_button_male)
+    RadioButton maleRadioButton;
+
+    @BindView(R.id.radio_button_female)
+    RadioButton femaleRadioButton;
+
+    @BindView(R.id.edittext_layout_age)
+    TextInputLayout ageLayout;
+
+    @BindView(R.id.edittext_age)
+    EditText ageEditText;
+
+    @BindView(R.id.edittext_layout_weight)
+    TextInputLayout weightLayout;
+
+    @BindView(R.id.edittext_weight)
+    EditText weightEditText;
+
+    @BindView(R.id.edittext_height)
+    EditText heightEditText;
+
+    @BindView(R.id.edittext_layout_height)
+    TextInputLayout heightLayout;
+
+    @BindView(R.id.edittext_height_inches)
+    EditText heightInchesEditText;
+
+    @BindView(R.id.height_inches_layout)
+    TextInputLayout heightInchesLayout;
+
+    @BindView(R.id.edittext_layout_wrist)
+    TextInputLayout wristLayout;
+
+    @BindView(R.id.edittext_wrist)
+    EditText wristEditText;
+
+    @BindView(R.id.edittext_ankle)
+    EditText ankleEditText;
+
+    @BindView(R.id.edittext_layout_ankle)
+    TextInputLayout ankleLayout;
+
+    @BindView(R.id.slider_activity_level)
+    Slider activityLevelSlider;
+
+    @BindView(R.id.textview_activity_level_amount)
+    TextView activityLevelAmountTextView;
+
+    @BindView(R.id.radio_group_goal)
+    RadioGroup radioGroupGoal;
+
+    @BindView(R.id.radio_button_gain_muscle)
+    RadioButton gainMuscleRadioButton;
+
+    @BindView(R.id.radio_button_fat_loss)
+    RadioButton fatLossRadioButton;
+
+    @BindView(R.id.radio_button_maintain)
+    RadioButton maintainRadioButton;
+
+    /**
+     * Strength
+     **/
+
+    @BindView(R.id.edittext_layout_squat)
+    TextInputLayout squatLayout;
+
+    @BindView(R.id.edittext_squat)
+    EditText squatEditText;
+
+    @BindView(R.id.edittext_layout_bench_press)
+    TextInputLayout benchPressLayout;
+
+    @BindView(R.id.edittext_bench_press)
+    EditText benchPressEditText;
+
+    @BindView(R.id.edittext_layout_deadlift)
+    TextInputLayout deadliftLayout;
+
+    @BindView(R.id.edittext_deadlift)
+    EditText deadliftEditText;
+
+    protected NumberFormat numberFormat = new DecimalFormat(Constants.FORMAT_NUMBER);
+
+    private int unit = Constants.UNIT_METRIC;
+    private int gender = Constants.GENDER_FEMALE;
+    private int age = 0;
+    private double height = 0;
+    private double weight = 0;
+    private float wristMeasurement = 0;
+    private float ankleMeasurement = 0;
+    private float activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+    private int goal = Constants.GOAL_GAIN_MUSCLE;
+
+    private float benchPressWeightLifted = 0;
+    private float squatWeightLifted = 0;
+    private float deadliftWeightLifted = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_stats);
+        ButterKnife.bind(this);
+
+        addListeners();
+        loadImage();
+        initialiseToolbar();
+        prepopulateFields();
+    }
+
+    private void initialiseToolbar() {
+        toolbar.setTitle(R.string.my_stats);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void loadImage() {
+        int width = (getResources().getConfiguration().screenWidthDp);
+        int height = (getResources().getConfiguration().screenHeightDp);
+        Drawable drawable = new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.my_stats_background, width, height));
+        relativeLayout.setBackground(drawable);
+    }
+
+
+    /**
+     * Preopulation methods.
+     */
+
+    private void prepopulateFields() {
+        loadFields();
+        prepopulateGender();
+        prepopulateAge();
+        prepopulateHeightAndWeight();
+        prepopulateWristAndAnkle();
+        prepopulateActivityLevel();
+        prepopulateGoal();
+        prepopulateLifts();
+    }
+
+    private void loadFields() {
+        unit = SharedPreferencesManager.getUnit();
+        gender = SharedPreferencesManager.getGender();
+        if (gender == -1) {
+            gender = Constants.GENDER_FEMALE;
+            SharedPreferencesManager.saveGender(gender);
+        }
+        age = SharedPreferencesManager.getAge();
+        height = SharedPreferencesManager.getHeight();
+        weight = SharedPreferencesManager.getWeight();
+        wristMeasurement = SharedPreferencesManager.getMeasurement(Constants.BODY_PART_WRIST);
+        ankleMeasurement = SharedPreferencesManager.getMeasurement(Constants.BODY_PART_ANKLE);
+        activityLevel = SharedPreferencesManager.getActivityLevel();
+        if (activityLevel == -1) {
+            activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+            SharedPreferencesManager.saveActivityLevel(activityLevel);
+        }
+        goal = SharedPreferencesManager.getGoal();
+        if (goal == -1) {
+            goal = Constants.GOAL_GAIN_MUSCLE;
+            SharedPreferencesManager.saveGoal(goal);
+        }
+        squatWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_SQUAT);
+        benchPressWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_BENCH_PRESS);
+        deadliftWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_DEADLIFT);
+    }
+
+    private void prepopulateGender() {
+        if (gender == Constants.GENDER_FEMALE) {
+            femaleRadioButton.setChecked(true);
+            maleRadioButton.setChecked(false);
+        } else if (gender == Constants.GENDER_MALE) {
+            femaleRadioButton.setChecked(false);
+            maleRadioButton.setChecked(true);
+        }
+    }
+
+    private void prepopulateAge() {
+        weightLayout.setErrorEnabled(false);
+        if (age != 0)
+            ageEditText.setText(String.format("%d", age));
+    }
+
+    private void prepopulateHeightAndWeight() {
+        heightLayout.setErrorEnabled(false);
+        weightLayout.setErrorEnabled(false);
+        if (unit == Constants.UNIT_IMPERIAL) {
+            unitButton.setText(getString(R.string.imperial));
+            heightLayout.setHint(getString(R.string.feet));
+            weightLayout.setHint(getString(R.string.pounds));
+            heightInchesLayout.setVisibility(View.VISIBLE);
+            if (weight > 0)
+                weightEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weight)));
+            if (height > 0) {
+                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                heightEditText.setText(String.format("%.0f", feetAndInches[0]));
+                heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
+            }
+        } else if (unit == Constants.UNIT_METRIC) {
+            heightLayout.setHint(getString(R.string.centimeters));
+            weightLayout.setHint(getString(R.string.kilograms));
+            if (weight > 0)
+                weightEditText.setText(String.format("%.0f", weight));
+            if (height > 0)
+                heightEditText.setText(String.format("%.0f", height));
+        }
+    }
+
+    private void prepopulateWristAndAnkle() {
+        if (unit == Constants.UNIT_IMPERIAL) {
+            unitButton.setText(getString(R.string.imperial));
+            ankleLayout.setHint(getString(R.string.inches));
+            wristLayout.setHint(getString(R.string.inches));
+            if (wristMeasurement > 0)
+                wristEditText.setText(numberFormat.format(ConverterUtil.cmToInches(wristMeasurement)));
+            if (ankleMeasurement > 0) {
+                ankleEditText.setText(numberFormat.format(ConverterUtil.cmToInches(ankleMeasurement)));
+            }
+        } else if (unit == Constants.UNIT_METRIC) {
+            ankleLayout.setHint(getString(R.string.centimeters));
+            wristLayout.setHint(getString(R.string.centimeters));
+            if (wristMeasurement > 0)
+                wristEditText.setText(numberFormat.format(wristMeasurement));
+            if (ankleMeasurement > 0)
+                ankleEditText.setText(numberFormat.format(ankleMeasurement));
+        }
+    }
+
+    private void prepopulateActivityLevel() {
+        if (activityLevel == Constants.ACTIVITY_LEVEL_SEDENTARY) {
+            activityLevelSlider.setValue(0, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_sedentary));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_LIGHT) {
+            activityLevelSlider.setValue(1, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_light));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_MODERATE) {
+            activityLevelSlider.setValue(2, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_moderate));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_ACTIVE) {
+            activityLevelSlider.setValue(3, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_active));
+        } else if (activityLevel == Constants.ACTIVITY_LEVEL_EXTREME) {
+            activityLevelSlider.setValue(4, false);
+            activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
+        }
+    }
+
+    private void prepopulateGoal() {
+        if (goal == Constants.GOAL_GAIN_MUSCLE) {
+            gainMuscleRadioButton.setChecked(true);
+            fatLossRadioButton.setChecked(false);
+            maintainRadioButton.setChecked(false);
+        } else if (goal == Constants.GOAL_FAT_LOSS) {
+            gainMuscleRadioButton.setChecked(false);
+            fatLossRadioButton.setChecked(true);
+            maintainRadioButton.setChecked(false);
+        } else if (goal == Constants.GOAL_MAINTAIN) {
+            gainMuscleRadioButton.setChecked(false);
+            fatLossRadioButton.setChecked(false);
+            maintainRadioButton.setChecked(true);
+        }
+    }
+
+    private void prepopulateLifts() {
+        prepopulateWeightField(squatLayout, squatEditText, squatWeightLifted);
+        prepopulateWeightField(benchPressLayout, benchPressEditText, benchPressWeightLifted);
+        prepopulateWeightField(deadliftLayout, deadliftEditText, deadliftWeightLifted);
+    }
+
+    private void prepopulateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
+        textInputLayout.setErrorEnabled(false);
+        if (unit == Constants.UNIT_IMPERIAL) {
+            textInputLayout.setHint(getString(R.string.pounds));
+            if (value > 0)
+                editText.setText(numberFormat.format(ConverterUtil.kgsToPounds(value)));
+        } else if (unit == Constants.UNIT_METRIC) {
+            textInputLayout.setHint(getString(R.string.kilograms));
+            if (value > 0)
+                editText.setText(numberFormat.format(value));
+        }
+    }
+
+    @OnClick(R.id.button_unit)
+    void onClickUnitButton() {
+        removeListeners();
+        if (unit == Constants.UNIT_METRIC) {
+            unitButton.setText(getString(R.string.imperial));
+            SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
+            unit = Constants.UNIT_IMPERIAL;
+            heightLayout.setHint(getString(R.string.feet));
+            setHintsWeight(getString(R.string.pounds));
+            setHintsLength(getString(R.string.inches));
+            heightInchesLayout.setVisibility(View.VISIBLE);
+        } else if (unit == Constants.UNIT_IMPERIAL) {
+            unitButton.setText(getString(R.string.metric));
+            SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
+            unit = Constants.UNIT_METRIC;
+            heightLayout.setHint(getString(R.string.centimeters));
+            setHintsWeight(getString(R.string.kilograms));
+            setHintsLength(getString(R.string.centimeters));
+            heightInchesLayout.setVisibility(View.GONE);
+        }
+        convertFields();
+        addListeners();
+        EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_UNIT));
+    }
+
+    private void setHintsWeight(@NonNull String unit) {
+        weightLayout.setHint(unit);
+        squatLayout.setHint(unit);
+        benchPressLayout.setHint(unit);
+        deadliftLayout.setHint(unit);
+    }
+
+    private void setHintsLength(@NonNull String unit) {
+        wristLayout.setHint(unit);
+        ankleLayout.setHint(unit);
+    }
+
+    private void convertFields() {
+        if (unit == Constants.UNIT_IMPERIAL) {
+            if (weight > 0 && weightEditText.length() > 0)
+                weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
+            if (height > 0 && heightEditText.length() > 0) {
+                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                heightEditText.setText(numberFormat.format(feetAndInches[0]));
+                heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
+            }
+            if (wristMeasurement > 0 && wristEditText.length() > 0)
+                wristEditText.setText(numberFormat.format(ConverterUtil.cmToInches(wristMeasurement)));
+            if (ankleMeasurement > 0 && ankleEditText.length() > 0)
+                ankleEditText.setText(numberFormat.format(ConverterUtil.cmToInches(ankleMeasurement)));
+            if (squatWeightLifted > 0 && squatEditText.length() > 0)
+                squatEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(squatWeightLifted)));
+            if (benchPressWeightLifted > 0 && benchPressEditText.length() > 0)
+                benchPressEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(benchPressWeightLifted)));
+            if (deadliftWeightLifted > 0 && deadliftEditText.length() > 0)
+                deadliftEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(deadliftWeightLifted)));
+        } else if (unit == Constants.UNIT_METRIC) {
+            if (weight > 0 && weightEditText.length() > 0)
+                weightEditText.setText(numberFormat.format(weight));
+            if (height > 0 && heightEditText.length() > 0)
+                heightEditText.setText(numberFormat.format(height));
+            if (wristMeasurement > 0 && wristEditText.length() > 0)
+                wristEditText.setText(numberFormat.format(wristMeasurement));
+            if (ankleMeasurement > 0 && ankleEditText.length() > 0)
+                ankleEditText.setText(numberFormat.format(ankleMeasurement));
+            if (squatWeightLifted > 0 && squatEditText.length() > 0)
+                squatEditText.setText(numberFormat.format(squatWeightLifted));
+            if (benchPressWeightLifted > 0 && benchPressEditText.length() > 0)
+                benchPressEditText.setText(numberFormat.format(benchPressWeightLifted));
+            if (deadliftWeightLifted > 0 && deadliftEditText.length() > 0)
+                deadliftEditText.setText(numberFormat.format(deadliftWeightLifted));
+        }
+    }
+
+    protected boolean validateMeasurementField(@NonNull EditText editText, float value) {
+        if (editText.length() == 0 && value <= 0) return false;
+        else return true;
+    }
+
+    @OnClick(R.id.button_save)
+    void onClickSaveButton() {
+        List<Integer> detailsUpdated = new ArrayList<>();
+        if (validateMeasurementField(ageEditText, age)) {
+            detailsUpdated.add(Constants.DETAIL_AGE);
+            SharedPreferencesManager.saveAge(age);
+        }
+        if (validateMeasurementField(heightEditText, (float) height)) {
+            detailsUpdated.add(Constants.DETAIL_HEIGHT);
+            SharedPreferencesManager.saveHeight(height);
+        }
+        if (validateMeasurementField(weightEditText, (float) weight)) {
+            detailsUpdated.add(Constants.DETAIL_WEIGHT);
+            SharedPreferencesManager.saveWeight(weight);
+        }
+        if (validateMeasurementField(wristEditText, wristMeasurement)) {
+            detailsUpdated.add(Constants.DETAIL_MEASUREMENT);
+            SharedPreferencesManager.saveMeasurement(Constants.BODY_PART_WRIST, wristMeasurement);
+        }
+        if (validateMeasurementField(ankleEditText, ankleMeasurement)) {
+            detailsUpdated.add(Constants.DETAIL_MEASUREMENT);
+            SharedPreferencesManager.saveMeasurement(Constants.BODY_PART_ANKLE, ankleMeasurement);
+        }
+        if (validateMeasurementField(squatEditText, squatWeightLifted)) {
+            detailsUpdated.add(Constants.DETAIL_EXERCISE);
+            SharedPreferencesManager.saveWeightLifted(Constants.EXERCISE_SQUAT, squatWeightLifted);
+        }
+        if (validateMeasurementField(benchPressEditText, benchPressWeightLifted)) {
+            detailsUpdated.add(Constants.DETAIL_EXERCISE);
+            SharedPreferencesManager.saveWeightLifted(Constants.EXERCISE_BENCH_PRESS, benchPressWeightLifted);
+        }
+        if (validateMeasurementField(deadliftEditText, deadliftWeightLifted)) {
+            detailsUpdated.add(Constants.DETAIL_EXERCISE);
+            SharedPreferencesManager.saveWeightLifted(Constants.EXERCISE_DEADLIFT, deadliftWeightLifted);
+        }
+        detailsUpdated.add(Constants.DETAIL_GENDER);
+        SharedPreferencesManager.saveGender(gender);
+        detailsUpdated.add(Constants.DETAIL_ACTIVITY_LEVEL);
+        SharedPreferencesManager.saveActivityLevel(activityLevel);
+        detailsUpdated.add(Constants.DETAIL_GOAL);
+        SharedPreferencesManager.saveGoal(goal);
+
+        EventBus.getDefault().post(new DetailsUpdatedEvent(detailsUpdated));
+        View view = findViewById(android.R.id.content);
+        Snackbar.make(view, getString(R.string.stats_update_successful), Snackbar.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+
+    /**
+     * Listeners
+     */
+
+    private void removeListeners() {
+        ageEditText.removeTextChangedListener(ageEditTextWatcher);
+        weightEditText.removeTextChangedListener(weightEditTextWatcher);
+        heightEditText.removeTextChangedListener(heightEditTextWatcher);
+        heightInchesEditText.removeTextChangedListener(heightEditTextWatcher);
+        wristEditText.removeTextChangedListener(wristMeasurementEditTextWatcher);
+        ankleEditText.removeTextChangedListener(ankleMeasurementEditTextWatcher);
+
+        squatEditText.removeTextChangedListener(squatEditTextWatcher);
+        benchPressEditText.removeTextChangedListener(benchPressEditTextWatcher);
+        deadliftEditText.removeTextChangedListener(deadliftEditTextWatcher);
+    }
+
+    private void addListeners() {
+        radioGroupGender.setOnCheckedChangeListener(onGenderCheckedChangeListener);
+        radioGroupGoal.setOnCheckedChangeListener(onGoalCheckedChangeListener);
+        ageEditText.addTextChangedListener(ageEditTextWatcher);
+        weightEditText.addTextChangedListener(weightEditTextWatcher);
+        heightEditText.addTextChangedListener(heightEditTextWatcher);
+        heightInchesEditText.addTextChangedListener(heightEditTextWatcher);
+        wristEditText.addTextChangedListener(wristMeasurementEditTextWatcher);
+        ankleEditText.addTextChangedListener(ankleMeasurementEditTextWatcher);
+        activityLevelSlider.setOnPositionChangeListener(activityLevelPositionChangedListener);
+
+        squatEditText.addTextChangedListener(squatEditTextWatcher);
+        benchPressEditText.addTextChangedListener(benchPressEditTextWatcher);
+        deadliftEditText.addTextChangedListener(deadliftEditTextWatcher);
+    }
+
+    private TextWatcher weightEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (weightEditText.length() != 0) {
+                weight = ParserUtil.parseDouble(MyStatsActivity.this, weightEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    weight = ConverterUtil.poundsToKgs(weight);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private TextWatcher heightEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (heightEditText.length() != 0) {
+                if (unit == Constants.UNIT_METRIC) {
+                    height = ParserUtil.parseDouble(MyStatsActivity.this, heightEditText.getText().toString());
+                } else if (unit == Constants.UNIT_IMPERIAL) {
+                    double feet = ParserUtil.parseDouble(MyStatsActivity.this, heightEditText.getText().toString());
+                    double inches = 0;
+                    if (heightInchesEditText.length() > 0)
+                        inches = ParserUtil.parseDouble(MyStatsActivity.this, heightInchesEditText.getText().toString());
+                    height = ConverterUtil.feetAndInchesToCm(feet, inches);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private TextWatcher ageEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (ageEditText.length() != 0)
+                age = Integer.parseInt(ageEditText.getText().toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener onGenderCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.radio_button_female) gender = Constants.GENDER_FEMALE;
+            else if (checkedId == R.id.radio_button_male) gender = Constants.GENDER_MALE;
+
+        }
+    };
+
+    private TextWatcher wristMeasurementEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (wristEditText.length() != 0) {
+                wristMeasurement = ParserUtil.parseFloat(MyStatsActivity.this, wristEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    wristMeasurement = ConverterUtil.inchesToCm(wristMeasurement);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private TextWatcher ankleMeasurementEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (ankleEditText.length() != 0) {
+                ankleMeasurement = ParserUtil.parseFloat(MyStatsActivity.this, ankleEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    ankleMeasurement = ConverterUtil.inchesToCm(ankleMeasurement);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private Slider.OnPositionChangeListener activityLevelPositionChangedListener = new Slider.OnPositionChangeListener() {
+        @Override
+        public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
+            switch (newValue) {
+                case 0:
+                    activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_sedentary));
+                    break;
+                case 1:
+                    activityLevel = Constants.ACTIVITY_LEVEL_LIGHT;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_light));
+                    break;
+                case 2:
+                    activityLevel = Constants.ACTIVITY_LEVEL_MODERATE;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_moderate));
+                    break;
+                case 3:
+                    activityLevel = Constants.ACTIVITY_LEVEL_ACTIVE;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_active));
+                    break;
+                case 4:
+                    activityLevel = Constants.ACTIVITY_LEVEL_EXTREME;
+                    activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
+                    break;
+            }
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener onGoalCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.radio_button_gain_muscle) goal = Constants.GOAL_GAIN_MUSCLE;
+            else if (checkedId == R.id.radio_button_fat_loss) goal = Constants.GOAL_FAT_LOSS;
+            else if (checkedId == R.id.radio_button_maintain) goal = Constants.GOAL_MAINTAIN;
+
+        }
+    };
+
+    private TextWatcher squatEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (squatEditText.length() != 0) {
+                squatWeightLifted = ParserUtil.parseFloat(MyStatsActivity.this, squatEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    squatWeightLifted = ConverterUtil.poundsToKgs(squatWeightLifted);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private TextWatcher benchPressEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (benchPressEditText.length() != 0) {
+                benchPressWeightLifted = ParserUtil.parseFloat(MyStatsActivity.this, benchPressEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    benchPressWeightLifted = ConverterUtil.poundsToKgs(benchPressWeightLifted);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private TextWatcher deadliftEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (deadliftEditText.length() != 0) {
+                deadliftWeightLifted = ParserUtil.parseFloat(MyStatsActivity.this, deadliftEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    deadliftWeightLifted = ConverterUtil.poundsToKgs(deadliftWeightLifted);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+}
+

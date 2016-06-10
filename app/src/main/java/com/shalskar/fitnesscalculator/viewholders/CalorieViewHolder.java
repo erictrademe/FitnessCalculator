@@ -161,7 +161,7 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.colorAccent)));
+        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.white)));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);

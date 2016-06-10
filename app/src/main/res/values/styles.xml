@@ -4,9 +4,11 @@
     </style>
 
     <style name="FitnessCalculatorTheme" parent="MaterialTheme.Base">
-        <item name="colorControlNormal">#c5c5c5</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
+
+    </style>
+
+    <style name="FitnessCalculatorTheme.Light" parent="MaterialTheme.Base">
+        <item name="android:textColorHint">@color/white</item>
     </style>
 
     <style name="MaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -15,10 +17,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextAppearance.App.TextInputLayout.Light" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
         <item name="android:textSize">10sp</item>
     </style>
 

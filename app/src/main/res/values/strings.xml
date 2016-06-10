@@ -119,4 +119,7 @@
     <string name="donation">Donation</string>
     <string name="donate">Donate</string>
     <string name="donation_prompt">"Are you sure you'd like to donate $%d?"</string>
+    <string name="strength">Strength</string>
+    <string name="body">Body</string>
+    <string name="stats_update_successful">Stats successfully updated</string>
 </resources>
