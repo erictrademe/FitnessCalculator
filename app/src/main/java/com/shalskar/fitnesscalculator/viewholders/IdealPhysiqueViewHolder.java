@@ -27,20 +27,15 @@ import butterknife.OnClick;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class IdealPhysiqueViewHolder extends RecyclerView.ViewHolder {
+public class IdealPhysiqueViewHolder extends BaseViewHolder {
 
     private BodyAdapter bodyAdapter;
-
-    private View baseView;
 
     @BindView(R.id.card_view)
     View cardView;
 
     @BindView(R.id.side_layout)
     View sideLayout;
-
-    @BindView(R.id.image)
-    ImageView imageView;
 
     @BindView(R.id.chest_measurementview)
     MeasurementView chestMeasurementView;
@@ -86,7 +81,7 @@ public class IdealPhysiqueViewHolder extends RecyclerView.ViewHolder {
     public void initialiseViews() {
         titleTextView.setText(baseView.getContext().getString(R.string.ideal_physique));
         title2TextView.setText(baseView.getContext().getString(R.string.ideal_physique));
-        loadImage();
+        loadImage(R.dimen.ideal_physique_textview_width, R.dimen.ideal_physique_viewholder_height, R.drawable.ideal_physique_image);
         updateAll();
         chestMeasurementView.setText("Chest");
         shouldersMeasurementView.setText("Shoulders");
@@ -96,13 +91,6 @@ public class IdealPhysiqueViewHolder extends RecyclerView.ViewHolder {
         forearmMeasurementView.setText("Forearm");
         thighMeasurementView.setText("Thigh");
         calfMeasurementView.setText("Calf");
-    }
-
-    private void loadImage() {
-        float bucketSize = baseView.getResources().getDisplayMetrics().density;
-        int width = (int) (baseView.getResources().getDimension(R.dimen.ideal_physique_viewholder_width) / bucketSize);
-        int height = (int) (baseView.getResources().getDimension(R.dimen.ideal_physique_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.ideal_physique_image, width, height));
     }
 
     public void updateAll() {

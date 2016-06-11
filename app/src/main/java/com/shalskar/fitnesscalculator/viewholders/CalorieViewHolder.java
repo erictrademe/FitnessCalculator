@@ -31,11 +31,9 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class CalorieViewHolder extends RecyclerView.ViewHolder {
+public class CalorieViewHolder extends BaseViewHolder {
 
     private BodyAdapter bodyAdapter;
-
-    private View baseView;
 
     @BindView(R.id.card_view)
     View cardView;
@@ -45,9 +43,6 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.chart)
     PieChartView chartView;
-
-    @BindView(R.id.image)
-    ImageView imageView;
 
     /**
      * We have 2 title text views in 2 different positions
@@ -69,16 +64,10 @@ public class CalorieViewHolder extends RecyclerView.ViewHolder {
     public void initialiseViews(){
         titleTextView.setText(baseView.getContext().getString(R.string.calorie_intake));
         title2TextView.setText(baseView.getContext().getString(R.string.calorie_intake_2));
-        loadImage();
+        loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.calorie_image);
         updateAll();
     }
 
-    private void loadImage() {
-        float bucketSize = baseView.getResources().getDisplayMetrics().density;
-        int width = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_width) / bucketSize);
-        int height = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.calorie_image, width, height));
-    }
 
     public void updateAll() {
         double height = SharedPreferencesManager.getHeight();

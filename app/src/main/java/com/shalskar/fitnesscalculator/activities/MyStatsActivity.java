@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.rey.material.widget.Slider;
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
+import com.shalskar.fitnesscalculator.events.MyStatsSavedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
@@ -162,6 +164,7 @@ public class MyStatsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_my_stats);
         ButterKnife.bind(this);
 
@@ -180,8 +183,8 @@ public class MyStatsActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        int width = (getResources().getConfiguration().screenWidthDp / 2);
-        int height = (getResources().getConfiguration().screenHeightDp / 2);
+        int width = (getResources().getConfiguration().screenWidthDp);
+        int height = (getResources().getConfiguration().screenHeightDp);
         imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.my_stats_background, width, height));
     }
 
@@ -516,8 +519,8 @@ public class MyStatsActivity extends AppCompatActivity {
         SharedPreferencesManager.saveGoal(goal);
 
         EventBus.getDefault().post(new DetailsUpdatedEvent(detailsUpdated));
-        View view = findViewById(android.R.id.content);
-        Snackbar.make(view, R.string.stats_update_successful, Snackbar.LENGTH_LONG).show();
+        EventBus.getDefault().post(new MyStatsSavedEvent());
+        finish();
     }
 
 

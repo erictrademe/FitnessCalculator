@@ -75,7 +75,6 @@ public class AboutActivity extends AppCompatActivity {
         int height = (getResources().getConfiguration().screenHeightDp);
         Drawable drawable = new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.about_background, width, height));
         relativeLayout.setBackground(drawable);
-        //imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.ideal_physique_image, width, height));
     }
 
     private void updateChart() {

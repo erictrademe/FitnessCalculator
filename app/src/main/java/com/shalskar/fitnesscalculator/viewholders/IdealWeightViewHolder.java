@@ -33,20 +33,15 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class IdealWeightViewHolder extends RecyclerView.ViewHolder {
+public class IdealWeightViewHolder extends BaseViewHolder {
 
     private BodyAdapter bodyAdapter;
-
-    private View baseView;
 
     @BindView(R.id.card_view)
     View cardView;
 
     @BindView(R.id.chart)
     PieChartView chartView;
-
-    @BindView(R.id.image)
-    ImageView imageView;
 
     /**
      * We have 2 title text views in 2 different positions
@@ -66,18 +61,10 @@ public class IdealWeightViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void initialiseViews(){
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.bmi_image, 180, 180));
         titleTextView.setText(baseView.getContext().getString(R.string.ideal_weight));
         title2TextView.setText(baseView.getContext().getString(R.string.ideal_weight));
-        loadImage();
+        loadImage(R.dimen.small_viewholder_width, R.dimen.small_viewholder_height, R.drawable.ideal_weight_image);
         updateAll();
-    }
-
-    private void loadImage() {
-        float bucketSize = baseView.getResources().getDisplayMetrics().density;
-        int width = (int) (baseView.getResources().getDimension(R.dimen.small_viewholder_width) / bucketSize);
-        int height = (int) (baseView.getResources().getDimension(R.dimen.small_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.ideal_weight_image, width, height));
     }
 
     public void updateAll() {

@@ -38,11 +38,9 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
+public class StrengthStandardsViewHolder extends BaseViewHolder {
 
     private StrengthAdapter strengthAdapter;
-
-    private View baseView;
 
     @BindView(R.id.card_view)
     View cardView;
@@ -58,9 +56,6 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.deadliftStrengthView)
     StrengthView deadliftStrengthView;
-
-    @BindView(R.id.image)
-    ImageView imageView;
 
     /**
      * We have 2 title text views in 2 different positions
@@ -82,15 +77,8 @@ public class StrengthStandardsViewHolder extends RecyclerView.ViewHolder {
     public void initialiseViews(){
         titleTextView.setText(baseView.getContext().getString(R.string.strength_standards));
         title2TextView.setText(baseView.getContext().getString(R.string.strength_standards));
-        loadImage();
+        loadImage(R.dimen.basic_viewholder_column_width, R.dimen.basic_viewholder_column_height, R.drawable.strength_standards_image);
         updateAll();
-    }
-
-    private void loadImage() {
-        float bucketSize = baseView.getResources().getDisplayMetrics().density;
-        int width = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_width) / bucketSize);
-        int height = (int) (baseView.getResources().getDimension(R.dimen.basic_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.strength_standards_image, width, height));
     }
 
     public void updateAll() {

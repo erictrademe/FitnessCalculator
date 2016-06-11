@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.ViewPagerAdapter;
 import com.shalskar.fitnesscalculator.utils.ViewUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +65,8 @@ public class MainFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setLogo(getActivity().getDrawable(R.drawable.logo));
+        ViewUtil.correctLogoPadding(toolbar);
+
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -73,8 +79,7 @@ public class MainFragment extends Fragment {
         viewPager.setAdapter(viewPagerAdapter);
     }
 
-    public void refreshAll(){
+    public void refreshAll() {
         viewPagerAdapter.refreshAll();
     }
-
 }

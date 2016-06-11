@@ -33,20 +33,15 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class OneRepMaxViewHolder extends RecyclerView.ViewHolder {
+public class OneRepMaxViewHolder extends BaseViewHolder {
 
     private StrengthAdapter strengthAdapter;
-
-    private View baseView;
 
     @BindView(R.id.card_view)
     View cardView;
 
     @BindView(R.id.chart)
     PieChartView chartView;
-
-    @BindView(R.id.image)
-    ImageView imageView;
 
     /**
      * We have 2 title text views in 2 different positions
@@ -67,20 +62,13 @@ public class OneRepMaxViewHolder extends RecyclerView.ViewHolder {
 
     public void initialiseViews() {
         initialiseTitle();
-        loadImage();
+        loadImage(R.dimen.thin_viewholder_width, R.dimen.thin_viewholder_height, R.drawable.one_rep_max_image);
         updateAll();
     }
 
     private void initialiseTitle() {
         titleTextView.setText(baseView.getContext().getString(R.string.one_rep_max));
         title2TextView.setText(baseView.getContext().getString(R.string.one_rep_max));
-    }
-
-    private void loadImage() {
-        float bucketSize = baseView.getResources().getDisplayMetrics().density;
-        int width = (int) (baseView.getResources().getDimension(R.dimen.thin_viewholder_width) / bucketSize);
-        int height = (int) (baseView.getResources().getDimension(R.dimen.thin_viewholder_height) / bucketSize);
-        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(baseView.getResources(), R.drawable.one_rep_max_image, width, height));
     }
 
     public void updateAll() {
@@ -163,7 +151,7 @@ public class OneRepMaxViewHolder extends RecyclerView.ViewHolder {
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.colorAccent)));
+        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.white)));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);

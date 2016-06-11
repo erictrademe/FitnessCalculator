@@ -2,6 +2,8 @@ package com.shalskar.fitnesscalculator.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -11,9 +13,13 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
 import com.shalskar.fitnesscalculator.R;
+import com.shalskar.fitnesscalculator.events.MyStatsSavedEvent;
 import com.shalskar.fitnesscalculator.fragments.MainFragment;
 import com.shalskar.fitnesscalculator.fragments.NavigationDrawerFragment;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -27,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
 
         initialiseNavigationDrawer();
         if (savedInstanceState == null)
@@ -88,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.action_settings:
                 SharedPreferencesManager.clearAll();
                 getMainFragment().refreshAll();
@@ -108,6 +115,22 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
 
     private MainFragment getMainFragment() {
         return (MainFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MAIN);
+    }
+
+    @Subscribe
+    public void onMyStatsSavedEvent(MyStatsSavedEvent myStatsSavedEvent) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Snackbar.make(findViewById(android.R.id.content), R.string.stats_update_successful, Snackbar.LENGTH_LONG).show();
+            }
+        }, 750);
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
 }

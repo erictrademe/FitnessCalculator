@@ -12,6 +12,8 @@
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
 
+    <dimen name="logo_padding">12dp</dimen>
+
     <dimen name="viewholder_padding">4dp</dimen>
 
     <dimen name="appbar_height">84dp</dimen>

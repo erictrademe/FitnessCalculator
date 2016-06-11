@@ -82,9 +82,8 @@ public class BaseDialogFragment extends DialogFragment {
     }
 
     private void loadImage(int imageResource) {
-        float bucketSize = getResources().getDisplayMetrics().density;
         int width = getDialog().getWindow().getDecorView().getWidth();
-        int height = (int) (getResources().getDimension(R.dimen.dialog_header_height) / bucketSize);
+        int height = (int) getResources().getDimension(R.dimen.dialog_header_height);
         imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), imageResource, width, height));
     }
 

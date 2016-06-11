@@ -532,6 +532,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
+        android:clickable="true"
+        android:background="?android:selectableItemBackground"
         android:src="@drawable/ic_save_black_24dp"
         app:elevation="4dp"
         app:pressedTranslationZ="12dp" />
