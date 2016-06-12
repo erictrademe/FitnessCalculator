@@ -162,11 +162,11 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
     void showIdealPhysiqueDialog() {
         bodyAdapter.showIdealPhysiqueDialog();
     }
-// todo implement
-//    @OnClick(R.id.info_button)
-//    void showIdealPhysiqueInfoDialog() {
-//        bodyAdapter.showIdealPhysiqueInfoDialog();
-//    }
+
+    @OnClick(R.id.info_button)
+    void showInfoDialog() {
+        bodyAdapter.showCalorieInfoDialog();
+    }
 
 
 }

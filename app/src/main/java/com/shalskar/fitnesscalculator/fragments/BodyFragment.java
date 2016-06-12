@@ -106,9 +106,10 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
 
     @Override
     public void showCalorieInfoDialog() {
-        DialogUtil.showMessageDialog(getActivity(),
+        DialogUtil.showMessageDialog(getFragmentManager(),
                 getActivity().getString(R.string.daily_calorie_intake_description_title),
-                getActivity().getString(R.string.daily_calorie_intake_description));
+                getActivity().getString(R.string.daily_calorie_intake_description),
+                R.drawable.calorie_image);
     }
 
     @Override
@@ -124,9 +125,10 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
 
     @Override
     public void showMacroInfoDialog() {
-        DialogUtil.showMessageDialog(getActivity(),
+        DialogUtil.showMessageDialog(getFragmentManager(),
                 getActivity().getString(R.string.macro_description_title),
-                getActivity().getString(R.string.macro_description));
+                getActivity().getString(R.string.macro_description),
+                R.drawable.macro_image);
     }
 
     @Override
@@ -180,14 +182,18 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
 
     @Override
     public void showBodyfatInfoDialog() {
-
+        DialogUtil.showMessageDialog(getFragmentManager(),
+                getActivity().getString(R.string.bodyfat_description_title),
+                getActivity().getString(R.string.bodyfat_description),
+                R.drawable.bodyfat_image);
     }
 
     @Override
     public void showBMIInfoDialog() {
-        DialogUtil.showMessageDialog(getActivity(),
+        DialogUtil.showMessageDialog(getFragmentManager(),
                 getActivity().getString(R.string.bmi_description_title),
-                getActivity().getString(R.string.bmi_description));
+                getActivity().getString(R.string.bmi_description),
+                R.drawable.bmi_image);
     }
 
     /**

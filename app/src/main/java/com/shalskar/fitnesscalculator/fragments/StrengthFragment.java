@@ -103,9 +103,10 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
     @Override
     public void showWilksInfoDialog() {
         // todo use real info
-        DialogUtil.showMessageDialog(getActivity(),
-                getActivity().getString(R.string.wilks),
-                "Wilks info here");
+        DialogUtil.showMessageDialog(getFragmentManager(),
+                getActivity().getString(R.string.wilks_description_title),
+                getActivity().getString(R.string.wilks_description),
+                R.drawable.wilks_image);
     }
 
     @Override
@@ -121,9 +122,10 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
 
     @Override
     public void showStrengthStandardsInfoDialog() {
-        DialogUtil.showMessageDialog(getActivity(),
-                getActivity().getString(R.string.strength_standards),
-                "Strength standards info here");
+        DialogUtil.showMessageDialog(getFragmentManager(),
+                getActivity().getString(R.string.strength_standards_description_title),
+                getActivity().getString(R.string.strength_standards_description),
+                R.drawable.strength_standards_image);
     }
 
     /**

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dialog_info_width"
+    android:animateLayoutChanges="true"
+    android:layout_height="wrap_content"
+    android:background="@color/dialogBackground">
+
+    <include
+        android:id="@+id/header_layout"
+        layout="@layout/dialog_info_header" />
+
+    <View
+        android:layout_width="@dimen/dialog_info_width"
+        android:layout_height="4dp"
+        android:layout_marginTop="@dimen/dialog_header_height"
+        android:background="@drawable/gradient" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="@dimen/dialog_info_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dialog_header_height">
+
+        <LinearLayout
+            android:id="@+id/field_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_content"
+                fontPath="fonts/Raleway-Regular.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                tools:text="@string/weight"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                tools:ignore="MissingPrefix" />
+
+            </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

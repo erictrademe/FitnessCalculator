@@ -92,15 +92,6 @@
                 android:layout_marginTop="6dp"
                 android:layout_toRightOf="@id/bench_textview" />
 
-            <ImageButton
-                android:id="@+id/info_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/white_ripple"
-                android:padding="16dp"
-                android:src="@drawable/ic_information_white_24dp" />
-
             <TextView
                 android:id="@+id/untrained_textview"
                 android:layout_width="68dp"
@@ -211,6 +202,15 @@
             tools:ignore="MissingPrefix"
             tools:text="@string/body_mass_index"
             tools:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/info_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/white_ripple"
+            android:padding="16dp"
+            android:src="@drawable/ic_info_white_24dp" />
 
     </RelativeLayout>
 
