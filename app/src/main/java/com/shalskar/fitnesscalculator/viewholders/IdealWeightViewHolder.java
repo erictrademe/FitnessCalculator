@@ -37,10 +37,7 @@ public class IdealWeightViewHolder extends BaseViewHolder {
 
     private BodyAdapter bodyAdapter;
 
-    @BindView(R.id.card_view)
-    View cardView;
-
-    @BindView(R.id.chart)
+    @BindView(R.id.side_layout)
     PieChartView chartView;
 
     /**
@@ -58,12 +55,12 @@ public class IdealWeightViewHolder extends BaseViewHolder {
         this.bodyAdapter = bodyAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
-    }
-
-    public void initialiseViews(){
         titleTextView.setText(baseView.getContext().getString(R.string.ideal_weight));
         title2TextView.setText(baseView.getContext().getString(R.string.ideal_weight));
         loadImage(R.dimen.small_viewholder_width, R.dimen.small_viewholder_height, R.drawable.ideal_weight_image);
+    }
+
+    public void initialiseViews(){
         updateAll();
     }
 

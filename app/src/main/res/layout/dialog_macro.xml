@@ -2,6 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dialog_width"
+    android:animateLayoutChanges="true"
+    android:background="@color/dialogBackground"
     android:layout_height="wrap_content">
 
     <include
@@ -10,9 +12,9 @@
 
     <View
         android:layout_width="@dimen/dialog_width"
-        android:layout_height="0.5dp"
+        android:layout_height="4dp"
         android:layout_marginTop="@dimen/dialog_header_height"
-        android:background="@color/divider" />
+        android:background="@drawable/gradient" />
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -22,6 +24,7 @@
         android:layout_marginTop="@dimen/dialog_header_height">
 
         <LinearLayout
+            android:id="@+id/field_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -30,7 +33,7 @@
                 android:id="@+id/textview_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:textColor="@color/white"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/Gender"
@@ -50,12 +53,14 @@
                     android:id="@+id/radio_button_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="@string/male" />
 
                 <RadioButton
                     android:id="@+id/radio_button_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:layout_marginLeft="16dp"
                     android:checked="true"
                     android:text="@string/female" />
@@ -68,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="32dp"
+                android:textColor="@color/white"
                 android:text="@string/age"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textSize="16sp" />
@@ -89,6 +95,7 @@
                     android:imeOptions="actionGo"
                     android:inputType="number"
                     android:singleLine="true"
+                    android:textColor="@color/white"
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -99,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="32dp"
+                android:textColor="@color/white"
                 android:text="@string/weight"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textSize="16sp" />
@@ -107,6 +115,7 @@
                 android:id="@+id/edittext_layout_weight"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:textColor="@color/white"
                 android:layout_marginTop="8dp"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
@@ -118,6 +127,7 @@
                     android:layout_marginRight="16dp"
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
+                    android:textColor="@color/white"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textSize="16sp" />
@@ -129,6 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:textColor="@color/white"
                 android:layout_marginTop="32dp"
                 android:text="@string/height"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
@@ -155,6 +166,7 @@
                         android:layout_height="match_parent"
                         android:hint="@string/centimeters"
                         android:imeOptions="actionGo"
+                        android:textColor="@color/white"
                         android:inputType="numberDecimal"
                         android:singleLine="true"
                         android:textSize="16sp" />
@@ -166,6 +178,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
                     android:layout_weight="1"
                     android:visibility="gone"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
@@ -175,6 +188,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/inches"
+                        android:textColor="@color/white"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
                         android:textSize="16sp" />
@@ -189,6 +203,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="32dp"
+                android:textColor="@color/white"
                 android:text="@string/activity_level"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textSize="16sp" />
@@ -198,6 +213,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:textColor="#bbffffff"
                 android:layout_marginTop="8dp"
                 android:text="@string/sedentary"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -208,6 +224,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
+                android:textColor="@color/white"
                 android:paddingRight="16dp"
                 android:layout_marginTop="16dp"
                 app:sl_maxValue="4"
@@ -219,10 +236,11 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="32dp"
+                android:textColor="@color/white"
                 android:text="@string/goal"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <RadioGroup
                 android:id="@+id/radio_group_goal"
@@ -230,6 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
+                android:textColor="@color/white"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:orientation="vertical">
@@ -238,18 +257,21 @@
                     android:id="@+id/radio_button_gain_muscle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="@string/muscle_gain" />
 
                 <RadioButton
                     android:id="@+id/radio_button_fat_loss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:checked="true"
                     android:text="@string/fat_loss" />
 
                 <RadioButton
                     android:id="@+id/radio_button_maintain"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="@string/maintain" />
@@ -261,11 +283,12 @@
     </ScrollView>
 
     <View
+        android:id="@+id/bottom_divider"
         android:layout_width="@dimen/dialog_width"
-        android:layout_height="0.5dp"
+        android:layout_height="4dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/dialog_header_height"
-        android:background="@color/faint_divider" />
+        android:background="@drawable/gradient_reverse" />
 
     <include
         android:id="@+id/footer_layout"

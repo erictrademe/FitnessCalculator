@@ -37,9 +37,6 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
 
     private StrengthAdapter strengthAdapter;
 
-    @BindView(R.id.card_view)
-    View cardView;
-
     @BindView(R.id.chart)
     PieChartView chartView;
 
@@ -58,11 +55,11 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
         this.strengthAdapter = strengthAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
+        initialiseTitle();
+        loadImage(R.dimen.thin_viewholder_width, R.dimen.thin_viewholder_height, R.drawable.one_rep_max_image);
     }
 
     public void initialiseViews() {
-        initialiseTitle();
-        loadImage(R.dimen.thin_viewholder_width, R.dimen.thin_viewholder_height, R.drawable.one_rep_max_image);
         updateAll();
     }
 
@@ -76,7 +73,8 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
         int repsLifted = SharedPreferencesManager.getRepsLifted();
         if (weightLifted > 0 && repsLifted > 0) {
             updateOneRepMax();
-            if (titleTextView.getVisibility() == View.VISIBLE) {animateSideLayout();
+            if (titleTextView.getVisibility() == View.VISIBLE) {
+                animateSideLayout();
                 animateTitle();
             } else {
                 AnimationUtil.refreshView(chartView);
@@ -84,15 +82,8 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
         } else {
             titleTextView.setVisibility(View.VISIBLE);
             title2TextView.setVisibility(View.GONE);
-            chartView.setVisibility(View.GONE);
+            sideLayout.setVisibility(View.GONE);
         }
-    }
-
-    private void animateSideLayout() {
-        chartView.setTranslationX(chartView.getWidth());
-        chartView.setAlpha(0);
-        chartView.setVisibility(View.VISIBLE);
-        chartView.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
     }
 
     private void animateTitle() {

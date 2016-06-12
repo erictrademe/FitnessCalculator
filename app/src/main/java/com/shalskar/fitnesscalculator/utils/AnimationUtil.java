@@ -1,15 +1,22 @@
 package com.shalskar.fitnesscalculator.utils;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 
 /**
  * Created by RachelTeTau on 18/05/16.
  */
 public class AnimationUtil {
+
+    private final static int DURATION_DRAWABLE_FADE_IN = 750;
 
     // todo move all animations here
 
@@ -20,10 +27,11 @@ public class AnimationUtil {
      * @param view
      */
     public static void refreshView(@NonNull final View view){
+
         view.animate()
-                .alpha(0f)
-                .scaleX(0.5f)
-                .scaleY(0.5f)
+                .alpha(0.5f)
+                .scaleX(0.9f)
+                .scaleY(0.9f)
                 //.rotation(180)
                 .setDuration(150)
                 .setInterpolator(new AccelerateInterpolator())
@@ -79,5 +87,22 @@ public class AnimationUtil {
 
                     }
                 }).start();
+    }
+
+    public static void animateDrawableIn(@NonNull final Drawable drawable){
+        AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
+        final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
+        drawable.setColorFilter(filter);
+
+        ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
+
+        animator.addUpdateListener( new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                drawable.setColorFilter (filter);
+            }
+        });
+        animator.setDuration(DURATION_DRAWABLE_FADE_IN);
+        animator.start();
     }
 }

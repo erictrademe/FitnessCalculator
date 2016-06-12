@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fit(x)</string>
+    <string name="app_name">Fit(X)</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -123,4 +123,16 @@
     <string name="body">Body</string>
     <string name="stats_update_successful">Stats successfully updated</string>
     <string name="confirm_clear">Are you sure you\'d like to clear your stats?</string>
+    <string name="pectoral">Pectoral</string>
+    <string name="abdominal">Abdominal</string>
+    <string name="thigh">Thigh</string>
+    <string name="triceps">Triceps</string>
+    <string name="subscapular">Subscapular</string>
+    <string name="suprailiac">Suprailiac</string>
+    <string name="axilla">Axilla</string>
+
+    <string name="bodyfat">Bodyfat</string>
+    <string name="bf_7_point">7 Point</string>
+    <string name="bf_3_pont">3 Point</string>
+    <string name="millimeters">Millimeters</string>
 </resources>

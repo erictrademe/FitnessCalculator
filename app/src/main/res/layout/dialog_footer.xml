@@ -12,6 +12,7 @@
         fontPath="fonts/Raleway-Medium.ttf"
         style="@android:style/Widget.Material.Light.Button.Borderless"
         android:layout_width="80dp"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:text="@string/cancel" />
 
@@ -20,6 +21,7 @@
         fontPath="fonts/Raleway-Medium.ttf"
         style="@android:style/Widget.Material.Light.Button.Borderless"
         android:layout_width="64dp"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:text="@string/ok" />

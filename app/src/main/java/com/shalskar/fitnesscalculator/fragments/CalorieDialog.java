@@ -161,7 +161,7 @@ public class CalorieDialog extends BaseDialogFragment {
     }
 
     private void prepopulateAge() {
-        weightLayout.setErrorEnabled(false);
+        ageLayout.setErrorEnabled(false);
         if (age != 0)
             ageEditText.setText(String.format("%d", age));
     }

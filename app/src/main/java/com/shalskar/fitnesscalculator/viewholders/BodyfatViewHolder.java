@@ -4,19 +4,15 @@ import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.adapters.StrengthAdapter;
+import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
-import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,9 +28,9 @@ import lecho.lib.hellocharts.view.PieChartView;
 /**
  * Created by Vincent on 11/05/2016.
  */
-public class WilksViewHolder extends BaseViewHolder {
+public class BodyfatViewHolder extends BaseViewHolder {
 
-    private StrengthAdapter strengthAdapter;
+    private BodyAdapter bodyAdapter;
 
     @BindView(R.id.chart)
     PieChartView chartView;
@@ -49,29 +45,25 @@ public class WilksViewHolder extends BaseViewHolder {
     @BindView(R.id.title_textview)
     TextView titleTextView;
 
-    public WilksViewHolder(@NonNull StrengthAdapter strengthAdapter, @NonNull View baseView) {
+    public BodyfatViewHolder(@NonNull BodyAdapter bodyAdapter, @NonNull View baseView) {
         super(baseView);
-        this.strengthAdapter = strengthAdapter;
+        this.bodyAdapter = bodyAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
-        titleTextView.setText(baseView.getContext().getString(R.string.wilks));
-        title2TextView.setText(baseView.getContext().getString(R.string.wilks));
-        loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.wilks_image);
+        titleTextView.setText(baseView.getContext().getString(R.string.bodyfat));
+        title2TextView.setText(baseView.getContext().getString(R.string.bodyfat));
+
+        loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.bodyfat_image);
     }
 
-    public void initialiseViews(){
+    public void initialiseViews() {
         updateAll();
     }
 
     public void updateAll() {
-        float squatWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_SQUAT);
-        float benchWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_BENCH_PRESS);
-        float deadliftWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_DEADLIFT);
-        double weight = SharedPreferencesManager.getWeight();
-
-        int gender = SharedPreferencesManager.getGender();
-        if (weight > 0 && gender != -1 && squatWeightLifted > 0 && benchWeightLifted > 0 && deadliftWeightLifted > 0) {
-            updateWilks(weight, gender, squatWeightLifted, benchWeightLifted, deadliftWeightLifted);
+        float bodyfat = FitnessCalculator.calculateBodyFat();
+        if (bodyfat != -1) {
+            updateBodyfat(bodyfat);
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
@@ -114,46 +106,67 @@ public class WilksViewHolder extends BaseViewHolder {
         title2TextView.animate().alpha(1).start();
     }
 
-    private void updateWilks(double weight, int gender, float squatWeightLifted, float benchWeightLifted, float deadliftWeightLifted) {
-        int unit = SharedPreferencesManager.getUnit();
-        float total = squatWeightLifted + benchWeightLifted +deadliftWeightLifted;
-        float wilks = FitnessCalculator.calculateWilks(unit, gender, (float) weight, total);
+    private void updateBodyfat(float bodyfat) {
+        int gender = SharedPreferencesManager.getGender();
 
-        updateChart(wilks);
+
+        updateChart(gender, bodyfat);
     }
 
-    private void updateChart(float wilks) {
+    private void updateChart(int gender, float bodyfat) {
         Context context = baseView.getContext();
+
+        int bodyfatCategory = FitnessCalculator.getBodyfatCategory(gender, bodyfat);
+        String bodyfatString = "";
+        switch (bodyfatCategory) {
+            case Constants.BODYFAT_CATEGORY_ESSENTIAL:
+                bodyfatString = "Dangerously lean";
+                break;
+            case Constants.BODYFAT_CATEGORY_ATHLETES:
+                bodyfatString = "Athlete";
+                break;
+            case Constants.BODYFAT_CATEGORY_FITNESS:
+                bodyfatString = "Fit";
+                break;
+            case Constants.BODYFAT_CATEGORY_ACCEPTABLE:
+                bodyfatString = "Average";
+                break;
+            case Constants.BODYFAT_CATEGORY_OBESE:
+                bodyfatString = "Obese";
+                break;
+        }
 
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         PieChartData pieChartData = new PieChartData();
-        pieChartData.setCenterText1(decimalFormat.format(wilks));
+        pieChartData.setCenterText1(decimalFormat.format(bodyfat));
         pieChartData.setCenterText1Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         pieChartData.setCenterText2Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
+        pieChartData.setCenterText2(bodyfatString);
         pieChartData.setCenterText1Color(context.getResources().getColor(R.color.white));
         pieChartData.setCenterText2Color(context.getResources().getColor(R.color.white));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(100, context.getResources().getColor(R.color.white)));
+        sliceValues.add(new SliceValue((int) Math.min(bodyfat, 100), context.getResources().getColor(R.color.white)));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
-
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.wilks_pie_chart_text_size));
+        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size));
+        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.bmi_pie_chart_text_size_small));
         pieChartData.setCenterCircleScale(0.975f);
+        pieChartData.setSlicesSpacing(4);
 
         chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
     }
 
     @OnClick(R.id.card_view)
-    void showCalorieDialog() {
-        strengthAdapter.showWilksDialog();
+    void showBodyfatDialog() {
+        bodyAdapter.showBodyfatDialog();
     }
 
     @OnClick(R.id.info_button)
-    void showInfoDialog() {
-        strengthAdapter.showWilksInfoDialog();
+    void showBodyfatInfoDialog() {
+        bodyAdapter.showBodyfatInfoDialog();
     }
 
 

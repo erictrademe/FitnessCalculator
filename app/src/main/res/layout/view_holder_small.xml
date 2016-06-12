@@ -19,10 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:background="#000000"
             tools:src="@drawable/bmi_image" />
 
         <lecho.lib.hellocharts.view.PieChartView
-            android:id="@+id/chart"
+            android:id="@+id/side_layout"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_below="@id/title2_textview"

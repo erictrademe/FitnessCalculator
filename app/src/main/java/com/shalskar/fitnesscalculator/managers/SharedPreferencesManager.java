@@ -22,6 +22,8 @@ public class SharedPreferencesManager {
     private static final String KEY_WEIGHT_LIFTED = "weight_lifted";
     private static final String KEY_REPS_LIFTED = "reps_lifted";
     private static final String KEY_MEASUREMENT = "measurement";
+    private static final String KEY_BODYFAT_CALCULATOR_TYPE = "bodyfat_calculator_type";
+    private static final String KEY_SKINFOLD = "skinfold";
 
     private static SharedPreferencesManager sharedPreferencesManager;
 
@@ -152,8 +154,29 @@ public class SharedPreferencesManager {
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_MEASUREMENT + bodyPart, -1);
     }
 
+    public static void saveSkinfold(@NonNull String skinfold, float measurement){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putFloat(KEY_SKINFOLD + skinfold, measurement);
+        editor.apply();
+    }
+
+    public static float getSkinfold(@NonNull String skinfold){
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_SKINFOLD + skinfold, -1);
+    }
+
+    public static int getBodyfatCalculatorType(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_BODYFAT_CALCULATOR_TYPE, Constants.BODYFAT_CALCULATOR_TYPE_7_POINT);
+    }
+
+    public static void saveBodyfatCalculatorType(int bodyfatCalculatorType){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_BODYFAT_CALCULATOR_TYPE, bodyfatCalculatorType);
+        editor.apply();
+    }
+
     public static void clearAll(){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+
         editor.remove(KEY_UNIT);
         editor.remove(KEY_AGE);
         editor.remove(KEY_GENDER);
@@ -170,6 +193,14 @@ public class SharedPreferencesManager {
 
         editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_ANKLE);
         editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_WRIST);
+
+        editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_ABDOMINAL);
+        editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_AXILLA);
+        editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_PECTORAL);
+        editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_SUBSCAPULAR);
+        editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_SUPRAILIAC);
+        editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_THIGH);
+        editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_TRICEPS);
 
         editor.apply();
     }

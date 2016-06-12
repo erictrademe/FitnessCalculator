@@ -1,6 +1,5 @@
 package com.shalskar.fitnesscalculator.fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -8,23 +7,19 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
-import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
-import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.security.Key;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -39,7 +34,7 @@ public class BaseDialogFragment extends DialogFragment {
 
     /**
      * Generic base dialog for most of the dialogs used throughout the app.
-     *
+     * <p/>
      * Any subclass must provide an argument for both the layout and the title.
      * This layout file must include the dialog_header and dialog_footer layouts.
      */
@@ -47,6 +42,9 @@ public class BaseDialogFragment extends DialogFragment {
     protected static final String KEY_LAYOUT = "layout";
     protected static final String KEY_TITLE = "title";
     protected static final String KEY_IMAGE = "image";
+
+    @BindView(R.id.scroll_view)
+    ScrollView scrollView;
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -56,6 +54,12 @@ public class BaseDialogFragment extends DialogFragment {
 
     @BindView(R.id.button_unit)
     Button unitButton;
+
+    @BindView(R.id.bottom_divider)
+    View dividerView;
+
+    @BindView(R.id.field_layout)
+    View fieldLayout;
 
     protected NumberFormat numberFormat = new DecimalFormat(Constants.FORMAT_NUMBER);
 
@@ -69,15 +73,15 @@ public class BaseDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationTheme;
 
         int layout = getArguments().getInt(KEY_LAYOUT);
-        View view = inflater.inflate(layout, container);
+        View view = getActivity().getLayoutInflater().inflate(layout, container);
 
         ButterKnife.bind(this, view);
         titleTextView.setText(getArguments().getString(KEY_TITLE));
         loadImage(getArguments().getInt(KEY_IMAGE));
-
+        initialiseScrollView();
         return view;
     }
 
@@ -85,6 +89,21 @@ public class BaseDialogFragment extends DialogFragment {
         int width = getDialog().getWindow().getDecorView().getWidth();
         int height = (int) getResources().getDimension(R.dimen.dialog_header_height);
         imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), imageResource, width, height));
+    }
+
+    private void initialiseScrollView() {
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+
+            @Override
+            public void onScrollChanged() {
+                int diff = (fieldLayout.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
+                if (diff <= 0 && dividerView.getVisibility() == View.VISIBLE) {
+                    dividerView.setVisibility(View.INVISIBLE);
+                } else if (diff > 10 && dividerView.getVisibility() == View.INVISIBLE) {
+                    dividerView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     protected boolean validateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {

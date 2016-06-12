@@ -35,12 +35,6 @@ public class CalorieViewHolder extends BaseViewHolder {
 
     private BodyAdapter bodyAdapter;
 
-    @BindView(R.id.card_view)
-    View cardView;
-
-    @BindView(R.id.side_layout)
-    View sideLayout;
-
     @BindView(R.id.chart)
     PieChartView chartView;
 
@@ -59,12 +53,12 @@ public class CalorieViewHolder extends BaseViewHolder {
         this.bodyAdapter = bodyAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
-    }
-
-    public void initialiseViews(){
         titleTextView.setText(baseView.getContext().getString(R.string.calorie_intake));
         title2TextView.setText(baseView.getContext().getString(R.string.calorie_intake_2));
         loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.calorie_image);
+    }
+
+    public void initialiseViews(){
         updateAll();
     }
 
@@ -88,13 +82,6 @@ public class CalorieViewHolder extends BaseViewHolder {
             title2TextView.setVisibility(View.GONE);
             sideLayout.setVisibility(View.GONE);
         }
-    }
-
-    private void animateSideLayout() {
-        sideLayout.setTranslationX(sideLayout.getWidth());
-        sideLayout.setAlpha(0);
-        sideLayout.setVisibility(View.VISIBLE);
-        sideLayout.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
     }
 
     private void animateTitle() {

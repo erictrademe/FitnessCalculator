@@ -35,6 +35,10 @@ public class ConverterUtil {
         return cm / 2.54f;
     }
 
+    public static float mmToInches(float mm){
+        return (mm /10) / 2.54f;
+    }
+
     public static double inchesToCm(double inches){
         return inches * 2.54;
     }

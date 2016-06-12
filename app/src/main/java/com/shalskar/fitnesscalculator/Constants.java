@@ -17,6 +17,8 @@ public class Constants {
     public static final int DETAIL_ONE_REP_MAX = 1240;
     public static final int DETAIL_EXERCISE = 1241;
     public static final int DETAIL_MEASUREMENT = 1242;
+    public static final int DETAIL_SKINFOLD = 1243;
+    public static final int DETAIL_BODYFAT_CALCULATOR_TYPE = 1243;
 
     public final static int UNIT_METRIC = 1111;
     public final static int UNIT_IMPERIAL = 2222;
@@ -48,4 +50,21 @@ public class Constants {
     public static final String BODY_PART_ANKLE = "body_part_ankle";
 
     public static final String FORMAT_NUMBER = "###.#";
+
+    public final static int BODYFAT_CALCULATOR_TYPE_3_POINT = 4774;
+    public final static int BODYFAT_CALCULATOR_TYPE_7_POINT = 4775;
+
+    public static final String SKINFOLD_PECTORAL = "skinfold_pectoral";
+    public static final String SKINFOLD_ABDOMINAL = "skinfold_abdominal";
+    public static final String SKINFOLD_THIGH = "skinfold_thigh";
+    public static final String SKINFOLD_TRICEPS = "skinfold_triceps";
+    public static final String SKINFOLD_SUBSCAPULAR = "skinfold_subscapular";
+    public static final String SKINFOLD_SUPRAILIAC = "skinfold_suprailiac";
+    public static final String SKINFOLD_AXILLA = "skinfold_axilla";
+
+    public final static int BODYFAT_CATEGORY_ESSENTIAL = 6554;
+    public final static int BODYFAT_CATEGORY_ATHLETES = 6555;
+    public final static int BODYFAT_CATEGORY_FITNESS = 6556;
+    public final static int BODYFAT_CATEGORY_ACCEPTABLE = 6557;
+    public final static int BODYFAT_CATEGORY_OBESE = 6558;
 }

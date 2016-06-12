@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/dialog_width"
-    android:layout_height="wrap_content">
+    android:animateLayoutChanges="true"
+    android:layout_height="wrap_content"
+    android:background="@color/dialogBackground">
 
     <include
         android:id="@+id/header_layout"
@@ -11,9 +13,9 @@
 
     <View
         android:layout_width="@dimen/dialog_width"
-        android:layout_height="0.5dp"
+        android:layout_height="4dp"
         android:layout_marginTop="@dimen/dialog_header_height"
-        android:background="@color/divider" />
+        android:background="@drawable/gradient" />
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -23,6 +25,7 @@
         android:layout_marginTop="@dimen/dialog_header_height">
 
         <LinearLayout
+            android:id="@+id/field_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -56,6 +59,7 @@
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
+                    android:textColor="@color/white"
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -95,6 +99,7 @@
                         android:imeOptions="actionGo"
                         android:inputType="numberDecimal"
                         android:singleLine="true"
+                        android:textColor="@color/white"
                         android:textSize="16sp" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -115,6 +120,7 @@
                         android:hint="@string/inches"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:textColor="@color/white"
                         android:textSize="16sp" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -126,11 +132,12 @@
     </ScrollView>
 
     <View
+        android:id="@+id/bottom_divider"
         android:layout_width="@dimen/dialog_width"
-        android:layout_height="0.5dp"
+        android:layout_height="4dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/dialog_header_height"
-        android:background="@color/faint_divider" />
+        android:background="@drawable/gradient_reverse" />
 
     <include
         android:id="@+id/footer_layout"

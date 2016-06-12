@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/edittext_age"
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/edittext_weight"
@@ -172,7 +172,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <EditText
                         android:id="@+id/edittext_height"
@@ -194,7 +194,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     android:visibility="gone"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <EditText
                         android:id="@+id/edittext_height_inches"
@@ -226,7 +226,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/edittext_wrist"
@@ -263,7 +263,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/edittext_ankle"
@@ -394,7 +394,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
 
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/edittext_squat"
@@ -427,7 +427,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/edittext_bench_press"
@@ -461,7 +461,7 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="32dp"
                 android:layout_marginTop="8dp"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout.Light">
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/edittext_deadlift"

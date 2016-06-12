@@ -2,6 +2,7 @@ package com.shalskar.fitnesscalculator;
 
 import android.support.annotation.NonNull;
 
+import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 
 /**
@@ -62,7 +63,7 @@ public class FitnessCalculator {
 
     public static float calculateOneRepMax(int repsLifted, float weightLifted) {
         // Epley formula only works if reps lifted > 1
-        if(repsLifted == 1) return weightLifted;
+        if (repsLifted == 1) return weightLifted;
         else return weightLifted * (1 + (repsLifted / 30f));
     }
 
@@ -110,7 +111,102 @@ public class FitnessCalculator {
         return new Physique(chest, shoulder, neck, waist, arm, forearm, thigh, calf);
     }
 
-    /** Strength standards. **/
+    /**
+     * Calculate the bodyfat of the user, if the fields have been filled out correctly,
+     * return -1;
+     *
+     * @return
+     */
+    public static float calculateBodyFat() {
+        int bodyfatCalculatorType = SharedPreferencesManager.getBodyfatCalculatorType();
+        int gender = SharedPreferencesManager.getGender();
+        int age = SharedPreferencesManager.getAge();
+
+        if (bodyfatCalculatorType == Constants.BODYFAT_CALCULATOR_TYPE_3_POINT) {
+            if (gender == Constants.GENDER_FEMALE) {
+                float skinfoldSuprailiac = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_SUPRAILIAC);
+                float skinfoldThigh = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_THIGH);
+                float skinfoldTriceps = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_TRICEPS);
+                if (skinfoldSuprailiac >= 0 && skinfoldThigh >= 0 && skinfoldTriceps >= 0)
+                    return FitnessCalculator.calculateBodyfatFemale(skinfoldThigh, skinfoldTriceps, skinfoldSuprailiac, age);
+            } else if (gender == Constants.GENDER_MALE) {
+                float skinfoldSuprailiac = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_SUPRAILIAC);
+                float skinfoldPectoral = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_PECTORAL);
+                float skinfoldAbdominal = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_ABDOMINAL);
+                if (skinfoldSuprailiac >= 0 && skinfoldAbdominal >= 0 && skinfoldPectoral >= 0)
+                    return FitnessCalculator.calculateBodyfatMale(skinfoldPectoral, skinfoldAbdominal, skinfoldSuprailiac, age);
+            }
+        } else if (bodyfatCalculatorType == Constants.BODYFAT_CALCULATOR_TYPE_7_POINT) {
+            float skinfoldAbdominal = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_ABDOMINAL);
+            float skinfoldAxilla = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_AXILLA);
+            float skinfoldPectoral = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_PECTORAL);
+            float skinfoldSubscapular = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_SUBSCAPULAR);
+            float skinfoldSuprailiac = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_SUPRAILIAC);
+            float skinfoldThigh = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_THIGH);
+            float skinfoldTriceps = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_TRICEPS);
+            if (skinfoldSuprailiac >= 0 && skinfoldAbdominal >= 0 && skinfoldPectoral >= 0 && skinfoldAxilla >= 0
+                    && skinfoldSubscapular >= 0 && skinfoldThigh >= 0 && skinfoldTriceps >= 0)
+                return FitnessCalculator.calculateBodyfat(skinfoldPectoral, skinfoldAbdominal, skinfoldThigh, skinfoldTriceps, skinfoldSubscapular,
+                        skinfoldSuprailiac, skinfoldAxilla, gender, age);
+        }
+        return -1;
+    }
+
+    /**
+     * Calculate bodyfat using 7 site skinfold caliper test.
+     */
+    private static float calculateBodyfat(float pectoralSkinfold, float abdominalSkinfold, float thighSkinfold,
+                                          float tricepsSkinfold, float subscapularSkinfold, float suprailiacSkinfold,
+                                          float axillaSkingold, int gender, int age) {
+        float sum = pectoralSkinfold + abdominalSkinfold + thighSkinfold + tricepsSkinfold + subscapularSkinfold +
+                suprailiacSkinfold + axillaSkingold;
+
+        float bodyfat = 0;
+        if (gender == Constants.GENDER_FEMALE) {
+            bodyfat = convertBodyDensityToBodyfat(1.097f - (0.00046971f * sum) + (0.00000056f * sum * sum) - (0.00012828f * age));
+        } else if (gender == Constants.GENDER_MALE) {
+            bodyfat = convertBodyDensityToBodyfat(1.112f - (0.00043499f * sum) + (0.00000055f * sum * sum) - (0.00028826f * age));
+        }
+        return bodyfat;
+    }
+
+    /**
+     * Calculate bodyfat using 3 site skinfold caliper test.
+     */
+    private static float calculateBodyfatFemale(float thighSkinfold, float tricepsSkinfold, float suprailiacSkinfold, int age) {
+        float sum = thighSkinfold + tricepsSkinfold + suprailiacSkinfold;
+        return convertBodyDensityToBodyfat(1.0994291f - (0.0009929f * sum) + (0.0000023f * sum * sum) - (0.0001392f * age));
+    }
+
+    private static float calculateBodyfatMale(float pectoralSkinfold, float abdominalSkinfold, float suprailiacSkinfold, int age) {
+        float sum = pectoralSkinfold + abdominalSkinfold + suprailiacSkinfold;
+        return convertBodyDensityToBodyfat(1.10938f - (0.0008267f * sum) + (0.0000016f * sum * sum) - (0.0002574f * age));
+    }
+
+    private static float convertBodyDensityToBodyfat(float bodyDensity) {
+        return ((4.95f / bodyDensity) - 4.5f) * 100;
+    }
+
+    public static int getBodyfatCategory(int gender, float bodyfat) {
+        if (gender == Constants.GENDER_FEMALE) {
+            if (bodyfat <= 12) return Constants.BODYFAT_CATEGORY_ESSENTIAL;
+            else if (bodyfat <= 20) return Constants.BODYFAT_CATEGORY_ATHLETES;
+            else if (bodyfat <= 24) return Constants.BODYFAT_CATEGORY_FITNESS;
+            else if (bodyfat <= 31) return Constants.BODYFAT_CATEGORY_ACCEPTABLE;
+            else return Constants.BODYFAT_CATEGORY_OBESE;
+        } else if (gender == Constants.GENDER_MALE) {
+            if (bodyfat <= 4) return Constants.BODYFAT_CATEGORY_ESSENTIAL;
+            else if (bodyfat <= 13) return Constants.BODYFAT_CATEGORY_ATHLETES;
+            else if (bodyfat <= 17) return Constants.BODYFAT_CATEGORY_FITNESS;
+            else if (bodyfat <= 25) return Constants.BODYFAT_CATEGORY_ACCEPTABLE;
+            else return Constants.BODYFAT_CATEGORY_OBESE;
+        }
+        return Constants.BODYFAT_CATEGORY_ACCEPTABLE;
+    }
+
+    /**
+     * Strength standards.
+     **/
 
     public static final float[][] SQUAT_STANDARDS_MALE =
             {{52, 35, 60, 80, 107.5f, 145},

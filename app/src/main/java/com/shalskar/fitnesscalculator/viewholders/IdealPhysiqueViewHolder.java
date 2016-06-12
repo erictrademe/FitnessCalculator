@@ -31,12 +31,6 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
 
     private BodyAdapter bodyAdapter;
 
-    @BindView(R.id.card_view)
-    View cardView;
-
-    @BindView(R.id.side_layout)
-    View sideLayout;
-
     @BindView(R.id.chest_measurementview)
     MeasurementView chestMeasurementView;
 
@@ -76,13 +70,14 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
         this.bodyAdapter = bodyAdapter;
         this.baseView = baseView;
         ButterKnife.bind(this, baseView);
-    }
-
-    public void initialiseViews() {
         titleTextView.setText(baseView.getContext().getString(R.string.ideal_physique));
         title2TextView.setText(baseView.getContext().getString(R.string.ideal_physique));
         loadImage(R.dimen.ideal_physique_textview_width, R.dimen.ideal_physique_viewholder_height, R.drawable.ideal_physique_image);
+    }
+
+    public void initialiseViews() {
         updateAll();
+        // todo hard coded strings
         chestMeasurementView.setText("Chest");
         shouldersMeasurementView.setText("Shoulders");
         neckMeasurementView.setText("Neck");
@@ -107,13 +102,6 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
             title2TextView.setVisibility(View.GONE);
             sideLayout.setVisibility(View.GONE);
         }
-    }
-
-    private void animateSideLayout() {
-        sideLayout.setTranslationX(sideLayout.getWidth());
-        sideLayout.setAlpha(0);
-        sideLayout.setVisibility(View.VISIBLE);
-        sideLayout.animate().alpha(1).translationX(0).setInterpolator(new DecelerateInterpolator()).start();
     }
 
     private void animateTitle() {
@@ -174,7 +162,7 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
     void showIdealPhysiqueDialog() {
         bodyAdapter.showIdealPhysiqueDialog();
     }
-
+// todo implement
 //    @OnClick(R.id.info_button)
 //    void showIdealPhysiqueInfoDialog() {
 //        bodyAdapter.showIdealPhysiqueInfoDialog();
