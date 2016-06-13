@@ -10,8 +10,8 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:src="@drawable/my_stats_background"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        tools:src="@drawable/my_stats_background" />
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -202,8 +202,8 @@
                         android:layout_height="match_parent"
                         android:hint="@string/inches"
                         android:imeOptions="actionDone"
-                        android:textColor="#ffffff"
                         android:inputType="numberDecimal"
+                        android:textColor="#ffffff"
                         android:textSize="16sp" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -217,8 +217,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/wrist"
-                android:textColor="#ffffff"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
 
             <android.support.design.widget.TextInputLayout
@@ -235,10 +235,10 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/centimeters"
-                    android:textColor="#ffffff"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
+                    android:textColor="#ffffff"
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -250,8 +250,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/ankle"
-                android:textColor="#ffffff"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
 
             <android.support.design.widget.TextInputLayout
@@ -271,9 +271,9 @@
                     android:layout_height="match_parent"
                     android:hint="@string/centimeters"
                     android:imeOptions="actionGo"
-                    android:textColor="#ffffff"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
+                    android:textColor="#ffffff"
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -504,8 +504,9 @@
         style="@style/FitnessCalculatorTheme.Button.Borderless.Small"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/button_clear"
         android:layout_marginTop="4dp"
+        android:layout_toLeftOf="@+id/button_clear"
+        android:elevation="4dp"
         android:text="@string/metric" />
 
     <Button
@@ -513,9 +514,10 @@
         style="@style/FitnessCalculatorTheme.Button.Borderless.Small"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="8dp"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        android:elevation="4dp"
         android:text="Clear" />
 
     <android.support.design.widget.FloatingActionButton

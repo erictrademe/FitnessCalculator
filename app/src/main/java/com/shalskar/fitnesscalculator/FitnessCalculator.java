@@ -303,10 +303,12 @@ public class FitnessCalculator {
         for (int weightClass = 0; weightClass < standards.length; weightClass++) {
             if (bodyweight <= standards[weightClass][0]
                     || weightClass == standards.length - 1) {
+                if(weightLifted < standards[weightClass][1])
+                    return Constants.STRENGTH_STANDARD_UNTRAINED;
                 for (int standard = 1; standard < standards[weightClass].length; standard++) {
                     if (standard == standards[weightClass].length - 1)
                         return Constants.STRENGTH_STANDARD_ELITE;
-                    if (weightLifted > standards[weightClass][standard] &&
+                    if (weightLifted >= standards[weightClass][standard] &&
                             weightLifted < standards[weightClass][standard + 1])
                         return getStrengthStandard(standard - 1);
                 }
