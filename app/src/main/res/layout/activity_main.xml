@@ -3,11 +3,11 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     tools:context=".activities.MainActivity">
 
     <FrameLayout
         android:id="@+id/container"
+        android:background="@null"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

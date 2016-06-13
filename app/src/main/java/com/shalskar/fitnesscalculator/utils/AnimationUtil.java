@@ -89,7 +89,7 @@ public class AnimationUtil {
                 }).start();
     }
 
-    public static void animateDrawableIn(@NonNull final Drawable drawable){
+    public static void animateDrawableIn(@NonNull final View view, @NonNull final Drawable drawable){
         AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
         final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
         drawable.setColorFilter(filter);
@@ -100,6 +100,28 @@ public class AnimationUtil {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 drawable.setColorFilter (filter);
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // todo compat
+                view.setBackground(null);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
             }
         });
         animator.setDuration(DURATION_DRAWABLE_FADE_IN);

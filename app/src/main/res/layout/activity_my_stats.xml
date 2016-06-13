@@ -367,7 +367,8 @@
                 android:text="@string/strength"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 android:textColor="#ffffff"
-                android:textSize="24dp" />
+                android:textSize="24dp"
+                tools:ignore="MissingPrefix" />
 
             <View
                 android:layout_width="120dp"
@@ -500,30 +501,22 @@
 
     <Button
         android:id="@+id/button_unit"
-        style="@android:style/Widget.Material.Light.Button.Borderless"
+        style="@style/FitnessCalculatorTheme.Button.Borderless.Small"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/button_clear"
         android:layout_marginTop="4dp"
-        android:text="@string/metric"
-        android:textColor="#ffffff"
-        app:elevation="4dp"
-        android:elevation="4dp"
-        android:textSize="10dp" />
+        android:text="@string/metric" />
 
     <Button
         android:id="@+id/button_clear"
-        style="@android:style/Widget.Material.Light.Button.Borderless"
+        style="@style/FitnessCalculatorTheme.Button.Borderless.Small"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginRight="8dp"
         android:layout_alignParentRight="true"
-        android:text="Clear"
-        android:textColor="#ffffff"
-        app:elevation="4dp"
-        android:elevation="4dp"
-        android:textSize="10dp" />
+        android:text="Clear" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/button_save"
@@ -533,7 +526,7 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:background="?android:selectableItemBackground"
+        android:foreground="?android:selectableItemBackground"
         android:src="@drawable/ic_save_black_24dp"
         app:elevation="4dp"
         app:pressedTranslationZ="12dp" />

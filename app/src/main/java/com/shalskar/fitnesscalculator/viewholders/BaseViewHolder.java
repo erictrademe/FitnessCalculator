@@ -1,6 +1,8 @@
 package com.shalskar.fitnesscalculator.viewholders;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -38,6 +40,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.image)
     ImageView imageView;
 
+    @BindView(R.id.card_view)
+    CardView cardView;
+
     @BindView(R.id.side_layout)
     View sideLayout;
 
@@ -66,7 +71,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
                     @Override
                     public void call(Bitmap bitmap) {
                         imageView.setImageBitmap(bitmap);
-                        AnimationUtil.animateDrawableIn(imageView.getDrawable());
+                        AnimationUtil.animateDrawableIn(imageView, imageView.getDrawable());
                     }
                 });
     }

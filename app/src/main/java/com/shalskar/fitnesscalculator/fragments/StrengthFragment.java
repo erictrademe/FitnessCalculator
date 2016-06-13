@@ -90,6 +90,14 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
     }
 
     @Override
+    public void showOneRepMaxInfoDialog() {
+        DialogUtil.showMessageDialog(getFragmentManager(),
+                getActivity().getString(R.string.one_rep_max_description_title),
+                getActivity().getString(R.string.one_rep_max_description),
+                R.drawable.one_rep_max_image);
+    }
+
+    @Override
     public void showWilksDialog() {
         FragmentManager manager = getFragmentManager();
         Fragment frag = manager.findFragmentByTag(TAG_WILKS_DIALOG_FRAGMENT);
@@ -102,7 +110,6 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
 
     @Override
     public void showWilksInfoDialog() {
-        // todo use real info
         DialogUtil.showMessageDialog(getFragmentManager(),
                 getActivity().getString(R.string.wilks_description_title),
                 getActivity().getString(R.string.wilks_description),

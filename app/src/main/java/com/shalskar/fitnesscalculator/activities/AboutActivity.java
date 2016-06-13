@@ -43,8 +43,8 @@ public class AboutActivity extends AppCompatActivity {
     private static final int POSITION_TEN_DOLLAR = 3;
     private static final int POSITION_TWENTY_DOLLAR = 4;
 
-    @BindView(R.id.base_layout)
-    RelativeLayout relativeLayout;
+    @BindView(R.id.image)
+    ImageView imageView;
 
     @BindView(R.id.chart)
     PieChartView chartView;
@@ -71,10 +71,9 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        int width = (getResources().getConfiguration().screenWidthDp);
-        int height = (getResources().getConfiguration().screenHeightDp);
-        Drawable drawable = new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.about_background, width, height));
-        relativeLayout.setBackground(drawable);
+        int width = (getResources().getConfiguration().screenWidthDp/2);
+        int height = (getResources().getConfiguration().screenHeightDp/2);
+        imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.about_background, width, height));
     }
 
     private void updateChart() {

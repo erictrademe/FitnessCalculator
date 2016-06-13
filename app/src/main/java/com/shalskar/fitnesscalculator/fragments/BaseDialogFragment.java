@@ -77,6 +77,7 @@ public class BaseDialogFragment extends DialogFragment {
 
         int layout = getArguments().getInt(KEY_LAYOUT);
         View view = getActivity().getLayoutInflater().inflate(layout, container);
+        setStyle(STYLE_NO_TITLE, R.style.DialogTheme);
 
         ButterKnife.bind(this, view);
         titleTextView.setText(getArguments().getString(KEY_TITLE));

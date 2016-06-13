@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.ViewPagerAdapter;
+import com.shalskar.fitnesscalculator.utils.CompatUtil;
 import com.shalskar.fitnesscalculator.utils.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +65,7 @@ public class MainFragment extends Fragment {
     private void initialiseViews() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setLogo(getActivity().getDrawable(R.drawable.logo));
+        toolbar.setLogo(CompatUtil.getDrawable(getActivity(), R.drawable.logo));
         ViewUtil.correctLogoPadding(toolbar);
 
         setupViewPager(viewPager);

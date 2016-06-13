@@ -161,5 +161,10 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
         strengthAdapter.showOneRepMaxDialog();
     }
 
+    @OnClick(R.id.info_button)
+    void onInfoButtonClicked(){
+        strengthAdapter.showOneRepMaxInfoDialog();
+    }
+
 
 }

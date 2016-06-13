@@ -9,8 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
 import com.shalskar.fitnesscalculator.R;
+import com.shalskar.fitnesscalculator.fragments.BaseDialogFragment;
 import com.shalskar.fitnesscalculator.fragments.BaseInfoDialogFragment;
 import com.shalskar.fitnesscalculator.fragments.MacroDialog;
+import com.shalskar.fitnesscalculator.fragments.OneRepMaxDialog;
 
 /**
  * Created by RachelTeTau on 18/05/16.

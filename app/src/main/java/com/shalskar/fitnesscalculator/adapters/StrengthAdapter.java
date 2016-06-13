@@ -142,6 +142,10 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         adapterListener.showOneRepMaxDialog();
     }
 
+    public void showOneRepMaxInfoDialog() {
+        adapterListener.showOneRepMaxInfoDialog();
+    }
+
     public void showWilksDialog() {
         adapterListener.showWilksDialog();
     }
@@ -160,6 +164,8 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public interface AdapterListener {
         void showOneRepMaxDialog();
+
+        void showOneRepMaxInfoDialog();
 
         void showWilksDialog();
 
