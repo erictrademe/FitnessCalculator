@@ -10,10 +10,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.model.Breakdown;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 
@@ -59,20 +61,17 @@ public class MacroViewHolder extends BaseViewHolder {
         loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.macro_image);
     }
 
-    public void initialiseViews(){
+    public void initialiseViews() {
         updateAll();
     }
 
     public void updateAll() {
-        double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
+        float calorieIntake = SharedPreferencesManager.getCalorieIntake();
         int goal = SharedPreferencesManager.getGoal();
-        if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1 && goal != -1) {
-            updateMacros();
-            if(titleTextView.getVisibility() == View.VISIBLE){
+
+        if (canUpdate(goal, calorieIntake)) {
+            updateMacros(goal, calorieIntake);
+            if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
             } else {
@@ -85,7 +84,20 @@ public class MacroViewHolder extends BaseViewHolder {
         }
     }
 
-    private void animateTitle(){
+    private boolean canUpdate(int goal, float calorieIntake) {
+        if (calorieIntake > 0 && goal != -1) {
+            if (goal == Constants.GOAL_CUSTOM) {
+                float protein = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_PROTEIN);
+                float carbohydrates = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_CARBOHYDRATES);
+                float fat = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_FAT);
+                return protein >= 0 && carbohydrates >= 0 && fat >= 0;
+            } else
+                return true;
+        }
+        return false;
+    }
+
+    private void animateTitle() {
         titleTextView.animate().alpha(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -114,17 +126,22 @@ public class MacroViewHolder extends BaseViewHolder {
         title2TextView.animate().alpha(1).start();
     }
 
-    private void updateMacros() {
-        double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
-        int goal = SharedPreferencesManager.getGoal();
-
-        double[] macros = FitnessCalculator.calculateMacros(weight, height, gender, age, activityLevel, goal);
-
+    private void updateMacros(int goal, float calorieIntake) {
+        double[] macros = FitnessCalculator.calculateMacros(getBreakdown(goal), calorieIntake);
         updateChart(macros);
+    }
+
+    private Breakdown getBreakdown(int goal) {
+        if (goal == Constants.GOAL_GAIN_MUSCLE) return Breakdown.BREAKDOWN_GAIN_MUSCLE;
+        else if (goal == Constants.GOAL_FAT_LOSS) return Breakdown.BREAKDOWN_FAT_LOSS;
+        else if (goal == Constants.GOAL_MAINTAIN) return Breakdown.BREAKDOWN_MAINTAIN;
+        else if (goal == Constants.GOAL_CUSTOM) {
+            float protein = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_PROTEIN);
+            float carbohydrates = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_CARBOHYDRATES);
+            float fat = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_FAT);
+            return new Breakdown(protein / 100, carbohydrates / 100, fat / 100);
+        }
+        return null;
     }
 
     private void updateChart(double[] macros) {
@@ -133,7 +150,7 @@ public class MacroViewHolder extends BaseViewHolder {
         DecimalFormat decimalFormat = new DecimalFormat("#");
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1("Breakdown");
-        pieChartData.setCenterText2("C: " + decimalFormat.format(macros[0]) + " | F: " + decimalFormat.format(macros[1]) + " | P: " + decimalFormat.format(macros[2]));
+        pieChartData.setCenterText2("P: " + decimalFormat.format(macros[0]) + " | C: " + decimalFormat.format(macros[1]) + " | F: " + decimalFormat.format(macros[2]));
         pieChartData.setCenterText1Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         pieChartData.setCenterText2Typeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
         pieChartData.setValueLabelTypeface(Typeface.createFromAsset(baseView.getContext().getAssets(), "fonts/Raleway-Regular.ttf"));

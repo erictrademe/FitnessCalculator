@@ -32,7 +32,7 @@
 
             <Button
                 android:id="@+id/button_bodyfat_type"
-                style="@android:style/Widget.Material.Button.Borderless"
+                style="@style/FitnessCalculatorTheme.Button.Borderless"
                 android:layout_width="72dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"

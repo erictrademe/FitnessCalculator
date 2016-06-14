@@ -2,23 +2,17 @@ package com.shalskar.fitnesscalculator.viewholders;
 
 import android.animation.Animator;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.MeasurementView;
-import com.shalskar.fitnesscalculator.Physique;
+import com.shalskar.fitnesscalculator.model.Physique;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.BodyAdapter;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
-import com.shalskar.fitnesscalculator.utils.ImageUtil;
-
-import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

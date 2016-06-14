@@ -3,6 +3,8 @@ package com.shalskar.fitnesscalculator;
 import android.support.annotation.NonNull;
 
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
+import com.shalskar.fitnesscalculator.model.Breakdown;
+import com.shalskar.fitnesscalculator.model.Physique;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 
 /**
@@ -26,31 +28,16 @@ public class FitnessCalculator {
     }
 
     /**
-     * Macros are returned in carbohydrate/fat/protein format
+     * Macros are returned in protein/carbohydrate/fat format
      */
-    public static double[] calculateMacros(double weight, double height, int gender, int age, double activityLevel, int goal) {
+
+    public static double[] calculateMacros(@NonNull Breakdown breakdown, float calorieIntake) {
         double[] macros = new double[3];
-        int dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
 
-        // todo switch from dummy values
-        switch (goal) {
-            case Constants.GOAL_GAIN_MUSCLE:
-                macros[0] = 0.4 * dailyCalorieIntake / 4;
-                macros[1] = 0.2 * dailyCalorieIntake / 9;
-                macros[2] = 0.4 * dailyCalorieIntake / 4;
-                break;
-            case Constants.GOAL_FAT_LOSS:
-                macros[0] = 0.4 * dailyCalorieIntake / 4;
-                macros[1] = 0.3 * dailyCalorieIntake / 9;
-                macros[2] = 0.3 * dailyCalorieIntake / 4;
-                break;
-            case Constants.GOAL_MAINTAIN:
-                macros[0] = 0.3 * dailyCalorieIntake / 4;
-                macros[1] = 0.3 * dailyCalorieIntake / 9;
-                macros[2] = 0.4 * dailyCalorieIntake / 4;
-                break;
+        macros[0] = breakdown.getProteinRatio() * calorieIntake / 4;
+        macros[1] = breakdown.getCarbohydratesRatio() * calorieIntake / 4;
+        macros[2] = breakdown.getFatRatio() * calorieIntake / 9;
 
-        }
         return macros;
     }
 

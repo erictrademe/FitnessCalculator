@@ -1,4 +1,4 @@
-package com.shalskar.fitnesscalculator;
+package com.shalskar.fitnesscalculator.model;
 
 /**
  * Created by Vincent on 28/05/2016.

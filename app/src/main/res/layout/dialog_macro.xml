@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/dialog_width"
     android:animateLayoutChanges="true"
     android:background="@color/dialogBackground"
@@ -29,69 +30,46 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textview_gender"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/button_calculated"
+                style="@style/FitnessCalculatorTheme.Button.Borderless"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/Gender"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/radio_group_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_gravity="end"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radio_button_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="@string/male" />
-
-                <RadioButton
-                    android:id="@+id/radio_button_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="16dp"
-                    android:checked="true"
-                    android:text="@string/female" />
-
-            </RadioGroup>
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="-58dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:text="@string/calculated"
+                android:textColor="#ffffff"
+                android:textSize="10dp" />
 
             <TextView
-                android:id="@+id/textview_age"
+                android:id="@+id/textview_calorie_intake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:textColor="@color/white"
-                android:text="@string/age"
+                android:text="@string/calorie_intake"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textSize="16sp" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/edittext_layout_age"
+                android:id="@+id/edittext_layout_calorie_intake"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
-                    android:id="@+id/edittext_age"
+                    android:id="@+id/edittext_calorie_intake"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="@string/years"
+                    android:hint="Calories"
                     android:imeOptions="actionGo"
                     android:inputType="number"
                     android:singleLine="true"
@@ -99,137 +77,6 @@
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textview_weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="32dp"
-                android:textColor="@color/white"
-                android:text="@string/weight"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                android:textSize="16sp" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/edittext_layout_weight"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="8dp"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/edittext_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:hint="@string/kilograms"
-                    android:imeOptions="actionGo"
-                    android:textColor="@color/white"
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textSize="16sp" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textview_height"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="32dp"
-                android:text="@string/height"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                android:textSize="16sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/edittext_layout_height"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/edittext_height"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/centimeters"
-                        android:imeOptions="actionGo"
-                        android:textColor="@color/white"
-                        android:inputType="numberDecimal"
-                        android:singleLine="true"
-                        android:textSize="16sp" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/height_inches_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/edittext_height_inches"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/inches"
-                        android:textColor="@color/white"
-                        android:imeOptions="actionDone"
-                        android:inputType="numberDecimal"
-                        android:textSize="16sp" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textview_activity_level"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="32dp"
-                android:textColor="@color/white"
-                android:text="@string/activity_level"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/textview_activity_level_amount"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textColor="#bbffffff"
-                android:layout_marginTop="8dp"
-                android:text="@string/sedentary"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textSize="14sp" />
-
-            <com.rey.material.widget.Slider
-                android:id="@+id/slider_activity_level"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:textColor="@color/white"
-                android:paddingRight="16dp"
-                android:layout_marginTop="16dp"
-                app:sl_maxValue="4"
-                app:sl_minValue="0"
-                app:sl_value="0" />
 
             <TextView
                 android:id="@+id/textview_goal"
@@ -244,13 +91,13 @@
 
             <RadioGroup
                 android:id="@+id/radio_group_goal"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
+                android:layout_marginBottom="16dp"
                 android:textColor="@color/white"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:orientation="vertical">
 
                 <RadioButton
@@ -276,7 +123,115 @@
                     android:checked="true"
                     android:text="@string/maintain" />
 
+                <RadioButton
+                    android:id="@+id/radio_button_custom"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/custom" />
+
             </RadioGroup>
+
+            <TextView
+                android:id="@+id/textview_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/white"
+                android:text="@string/custom_macros"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textview_custom_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/lightRed"
+                android:text="@string/percentage_error"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textSize="8sp" />
+
+            <LinearLayout
+                android:id="@+id/custom_macro_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                tools:visibility="visible"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edittext_layout_protein"
+                    android:layout_width="92dp"
+                    android:layout_height="50dp"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edittext_protein"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:hint="@string/percent_protein"
+                        android:imeOptions="actionGo"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edittext_layout_carbohydrates"
+                    android:layout_width="92dp"
+                    android:layout_height="50dp"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edittext_carbohydrates"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:hint="@string/percent_carbohydrates"
+                        android:imeOptions="actionGo"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edittext_layout_fat"
+                    android:layout_width="92dp"
+                    android:layout_height="50dp"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edittext_fat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="16dp"
+                        android:hint="@string/percent_fat"
+                        android:imeOptions="actionGo"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

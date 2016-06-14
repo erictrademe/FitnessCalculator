@@ -18,7 +18,9 @@ public class Constants {
     public static final int DETAIL_EXERCISE = 1241;
     public static final int DETAIL_MEASUREMENT = 1242;
     public static final int DETAIL_SKINFOLD = 1243;
-    public static final int DETAIL_BODYFAT_CALCULATOR_TYPE = 1243;
+    public static final int DETAIL_BODYFAT_CALCULATOR_TYPE = 1244;
+    public static final int DETAIL_CALORIE_INTAKE = 1245;
+    public static final int DETAIL_MACRONUTRIENT = 1246;
 
     public final static int UNIT_METRIC = 1111;
     public final static int UNIT_IMPERIAL = 2222;
@@ -32,6 +34,7 @@ public class Constants {
     public final static int GOAL_GAIN_MUSCLE = 9999;
     public final static int GOAL_FAT_LOSS = 1111;
     public final static int GOAL_MAINTAIN = 2222;
+    public final static int GOAL_CUSTOM = 3333;
 
     public final static int GENDER_FEMALE = 0;
     public final static int GENDER_MALE = 1;
@@ -67,4 +70,8 @@ public class Constants {
     public final static int BODYFAT_CATEGORY_FITNESS = 6556;
     public final static int BODYFAT_CATEGORY_ACCEPTABLE = 6557;
     public final static int BODYFAT_CATEGORY_OBESE = 6558;
+
+    public final static String MACRONUTRIENT_PROTEIN = "macronutrient_protein";
+    public final static String MACRONUTRIENT_CARBOHYDRATES = "macronutrient_carbohydrates";
+    public final static String MACRONUTRIENT_FAT = "macronutrient_fat";
 }

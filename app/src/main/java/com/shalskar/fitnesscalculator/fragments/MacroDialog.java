@@ -18,8 +18,11 @@ import android.widget.TextView;
 
 import com.rey.material.widget.Slider;
 import com.shalskar.fitnesscalculator.Constants;
+import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
+import com.shalskar.fitnesscalculator.listeners.FieldListener;
+import com.shalskar.fitnesscalculator.listeners.ValidificationTextWatcher;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ParserUtil;
@@ -35,44 +38,14 @@ import butterknife.OnClick;
  */
 public class MacroDialog extends BaseDialogFragment {
 
-    @BindView(R.id.radio_group_gender)
-    RadioGroup radioGroupGender;
+    @BindView(R.id.edittext_layout_calorie_intake)
+    TextInputLayout calorieIntakeLayout;
 
-    @BindView(R.id.radio_button_male)
-    RadioButton maleRadioButton;
+    @BindView(R.id.edittext_calorie_intake)
+    EditText calorieIntakeEditText;
 
-    @BindView(R.id.radio_button_female)
-    RadioButton femaleRadioButton;
-
-    @BindView(R.id.edittext_layout_age)
-    TextInputLayout ageLayout;
-
-    @BindView(R.id.edittext_age)
-    EditText ageEditText;
-
-    @BindView(R.id.edittext_layout_weight)
-    TextInputLayout weightLayout;
-
-    @BindView(R.id.edittext_weight)
-    EditText weightEditText;
-
-    @BindView(R.id.edittext_height)
-    EditText heightEditText;
-
-    @BindView(R.id.edittext_layout_height)
-    TextInputLayout heightLayout;
-
-    @BindView(R.id.edittext_height_inches)
-    EditText heightInchesEditText;
-
-    @BindView(R.id.height_inches_layout)
-    ViewGroup heightInchesLayout;
-
-    @BindView(R.id.slider_activity_level)
-    Slider activityLevelSlider;
-
-    @BindView(R.id.textview_activity_level_amount)
-    TextView activityLevelAmountTextView;
+    @BindView(R.id.button_calculated)
+    Button calculatedButton;
 
     @BindView(R.id.radio_group_goal)
     RadioGroup radioGroupGoal;
@@ -86,19 +59,50 @@ public class MacroDialog extends BaseDialogFragment {
     @BindView(R.id.radio_button_maintain)
     RadioButton maintainRadioButton;
 
+    @BindView(R.id.radio_button_custom)
+    RadioButton customRadioButton;
+
+    @BindView(R.id.custom_macro_layout)
+    ViewGroup customMacroLayout;
+
+    @BindView(R.id.textview_custom)
+    TextView customTextView;
+
+    @BindView(R.id.textview_custom_error)
+    TextView customErrorTextView;
+
+
+    @BindView(R.id.edittext_layout_protein)
+    TextInputLayout proteinLayout;
+
+    @BindView(R.id.edittext_protein)
+    EditText proteinEditText;
+
+    @BindView(R.id.edittext_layout_carbohydrates)
+    TextInputLayout carbohydratesLayout;
+
+    @BindView(R.id.edittext_carbohydrates)
+    EditText carbohydratesEditText;
+
+    @BindView(R.id.edittext_layout_fat)
+    TextInputLayout fatLayout;
+
+    @BindView(R.id.edittext_fat)
+    EditText fatEditText;
+
+    // todo check if unit is necessary
     private int unit = Constants.UNIT_METRIC;
-    private int gender = Constants.GENDER_FEMALE;
-    private int age = 0;
-    private double height = 0;
-    private double weight = 0;
-    private float activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
-    private int goal = Constants.GOAL_GAIN_MUSCLE;
+    private int goal;
+    private float calorieIntake = 0;
+    private float protein = 0;
+    private float carbohydrates = 0;
+    private float fat = 0;
 
     public MacroDialog() {
 
     }
 
-    public static MacroDialog newInstance(@NonNull String title){
+    public static MacroDialog newInstance(@NonNull String title) {
         MacroDialog macroDialog = new MacroDialog();
         Bundle args = new Bundle();
         args.putInt(KEY_LAYOUT, R.layout.dialog_macro);
@@ -116,30 +120,29 @@ public class MacroDialog extends BaseDialogFragment {
         ButterKnife.bind(this, view);
         addListeners();
         prepopulateFields();
+        unitButton.setVisibility(View.GONE);
+        if (calculatedCalorieIntakePossible())
+            calculatedButton.setVisibility(View.VISIBLE);
 
         return view;
     }
 
     private void loadFields() {
-        gender = SharedPreferencesManager.getGender();
-        if (gender == -1) {
-            gender = Constants.GENDER_FEMALE;
-            SharedPreferencesManager.saveGender(gender);
+        calorieIntake = SharedPreferencesManager.getCalorieIntake();
+        if (calorieIntake == -1) {
+            // do stuff here
         }
-        age = SharedPreferencesManager.getAge();
-        height = SharedPreferencesManager.getHeight();
-        weight = SharedPreferencesManager.getWeight();
+
         unit = SharedPreferencesManager.getUnit();
-        activityLevel = SharedPreferencesManager.getActivityLevel();
-        if (activityLevel == -1) {
-            activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
-            SharedPreferencesManager.saveActivityLevel(activityLevel);
-        }
         goal = SharedPreferencesManager.getGoal();
-        if (goal == -1){
+        if (goal == -1) {
             goal = Constants.GOAL_GAIN_MUSCLE;
             SharedPreferencesManager.saveGoal(goal);
         }
+
+        protein = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_PROTEIN);
+        carbohydrates = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_CARBOHYDRATES);
+        fat = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_FAT);
     }
 
     /**
@@ -148,75 +151,30 @@ public class MacroDialog extends BaseDialogFragment {
 
     private void prepopulateFields() {
         loadFields();
-        prepopulateGender();
-        prepopulateAge();
-        prepopulateHeightAndWeight();
-        prepopulateActivityLevel();
+
+        prepopulateField(calorieIntakeLayout, calorieIntakeEditText, calorieIntake);
+        prepopulateField(proteinLayout, proteinEditText, protein);
+        prepopulateField(carbohydratesLayout, carbohydratesEditText, carbohydrates);
+        prepopulateField(fatLayout, fatEditText, fat);
+
         prepopulateGoal();
     }
 
-    private void prepopulateGender() {
-        if (gender == Constants.GENDER_FEMALE) {
-            femaleRadioButton.setChecked(true);
-            maleRadioButton.setChecked(false);
-        } else if (gender == Constants.GENDER_MALE) {
-            femaleRadioButton.setChecked(false);
-            maleRadioButton.setChecked(true);
-        }
+    private void prepopulateField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
+        textInputLayout.setErrorEnabled(false);
+        if (value > 0)
+            editText.setText(numberFormat.format(value));
     }
-
-    private void prepopulateAge() {
-        weightLayout.setErrorEnabled(false);
-        if (age != 0)
-            ageEditText.setText(String.format("%d", age));
-    }
-
-    private void prepopulateHeightAndWeight() {
-        heightLayout.setErrorEnabled(false);
-        weightLayout.setErrorEnabled(false);
-        if (unit == Constants.UNIT_IMPERIAL) {
-            unitButton.setText(getString(R.string.imperial));
-            heightLayout.setHint(getString(R.string.feet));
-            weightLayout.setHint(getString(R.string.pounds));
-            heightInchesLayout.setVisibility(View.VISIBLE);
-            if (weight > 0)
-                weightEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weight)));
-            if (height > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
-                heightEditText.setText(String.format("%.0f", feetAndInches[0]));
-                heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
-            }
-        } else if (unit == Constants.UNIT_METRIC) {
-            heightLayout.setHint(getString(R.string.centimeters));
-            weightLayout.setHint(getString(R.string.kilograms));
-            if (weight > 0)
-                weightEditText.setText(String.format("%.0f", weight));
-            if (height > 0)
-                heightEditText.setText(String.format("%.0f", height));
-        }
-    }
-
-    private void prepopulateActivityLevel() {
-        if (activityLevel == Constants.ACTIVITY_LEVEL_SEDENTARY) {
-            activityLevelSlider.setValue(0, false);
-            activityLevelAmountTextView.setText(getString(R.string.activity_level_sedentary));
-        } else if (activityLevel == Constants.ACTIVITY_LEVEL_LIGHT) {
-            activityLevelSlider.setValue(1, false);
-            activityLevelAmountTextView.setText(getString(R.string.activity_level_light));
-        } else if (activityLevel == Constants.ACTIVITY_LEVEL_MODERATE) {
-            activityLevelSlider.setValue(2, false);
-            activityLevelAmountTextView.setText(getString(R.string.activity_level_moderate));
-        } else if (activityLevel == Constants.ACTIVITY_LEVEL_ACTIVE) {
-            activityLevelSlider.setValue(3, false);
-            activityLevelAmountTextView.setText(getString(R.string.activity_level_active));
-        } else if (activityLevel == Constants.ACTIVITY_LEVEL_EXTREME) {
-            activityLevelSlider.setValue(4, false);
-            activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
-        }
-    }
-
 
     private void prepopulateGoal() {
+        if (goal == Constants.GOAL_CUSTOM) {
+            customMacroLayout.setVisibility(View.VISIBLE);
+            customTextView.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            customMacroLayout.setVisibility(View.GONE);
+            customTextView.setVisibility(View.GONE);
+        }
         if (goal == Constants.GOAL_GAIN_MUSCLE) {
             gainMuscleRadioButton.setChecked(true);
             fatLossRadioButton.setChecked(false);
@@ -232,59 +190,17 @@ public class MacroDialog extends BaseDialogFragment {
         }
     }
 
-
-    @Override
-    void onClickUnitButton() {
-        removeListeners();
-        if (unit == Constants.UNIT_METRIC) {
-            unitButton.setText(getString(R.string.imperial));
-            SharedPreferencesManager.saveUnit(Constants.UNIT_IMPERIAL);
-            unit = Constants.UNIT_IMPERIAL;
-            heightLayout.setHint(getString(R.string.feet));
-            weightLayout.setHint(getString(R.string.pounds));
-            heightInchesLayout.setVisibility(View.VISIBLE);
-        } else if (unit == Constants.UNIT_IMPERIAL) {
-            unitButton.setText(getString(R.string.metric));
-            SharedPreferencesManager.saveUnit(Constants.UNIT_METRIC);
-            unit = Constants.UNIT_METRIC;
-            heightLayout.setHint(getString(R.string.centimeters));
-            weightLayout.setHint(getString(R.string.kilograms));
-            heightInchesLayout.setVisibility(View.GONE);
-        }
-        convertFields();
-        addListeners();
-        EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_UNIT));
-    }
-
-    private void convertFields() {
-        if (unit == Constants.UNIT_IMPERIAL) {
-            if (weight > 0 && weightEditText.length() > 0)
-                weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
-
-            if (height > 0 && heightEditText.length() > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
-                heightEditText.setText(numberFormat.format(feetAndInches[0]));
-                heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
-            }
-        } else if (unit == Constants.UNIT_METRIC) {
-            if (weight > 0 && weightEditText.length() > 0)
-                weightEditText.setText(numberFormat.format(weight));
-            if (height > 0 && heightEditText.length() > 0)
-                heightEditText.setText(numberFormat.format(height));
-        }
-    }
-
     @Override
     void onOkClick() {
         if (validateFields()) {
-            SharedPreferencesManager.saveAge(age);
-            SharedPreferencesManager.saveGender(gender);
-            SharedPreferencesManager.saveWeight(weight);
-            SharedPreferencesManager.saveHeight(height);
-            SharedPreferencesManager.saveActivityLevel(activityLevel);
+            SharedPreferencesManager.saveCalorieIntake(calorieIntake);
             SharedPreferencesManager.saveGoal(goal);
-            EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_AGE, Constants.DETAIL_GENDER,
-                    Constants.DETAIL_HEIGHT, Constants.DETAIL_WEIGHT, Constants.DETAIL_ACTIVITY_LEVEL, Constants.DETAIL_GOAL));
+            if (customMacroLayout.getVisibility() == View.VISIBLE) {
+                SharedPreferencesManager.saveMacronutrient(Constants.MACRONUTRIENT_PROTEIN, protein);
+                SharedPreferencesManager.saveMacronutrient(Constants.MACRONUTRIENT_CARBOHYDRATES, carbohydrates);
+                SharedPreferencesManager.saveMacronutrient(Constants.MACRONUTRIENT_FAT, fat);
+            }
+            EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_GOAL, Constants.DETAIL_CALORIE_INTAKE, Constants.DETAIL_MACRONUTRIENT));
             this.dismiss();
         }
     }
@@ -292,151 +208,110 @@ public class MacroDialog extends BaseDialogFragment {
     private boolean validateFields() {
         boolean validated = true;
 
-        if(!validateWeightField(ageLayout, ageEditText, age))
+        if (!validateWeightField(calorieIntakeLayout, calorieIntakeEditText, calorieIntake))
             validated = false;
-        if(!validateWeightField(heightLayout, heightEditText, (float) height))
-            validated = false;
-        if(!validateWeightField(weightLayout, weightEditText, (float) weight))
-            validated = false;
+
+        if (customMacroLayout.getVisibility() == View.VISIBLE) {
+            if (!validateWeightField(proteinLayout, proteinEditText, protein))
+                validated = false;
+            if (!validateWeightField(carbohydratesLayout, carbohydratesEditText, carbohydrates))
+                validated = false;
+            if (!validateWeightField(fatLayout, fatEditText, fat))
+                validated = false;
+
+            // Percentages must equal to 100
+            if (checkMacroRatios())
+                customErrorTextView.setVisibility(View.INVISIBLE);
+            else {
+                customErrorTextView.setVisibility(View.VISIBLE);
+                validated = false;
+            }
+
+        }
 
         return validated;
     }
 
-
-    private void removeListeners() {
-        ageEditText.removeTextChangedListener(ageEditTextWatcher);
-        weightEditText.removeTextChangedListener(weightEditTextWatcher);
-        heightEditText.removeTextChangedListener(heightEditTextWatcher);
-        heightInchesEditText.removeTextChangedListener(heightEditTextWatcher);
-    }
-
-    private void addListeners() {
-        radioGroupGender.setOnCheckedChangeListener(onGenderCheckedChangeListener);
-        radioGroupGoal.setOnCheckedChangeListener(onGoalCheckedChangeListener);
-        ageEditText.addTextChangedListener(ageEditTextWatcher);
-        weightEditText.addTextChangedListener(weightEditTextWatcher);
-        heightEditText.addTextChangedListener(heightEditTextWatcher);
-        heightInchesEditText.addTextChangedListener(heightEditTextWatcher);
-        activityLevelSlider.setOnPositionChangeListener(activityLevelPositionChangedListener);
+    private boolean checkMacroRatios() {
+        return (protein + carbohydrates + fat) == 100;
     }
 
     /**
      * Listeners
      */
 
-    private TextWatcher weightEditTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+    @OnClick(R.id.button_calculated)
+    void onCalculatedButtonClicked() {
+        int gender = SharedPreferencesManager.getGender();
+        int age = SharedPreferencesManager.getAge();
+        double height = SharedPreferencesManager.getHeight();
+        double weight = SharedPreferencesManager.getWeight();
+        float activityLevel = SharedPreferencesManager.getActivityLevel();
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (weightEditText.length() == 0) {
-                weightLayout.setError(" ");
-                weightLayout.setErrorEnabled(true);
-            } else {
-                weightLayout.setErrorEnabled(false);
-                weight = ParserUtil.parseDouble(getContext(), weightEditText.getText().toString());
-                if (unit == Constants.UNIT_IMPERIAL)
-                    weight = ConverterUtil.poundsToKgs(weight);
+        calorieIntake = FitnessCalculator.calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
+        calorieIntakeEditText.setText(numberFormat.format(calorieIntake));
+    }
+
+    private boolean calculatedCalorieIntakePossible() {
+        int gender = SharedPreferencesManager.getGender();
+        int age = SharedPreferencesManager.getAge();
+        double height = SharedPreferencesManager.getHeight();
+        double weight = SharedPreferencesManager.getWeight();
+        float activityLevel = SharedPreferencesManager.getActivityLevel();
+        if (gender != -1 && age > 0 && height > 0 && weight > 0 && activityLevel != -1)
+            return true;
+        else
+            return false;
+    }
+
+    private void addListeners() {
+        radioGroupGoal.setOnCheckedChangeListener(onGoalCheckedChangeListener);
+        calorieIntakeEditText.addTextChangedListener(new ValidificationTextWatcher(calorieIntakeLayout, calorieIntakeEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                calorieIntake = value;
             }
-        }
+        }, unit, false));
 
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    };
-
-    private TextWatcher heightEditTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (heightEditText.length() == 0) {
-                heightLayout.setError(" ");
-                heightLayout.setErrorEnabled(true);
-            } else {
-                heightLayout.setErrorEnabled(false);
-                if (unit == Constants.UNIT_METRIC) {
-                    height = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
-                } else if (unit == Constants.UNIT_IMPERIAL) {
-                    double feet = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
-                    double inches = 0;
-                    if (heightInchesEditText.length() > 0)
-                        inches = ParserUtil.parseDouble(getContext(), heightInchesEditText.getText().toString());
-                    height = ConverterUtil.feetAndInchesToCm(feet, inches);
-                }
+        proteinEditText.addTextChangedListener(new ValidificationTextWatcher(proteinLayout, proteinEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                protein = value;
+                if (checkMacroRatios()) customErrorTextView.setVisibility(View.INVISIBLE);
             }
-        }
+        }, unit, false));
 
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    };
-
-    private TextWatcher ageEditTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (ageEditText.length() == 0) {
-                ageLayout.setError(" ");
-                ageLayout.setErrorEnabled(true);
-            } else {
-                age = Integer.parseInt(ageEditText.getText().toString());
-                ageLayout.setErrorEnabled(false);
+        carbohydratesEditText.addTextChangedListener(new ValidificationTextWatcher(carbohydratesLayout, carbohydratesEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                carbohydrates = value;
+                if (checkMacroRatios()) customErrorTextView.setVisibility(View.INVISIBLE);
             }
-        }
+        }, unit, false));
 
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    };
-
-    private RadioGroup.OnCheckedChangeListener onGenderCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId == R.id.radio_button_female) gender = Constants.GENDER_FEMALE;
-            else if (checkedId == R.id.radio_button_male) gender = Constants.GENDER_MALE;
-
-        }
-    };
-
-    private Slider.OnPositionChangeListener activityLevelPositionChangedListener = new Slider.OnPositionChangeListener() {
-        @Override
-        public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
-            switch (newValue) {
-                case 0:
-                    activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
-                    activityLevelAmountTextView.setText(getString(R.string.activity_level_sedentary));
-                    break;
-                case 1:
-                    activityLevel = Constants.ACTIVITY_LEVEL_LIGHT;
-                    activityLevelAmountTextView.setText(getString(R.string.activity_level_light));
-                    break;
-                case 2:
-                    activityLevel = Constants.ACTIVITY_LEVEL_MODERATE;
-                    activityLevelAmountTextView.setText(getString(R.string.activity_level_moderate));
-                    break;
-                case 3:
-                    activityLevel = Constants.ACTIVITY_LEVEL_ACTIVE;
-                    activityLevelAmountTextView.setText(getString(R.string.activity_level_active));
-                    break;
-                case 4:
-                    activityLevel = Constants.ACTIVITY_LEVEL_EXTREME;
-                    activityLevelAmountTextView.setText(getString(R.string.activity_level_extreme));
-                    break;
+        fatEditText.addTextChangedListener(new ValidificationTextWatcher(fatLayout, fatEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                fat = value;
+                if (checkMacroRatios()) customErrorTextView.setVisibility(View.INVISIBLE);
             }
-        }
-    };
+        }, unit, false));
+    }
 
     private RadioGroup.OnCheckedChangeListener onGoalCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.radio_button_custom) {
+                goal = Constants.GOAL_CUSTOM;
+                customMacroLayout.setVisibility(View.VISIBLE);
+                customTextView.setVisibility(View.VISIBLE);
+                return;
+            } else {
+                customMacroLayout.setVisibility(View.GONE);
+                customErrorTextView.setVisibility(View.INVISIBLE);
+                customTextView.setVisibility(View.GONE);
+            }
+
             if (checkedId == R.id.radio_button_gain_muscle) goal = Constants.GOAL_GAIN_MUSCLE;
             else if (checkedId == R.id.radio_button_fat_loss) goal = Constants.GOAL_FAT_LOSS;
             else if (checkedId == R.id.radio_button_maintain) goal = Constants.GOAL_MAINTAIN;

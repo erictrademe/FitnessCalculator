@@ -36,16 +36,17 @@ public class ValidificationTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        float value = 0;
         if (editText.length() == 0) {
             textInputLayout.setError(" ");
             textInputLayout.setErrorEnabled(true);
         } else {
             textInputLayout.setErrorEnabled(false);
-            float pectoralSkinfold = ParserUtil.parseFloat(textInputLayout.getContext(), editText.getText().toString());
+            value = ParserUtil.parseFloat(textInputLayout.getContext(), editText.getText().toString());
             if (unit == Constants.UNIT_IMPERIAL && conversion)
-                pectoralSkinfold = ConverterUtil.inchesToCm(pectoralSkinfold);
-            fieldListener.fieldChanged(pectoralSkinfold);
+                value = ConverterUtil.inchesToCm(value);
         }
+        fieldListener.fieldChanged(value);
     }
 
     @Override

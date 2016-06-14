@@ -24,6 +24,8 @@ public class SharedPreferencesManager {
     private static final String KEY_MEASUREMENT = "measurement";
     private static final String KEY_BODYFAT_CALCULATOR_TYPE = "bodyfat_calculator_type";
     private static final String KEY_SKINFOLD = "skinfold";
+    private static final String KEY_CALORIE_INTAKE = "calorie_intake";
+    private static final String KEY_MACRONUTRIENT = "macronutrient";
 
     private static SharedPreferencesManager sharedPreferencesManager;
 
@@ -174,6 +176,26 @@ public class SharedPreferencesManager {
         editor.apply();
     }
 
+    public static void saveCalorieIntake(float calorieIntake){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putFloat(KEY_CALORIE_INTAKE, calorieIntake);
+        editor.apply();
+    }
+
+    public static float getCalorieIntake(){
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_CALORIE_INTAKE, -1);
+    }
+
+    public static void saveMacronutrient(@NonNull String macronutrient, float amount){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putFloat(KEY_MACRONUTRIENT + macronutrient, amount);
+        editor.apply();
+    }
+
+    public static float getMacronutrient(@NonNull String macronutrient){
+        return sharedPreferencesManager.sharedPreferences.getFloat(KEY_MACRONUTRIENT + macronutrient, -1);
+    }
+
     public static void clearAll(){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
 
@@ -201,6 +223,12 @@ public class SharedPreferencesManager {
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_SUPRAILIAC);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_THIGH);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_TRICEPS);
+
+        editor.remove(KEY_CALORIE_INTAKE);
+
+        editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_PROTEIN);
+        editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_CARBOHYDRATES);
+        editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_FAT);
 
         editor.apply();
     }

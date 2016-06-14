@@ -213,14 +213,12 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_AGE)) {
             updateCalories = true;
-            updateMacro = true;
             updateWater = true;
             updateBodyfat = true;
         }
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_GENDER)) {
             updateCalories = true;
-            updateMacro = true;
             updateWater = true;
             updateBodyfat = true;
         }
@@ -228,7 +226,6 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_WEIGHT)) {
             updateBMI = true;
             updateCalories = true;
-            updateMacro = true;
             updateWater = true;
             updateIdealWeight = true;
         }
@@ -236,14 +233,12 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_HEIGHT)) {
             updateBMI = true;
             updateCalories = true;
-            updateMacro = true;
             updateWater = true;
             updateIdealWeight = true;
         }
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_ACTIVITY_LEVEL)) {
             updateCalories = true;
-            updateMacro = true;
             updateWater = true;
         }
 
@@ -271,6 +266,14 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_BODYFAT_CALCULATOR_TYPE)) {
             updateBodyfat = true;
+        }
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_CALORIE_INTAKE)) {
+            updateMacro = true;
+        }
+
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_MACRONUTRIENT)) {
+            updateMacro = true;
         }
 
         if(updateBMI) bodyAdapter.updateBMI();
