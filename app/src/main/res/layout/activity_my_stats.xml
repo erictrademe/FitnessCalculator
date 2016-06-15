@@ -22,6 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <TextView
@@ -304,7 +305,7 @@
                 android:id="@+id/slider_activity_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -312,12 +313,60 @@
                 app:sl_minValue="0"
                 app:sl_value="0" />
 
+            <Button
+                android:id="@+id/button_calculated"
+                style="@style/FitnessCalculatorTheme.Button.Borderless"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="-64dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/calculate"
+                android:textColor="#ffffff"
+                android:textSize="10dp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textview_calorie_intake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/calorie_intake"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edittext_layout_calorie_intake"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                <EditText
+                    android:id="@+id/edittext_calorie_intake"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="Calories"
+                    android:imeOptions="actionGo"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
             <TextView
                 android:id="@+id/textview_goal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/goal"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#ffffff"
@@ -338,7 +387,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/muscle_gain"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/white" />
 
                 <RadioButton
                     android:id="@+id/radio_button_fat_loss"
@@ -346,16 +395,124 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="@string/fat_loss"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/white" />
 
                 <RadioButton
                     android:id="@+id/radio_button_maintain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/maintain"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/white" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_custom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/custom"
+                    android:textColor="@color/white" />
 
             </RadioGroup>
+
+            <TextView
+                android:id="@+id/textview_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/custom_macros"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textview_custom_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/lightRed"
+                android:text="@string/percentage_error"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textSize="8sp" />
+
+            <LinearLayout
+                android:id="@+id/custom_macro_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edittext_layout_protein"
+                    android:layout_width="92dp"
+                    android:layout_height="50dp"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edittext_protein"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:hint="@string/percent_protein"
+                        android:imeOptions="actionGo"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edittext_layout_carbohydrates"
+                    android:layout_width="92dp"
+                    android:layout_height="50dp"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edittext_carbohydrates"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:hint="@string/percent_carbohydrates"
+                        android:imeOptions="actionGo"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edittext_layout_fat"
+                    android:layout_width="92dp"
+                    android:layout_height="50dp"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/edittext_fat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="16dp"
+                        android:hint="@string/percent_fat"
+                        android:imeOptions="actionGo"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textview_strength"

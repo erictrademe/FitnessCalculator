@@ -71,7 +71,6 @@ public class MacroDialog extends BaseDialogFragment {
     @BindView(R.id.textview_custom_error)
     TextView customErrorTextView;
 
-
     @BindView(R.id.edittext_layout_protein)
     TextInputLayout proteinLayout;
 
@@ -129,9 +128,6 @@ public class MacroDialog extends BaseDialogFragment {
 
     private void loadFields() {
         calorieIntake = SharedPreferencesManager.getCalorieIntake();
-        if (calorieIntake == -1) {
-            // do stuff here
-        }
 
         unit = SharedPreferencesManager.getUnit();
         goal = SharedPreferencesManager.getGoal();
@@ -170,6 +166,10 @@ public class MacroDialog extends BaseDialogFragment {
         if (goal == Constants.GOAL_CUSTOM) {
             customMacroLayout.setVisibility(View.VISIBLE);
             customTextView.setVisibility(View.VISIBLE);
+            customRadioButton.setChecked(true);
+            gainMuscleRadioButton.setChecked(false);
+            fatLossRadioButton.setChecked(false);
+            maintainRadioButton.setChecked(false);
             return;
         } else {
             customMacroLayout.setVisibility(View.GONE);
@@ -179,14 +179,17 @@ public class MacroDialog extends BaseDialogFragment {
             gainMuscleRadioButton.setChecked(true);
             fatLossRadioButton.setChecked(false);
             maintainRadioButton.setChecked(false);
+            customRadioButton.setChecked(false);
         } else if (goal == Constants.GOAL_FAT_LOSS) {
             gainMuscleRadioButton.setChecked(false);
             fatLossRadioButton.setChecked(true);
             maintainRadioButton.setChecked(false);
+            customRadioButton.setChecked(false);
         } else if (goal == Constants.GOAL_MAINTAIN) {
             gainMuscleRadioButton.setChecked(false);
             fatLossRadioButton.setChecked(false);
             maintainRadioButton.setChecked(true);
+            customRadioButton.setChecked(false);
         }
     }
 

@@ -1,8 +1,6 @@
 package com.shalskar.fitnesscalculator.activities;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -14,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +23,12 @@ import android.widget.TextView;
 
 import com.rey.material.widget.Slider;
 import com.shalskar.fitnesscalculator.Constants;
+import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.events.MyStatsSavedEvent;
+import com.shalskar.fitnesscalculator.listeners.FieldListener;
+import com.shalskar.fitnesscalculator.listeners.ValidificationTextWatcher;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
@@ -113,6 +115,15 @@ public class MyStatsActivity extends AppCompatActivity {
     @BindView(R.id.textview_activity_level_amount)
     TextView activityLevelAmountTextView;
 
+    @BindView(R.id.button_calculated)
+    Button calculatedButton;
+
+    @BindView(R.id.edittext_layout_calorie_intake)
+    TextInputLayout calorieIntakeLayout;
+
+    @BindView(R.id.edittext_calorie_intake)
+    EditText calorieIntakeEditText;
+
     @BindView(R.id.radio_group_goal)
     RadioGroup radioGroupGoal;
 
@@ -124,6 +135,36 @@ public class MyStatsActivity extends AppCompatActivity {
 
     @BindView(R.id.radio_button_maintain)
     RadioButton maintainRadioButton;
+
+    @BindView(R.id.radio_button_custom)
+    RadioButton customRadioButton;
+
+    @BindView(R.id.custom_macro_layout)
+    ViewGroup customMacroLayout;
+
+    @BindView(R.id.textview_custom)
+    TextView customTextView;
+
+    @BindView(R.id.textview_custom_error)
+    TextView customErrorTextView;
+
+    @BindView(R.id.edittext_layout_protein)
+    TextInputLayout proteinLayout;
+
+    @BindView(R.id.edittext_protein)
+    EditText proteinEditText;
+
+    @BindView(R.id.edittext_layout_carbohydrates)
+    TextInputLayout carbohydratesLayout;
+
+    @BindView(R.id.edittext_carbohydrates)
+    EditText carbohydratesEditText;
+
+    @BindView(R.id.edittext_layout_fat)
+    TextInputLayout fatLayout;
+
+    @BindView(R.id.edittext_fat)
+    EditText fatEditText;
 
     /**
      * Strength
@@ -147,6 +188,11 @@ public class MyStatsActivity extends AppCompatActivity {
     @BindView(R.id.edittext_deadlift)
     EditText deadliftEditText;
 
+    private ValidificationTextWatcher calorieIntakeValidationTextWatcher;
+    private ValidificationTextWatcher proteinValidationTextWatcher;
+    private ValidificationTextWatcher carbohydratesValidationTextWatcher;
+    private ValidificationTextWatcher fatIntakeValidationTextWatcher;
+
     protected NumberFormat numberFormat = new DecimalFormat(Constants.FORMAT_NUMBER);
 
     private int unit;
@@ -158,6 +204,10 @@ public class MyStatsActivity extends AppCompatActivity {
     private float ankleMeasurement;
     private float activityLevel;
     private int goal;
+    private float calorieIntake = 0;
+    private float protein = 0;
+    private float carbohydrates = 0;
+    private float fat = 0;
 
     private float benchPressWeightLifted;
     private float squatWeightLifted;
@@ -170,6 +220,7 @@ public class MyStatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_stats);
         ButterKnife.bind(this);
 
+        initialiseListeners();
         addListeners();
         loadImage();
         initialiseToolbar();
@@ -188,6 +239,39 @@ public class MyStatsActivity extends AppCompatActivity {
         int width = (getResources().getConfiguration().screenWidthDp);
         int height = (getResources().getConfiguration().screenHeightDp);
         imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.my_stats_background, width, height));
+    }
+
+    private void initialiseListeners(){
+        calorieIntakeValidationTextWatcher = new ValidificationTextWatcher(calorieIntakeLayout, calorieIntakeEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                calorieIntake = value;
+            }
+        }, unit, false);
+        proteinValidationTextWatcher = new ValidificationTextWatcher(proteinLayout, proteinEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                protein = value;
+                if (checkMacroRatios()) customErrorTextView.setVisibility(View.INVISIBLE);
+                else customErrorTextView.setVisibility(View.VISIBLE);
+            }
+        }, unit, false);
+        carbohydratesValidationTextWatcher = new ValidificationTextWatcher(carbohydratesLayout, carbohydratesEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                carbohydrates = value;
+                if (checkMacroRatios()) customErrorTextView.setVisibility(View.INVISIBLE);
+                else customErrorTextView.setVisibility(View.VISIBLE);
+            }
+        }, unit, false);
+        fatIntakeValidationTextWatcher = new ValidificationTextWatcher(fatLayout, fatEditText, new FieldListener() {
+            @Override
+            public void fieldChanged(float value) {
+                fat = value;
+                if (checkMacroRatios()) customErrorTextView.setVisibility(View.INVISIBLE);
+                else customErrorTextView.setVisibility(View.VISIBLE);
+            }
+        }, unit, false);
     }
 
     /**
@@ -218,7 +302,9 @@ public class MyStatsActivity extends AppCompatActivity {
         prepopulateWristAndAnkle();
         prepopulateActivityLevel();
         prepopulateGoal();
+        prepopulateCustomMacros();
         prepopulateLifts();
+        checkIfCalculateCalorieIntakeAvailable();
     }
 
     private void loadFields() {
@@ -238,11 +324,15 @@ public class MyStatsActivity extends AppCompatActivity {
             activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
             SharedPreferencesManager.saveActivityLevel(activityLevel);
         }
+        calorieIntake = SharedPreferencesManager.getCalorieIntake();
         goal = SharedPreferencesManager.getGoal();
         if (goal == -1) {
             goal = Constants.GOAL_GAIN_MUSCLE;
             SharedPreferencesManager.saveGoal(goal);
         }
+        protein = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_PROTEIN);
+        carbohydrates = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_CARBOHYDRATES);
+        fat = SharedPreferencesManager.getMacronutrient(Constants.MACRONUTRIENT_FAT);
         squatWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_SQUAT);
         benchPressWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_BENCH_PRESS);
         deadliftWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_DEADLIFT);
@@ -333,15 +423,32 @@ public class MyStatsActivity extends AppCompatActivity {
             gainMuscleRadioButton.setChecked(true);
             fatLossRadioButton.setChecked(false);
             maintainRadioButton.setChecked(false);
+            customRadioButton.setChecked(false);
         } else if (goal == Constants.GOAL_FAT_LOSS) {
             gainMuscleRadioButton.setChecked(false);
             fatLossRadioButton.setChecked(true);
             maintainRadioButton.setChecked(false);
+            customRadioButton.setChecked(false);
         } else if (goal == Constants.GOAL_MAINTAIN) {
             gainMuscleRadioButton.setChecked(false);
             fatLossRadioButton.setChecked(false);
             maintainRadioButton.setChecked(true);
+            customRadioButton.setChecked(false);
+        } else if (goal == Constants.GOAL_CUSTOM) {
+            gainMuscleRadioButton.setChecked(false);
+            fatLossRadioButton.setChecked(false);
+            maintainRadioButton.setChecked(false);
+            customRadioButton.setChecked(true);
+            customMacroLayout.setVisibility(View.VISIBLE);
+            customTextView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void prepopulateCustomMacros(){
+        prepopulateField(calorieIntakeLayout, calorieIntakeEditText, calorieIntake);
+        prepopulateField(proteinLayout, proteinEditText, protein);
+        prepopulateField(carbohydratesLayout, carbohydratesEditText, carbohydrates);
+        prepopulateField(fatLayout, fatEditText, fat);
     }
 
     private void prepopulateLifts() {
@@ -361,6 +468,12 @@ public class MyStatsActivity extends AppCompatActivity {
             if (value > 0)
                 editText.setText(numberFormat.format(value));
         }
+    }
+
+    private void prepopulateField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
+        textInputLayout.setErrorEnabled(false);
+        if (value > 0)
+            editText.setText(numberFormat.format(value));
     }
 
     @OnClick(R.id.button_unit)
@@ -442,6 +555,18 @@ public class MyStatsActivity extends AppCompatActivity {
         else return true;
     }
 
+    private boolean validateCustomMacros(){
+        if(!validateMeasurementField(proteinEditText, protein)) return false;
+        if(!validateMeasurementField(carbohydratesEditText, carbohydrates)) return false;
+        if(!validateMeasurementField(fatEditText, fat)) return false;
+        if(!checkMacroRatios()) return false;
+        return true;
+    }
+
+    private boolean checkMacroRatios(){
+        return (protein + carbohydrates + fat) == 100;
+    }
+
     @OnClick(R.id.button_clear)
     void onClickClearButton(){
         View view = findViewById(android.R.id.content);
@@ -459,6 +584,7 @@ public class MyStatsActivity extends AppCompatActivity {
         SharedPreferencesManager.clearAll();
         initialiseStats();
         clearViews();
+        calculatedButton.setVisibility(View.INVISIBLE);
     }
 
     private void clearViews(){
@@ -470,6 +596,7 @@ public class MyStatsActivity extends AppCompatActivity {
         wristEditText.setText(null);
         ankleEditText.setText(null);
         prepopulateActivityLevel();
+        calorieIntakeEditText.setText(null);
         prepopulateGoal();
 
         squatEditText.setText(null);
@@ -501,6 +628,16 @@ public class MyStatsActivity extends AppCompatActivity {
             detailsUpdated.add(Constants.DETAIL_MEASUREMENT);
             SharedPreferencesManager.saveMeasurement(Constants.BODY_PART_ANKLE, ankleMeasurement);
         }
+        if (validateMeasurementField(calorieIntakeEditText, calorieIntake)) {
+            detailsUpdated.add(Constants.DETAIL_CALORIE_INTAKE);
+            SharedPreferencesManager.saveCalorieIntake(calorieIntake);
+        }
+        if(customRadioButton.isChecked() && validateCustomMacros()){
+            detailsUpdated.add(Constants.DETAIL_MACRONUTRIENT);
+            SharedPreferencesManager.saveMacronutrient(Constants.MACRONUTRIENT_PROTEIN, protein);
+            SharedPreferencesManager.saveMacronutrient(Constants.MACRONUTRIENT_CARBOHYDRATES, carbohydrates);
+            SharedPreferencesManager.saveMacronutrient(Constants.MACRONUTRIENT_FAT, fat);
+        }
         if (validateMeasurementField(squatEditText, squatWeightLifted)) {
             detailsUpdated.add(Constants.DETAIL_EXERCISE);
             SharedPreferencesManager.saveWeightLifted(Constants.EXERCISE_SQUAT, squatWeightLifted);
@@ -523,6 +660,14 @@ public class MyStatsActivity extends AppCompatActivity {
         EventBus.getDefault().post(new DetailsUpdatedEvent(detailsUpdated));
         EventBus.getDefault().post(new MyStatsSavedEvent());
         finish();
+    }
+
+
+    private void checkIfCalculateCalorieIntakeAvailable(){
+        if(weight > 0 && height > 0 && age > 0)
+            calculatedButton.setVisibility(View.VISIBLE);
+        else
+            calculatedButton.setVisibility(View.INVISIBLE);
     }
 
 
@@ -561,6 +706,10 @@ public class MyStatsActivity extends AppCompatActivity {
         heightInchesEditText.removeTextChangedListener(heightEditTextWatcher);
         wristEditText.removeTextChangedListener(wristMeasurementEditTextWatcher);
         ankleEditText.removeTextChangedListener(ankleMeasurementEditTextWatcher);
+        calorieIntakeEditText.removeTextChangedListener(calorieIntakeValidationTextWatcher);
+        proteinEditText.removeTextChangedListener(proteinValidationTextWatcher);
+        carbohydratesEditText.removeTextChangedListener(carbohydratesValidationTextWatcher);
+        fatEditText.removeTextChangedListener(fatIntakeValidationTextWatcher);
 
         squatEditText.removeTextChangedListener(squatEditTextWatcher);
         benchPressEditText.removeTextChangedListener(benchPressEditTextWatcher);
@@ -577,10 +726,20 @@ public class MyStatsActivity extends AppCompatActivity {
         wristEditText.addTextChangedListener(wristMeasurementEditTextWatcher);
         ankleEditText.addTextChangedListener(ankleMeasurementEditTextWatcher);
         activityLevelSlider.setOnPositionChangeListener(activityLevelPositionChangedListener);
+        calorieIntakeEditText.addTextChangedListener(calorieIntakeValidationTextWatcher);
+        proteinEditText.addTextChangedListener(proteinValidationTextWatcher);
+        carbohydratesEditText.addTextChangedListener(carbohydratesValidationTextWatcher);
+        fatEditText.addTextChangedListener(fatIntakeValidationTextWatcher);
 
         squatEditText.addTextChangedListener(squatEditTextWatcher);
         benchPressEditText.addTextChangedListener(benchPressEditTextWatcher);
         deadliftEditText.addTextChangedListener(deadliftEditTextWatcher);
+    }
+
+    @OnClick(R.id.button_calculated)
+    void onCalculatedButtonClicked() {
+        calorieIntake = FitnessCalculator.calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
+        calorieIntakeEditText.setText(numberFormat.format(calorieIntake));
     }
 
     private TextWatcher weightEditTextWatcher = new TextWatcher() {
@@ -594,7 +753,8 @@ public class MyStatsActivity extends AppCompatActivity {
                 weight = ParserUtil.parseDouble(MyStatsActivity.this, weightEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
                     weight = ConverterUtil.poundsToKgs(weight);
-            }
+            } else weight = 0;
+            checkIfCalculateCalorieIntakeAvailable();
         }
 
         @Override
@@ -619,7 +779,8 @@ public class MyStatsActivity extends AppCompatActivity {
                         inches = ParserUtil.parseDouble(MyStatsActivity.this, heightInchesEditText.getText().toString());
                     height = ConverterUtil.feetAndInchesToCm(feet, inches);
                 }
-            }
+            } else height = 0;
+            checkIfCalculateCalorieIntakeAvailable();
         }
 
         @Override
@@ -636,6 +797,8 @@ public class MyStatsActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (ageEditText.length() != 0)
                 age = Integer.parseInt(ageEditText.getText().toString());
+            else age = 0;
+            checkIfCalculateCalorieIntakeAvailable();
         }
 
         @Override
@@ -663,7 +826,7 @@ public class MyStatsActivity extends AppCompatActivity {
                 wristMeasurement = ParserUtil.parseFloat(MyStatsActivity.this, wristEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
                     wristMeasurement = ConverterUtil.inchesToCm(wristMeasurement);
-            }
+            } else wristMeasurement = 0;
         }
 
         @Override
@@ -682,7 +845,7 @@ public class MyStatsActivity extends AppCompatActivity {
                 ankleMeasurement = ParserUtil.parseFloat(MyStatsActivity.this, ankleEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
                     ankleMeasurement = ConverterUtil.inchesToCm(ankleMeasurement);
-            }
+            } else ankleMeasurement = 0;
         }
 
         @Override
@@ -721,10 +884,20 @@ public class MyStatsActivity extends AppCompatActivity {
     private RadioGroup.OnCheckedChangeListener onGoalCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.radio_button_custom) {
+                goal = Constants.GOAL_CUSTOM;
+                customMacroLayout.setVisibility(View.VISIBLE);
+                customTextView.setVisibility(View.VISIBLE);
+                return;
+            } else {
+                customMacroLayout.setVisibility(View.GONE);
+                customErrorTextView.setVisibility(View.INVISIBLE);
+                customTextView.setVisibility(View.GONE);
+            }
+
             if (checkedId == R.id.radio_button_gain_muscle) goal = Constants.GOAL_GAIN_MUSCLE;
             else if (checkedId == R.id.radio_button_fat_loss) goal = Constants.GOAL_FAT_LOSS;
             else if (checkedId == R.id.radio_button_maintain) goal = Constants.GOAL_MAINTAIN;
-
         }
     };
 

@@ -41,7 +41,7 @@
                 android:layout_marginBottom="-58dp"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:text="@string/calculated"
+                android:text="@string/calculate"
                 android:textColor="#ffffff"
                 android:textSize="10dp" />
 

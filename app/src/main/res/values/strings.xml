@@ -159,5 +159,5 @@
     <string name="strength_standards_description_title">About Strength Standards</string>
     <string name="custom">Custom</string>
     <string name="custom_macros">Custom macros</string>
-    <string name="calculated">Calculated</string>
+    <string name="calculate">Calculate</string>
 </resources>
