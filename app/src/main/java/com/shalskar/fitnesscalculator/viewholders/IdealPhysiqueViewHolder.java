@@ -159,7 +159,7 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
 
     @OnClick(R.id.info_button)
     void showInfoDialog() {
-        bodyAdapter.showCalorieInfoDialog();
+        bodyAdapter.showIdealPhysiqueInfoDialog();
     }
 
 

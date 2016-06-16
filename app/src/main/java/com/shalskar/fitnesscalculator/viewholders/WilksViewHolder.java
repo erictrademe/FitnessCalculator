@@ -139,7 +139,7 @@ public class WilksViewHolder extends BaseViewHolder {
         pieChartData.setHasCenterCircle(true);
 
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.wilks_pie_chart_text_size));
+        pieChartData.setCenterText1FontSize(getUnconvertedDimension(R.dimen.wilks_pie_chart_text_size));
         pieChartData.setCenterCircleScale(0.975f);
 
         chartView.setInteractive(false);

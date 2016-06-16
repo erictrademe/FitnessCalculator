@@ -157,8 +157,8 @@ public class WaterViewHolder extends BaseViewHolder {
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size));
-        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.water_pie_chart_text_size_small));
+        pieChartData.setCenterText1FontSize(getUnconvertedDimension(R.dimen.water_pie_chart_text_size));
+        pieChartData.setCenterText2FontSize(getUnconvertedDimension(R.dimen.water_pie_chart_text_size_small));
         pieChartData.setCenterCircleScale(0.975f);
 
         chartView.setInteractive(false);

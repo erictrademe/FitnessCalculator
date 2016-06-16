@@ -143,8 +143,8 @@ public class CalorieViewHolder extends BaseViewHolder {
         pieChartData.setHasCenterCircle(true);
 
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) context.getResources().getDimension(R.dimen.calorie_pie_chart_text_size));
-        pieChartData.setCenterText2FontSize((int) context.getResources().getDimension(R.dimen.calorie_pie_chart_text_size_small));
+        pieChartData.setCenterText1FontSize(getUnconvertedDimension(R.dimen.calorie_pie_chart_text_size));
+        pieChartData.setCenterText2FontSize(getUnconvertedDimension(R.dimen.calorie_pie_chart_text_size_small));
         pieChartData.setCenterCircleScale(0.975f);
 
         chartView.setInteractive(false);

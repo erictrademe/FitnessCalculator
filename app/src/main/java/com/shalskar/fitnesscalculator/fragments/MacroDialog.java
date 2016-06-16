@@ -306,8 +306,8 @@ public class MacroDialog extends BaseDialogFragment {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId == R.id.radio_button_custom) {
                 goal = Constants.GOAL_CUSTOM;
-                customMacroLayout.setVisibility(View.VISIBLE);
                 customTextView.setVisibility(View.VISIBLE);
+                customMacroLayout.setVisibility(View.VISIBLE);
                 return;
             } else {
                 customMacroLayout.setVisibility(View.GONE);

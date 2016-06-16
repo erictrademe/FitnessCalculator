@@ -71,8 +71,8 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        int width = (getResources().getConfiguration().screenWidthDp/2);
-        int height = (getResources().getConfiguration().screenHeightDp/2);
+        int width = (getResources().getConfiguration().screenWidthDp);
+        int height = (getResources().getConfiguration().screenHeightDp);
         imageView.setImageBitmap(ImageUtil.decodeSampledBitmapFromResource(getResources(), R.drawable.about_background, width, height));
     }
 

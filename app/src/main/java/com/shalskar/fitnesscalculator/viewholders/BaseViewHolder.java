@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
@@ -36,6 +37,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      * We could make this a variable to adjust the performance of the app on older phones
      */
     private final static float IMAGE_QUALITY_REDUCTION = 1f;
+    private static DisplayMetrics displayMetrics;
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -91,5 +93,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+    }
+
+    protected int getUnconvertedDimension(int dimensionRes){
+        if (displayMetrics == null) displayMetrics = baseView.getResources().getDisplayMetrics();
+        return (int) (baseView.getContext().getResources().getDimension(dimensionRes) / displayMetrics.density);
     }
 }

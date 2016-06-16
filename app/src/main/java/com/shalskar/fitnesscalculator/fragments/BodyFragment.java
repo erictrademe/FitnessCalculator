@@ -166,7 +166,10 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
 
     @Override
     public void showIdealPhysiqueInfoDialog() {
-
+        DialogUtil.showMessageDialog(getFragmentManager(),
+                getActivity().getString(R.string.ideal_physique_description_title),
+                getActivity().getString(R.string.ideal_physique_description),
+                R.drawable.ideal_physique_image);
     }
 
     @Override

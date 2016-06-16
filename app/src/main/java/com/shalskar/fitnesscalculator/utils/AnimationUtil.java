@@ -16,7 +16,9 @@ import android.widget.ImageView;
  */
 public class AnimationUtil {
 
-    private final static int DURATION_DRAWABLE_FADE_IN = 750;
+    private final static int DURATION_DRAWABLE_FADE_IN = 500;
+    private final static AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
+    private final static ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
 
     // todo move all animations here
 
@@ -32,7 +34,6 @@ public class AnimationUtil {
                 .alpha(0.5f)
                 .scaleX(0.9f)
                 .scaleY(0.9f)
-                //.rotation(180)
                 .setDuration(150)
                 .setInterpolator(new AccelerateInterpolator())
                 .setListener(new Animator.AnimatorListener() {
@@ -90,10 +91,7 @@ public class AnimationUtil {
     }
 
     public static void animateDrawableIn(@NonNull final View view, @NonNull final Drawable drawable){
-        AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
-        final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
         drawable.setColorFilter(filter);
-
         ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
 
         animator.addUpdateListener( new ValueAnimator.AnimatorUpdateListener() {

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
 
     public static final String TAG_FRAGMENT_MAIN = "fragment_main";
 
-    private NavigationDrawerFragment navigationDrawerFragment;
+   // private NavigationDrawerFragment navigationDrawerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     }
 
     private void initialiseNavigationDrawer() {
-        navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+        // = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        //navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     private void initialiseMainFragment() {
@@ -83,11 +83,12 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!navigationDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.main, menu);
-            //restoreActionBar();
-            return true;
-        }
+        getMenuInflater().inflate(R.menu.main, menu);
+//        if (!navigationDrawerFragment.isDrawerOpen()) {
+//            getMenuInflater().inflate(R.menu.main, menu);
+//            //restoreActionBar();
+//            return true;
+//        }
         return super.onCreateOptionsMenu(menu);
     }
 
