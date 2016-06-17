@@ -214,7 +214,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/white_ripple"
             android:padding="16dp"
-            android:src="@drawable/ic_info_white_24dp" />
+            android:src="@drawable/ic_info_whitetransparent_24dp" />
 
     </RelativeLayout>
 

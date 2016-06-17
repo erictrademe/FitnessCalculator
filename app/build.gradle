@@ -13,8 +13,14 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,5 +42,4 @@ dependencies {
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.rey5137:material:1.2.2'
-    compile 'com.squareup.picasso:picasso:2.5.2'
 }

@@ -1,7 +1,6 @@
 package com.shalskar.fitnesscalculator.viewholders;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -12,16 +11,8 @@ import android.widget.ImageView;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.utils.AnimationUtil;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
-import com.squareup.picasso.Picasso;
-
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
