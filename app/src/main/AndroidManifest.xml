@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shalskar.fitnesscalculator">
 
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <application
         android:name="FitnessApplication"
         android:allowBackup="true"
@@ -23,6 +25,13 @@
         <activity
             android:name=".activities.MyStatsActivity"
             android:label="@string/my_stats" />
+
+
+        <!--<meta-data-->
+        <!--android:name="com.google.android.gms.wallet.api.enabled"-->
+        <!--android:value="true" />-->
     </application>
+
+
 
 </manifest>

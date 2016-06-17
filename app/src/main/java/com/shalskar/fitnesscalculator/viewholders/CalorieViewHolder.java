@@ -56,6 +56,7 @@ public class CalorieViewHolder extends BaseViewHolder {
         titleTextView.setText(baseView.getContext().getString(R.string.calorie_intake));
         title2TextView.setText(baseView.getContext().getString(R.string.calorie_intake_2));
         loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.calorie_image);
+        initialiseViews();
     }
 
     public void initialiseViews(){

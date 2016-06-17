@@ -57,6 +57,7 @@ public class WilksViewHolder extends BaseViewHolder {
         titleTextView.setText(baseView.getContext().getString(R.string.wilks));
         title2TextView.setText(baseView.getContext().getString(R.string.wilks));
         loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.wilks_image);
+        initialiseViews();
     }
 
     public void initialiseViews(){

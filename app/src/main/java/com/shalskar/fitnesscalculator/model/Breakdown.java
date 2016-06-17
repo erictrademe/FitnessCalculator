@@ -5,10 +5,9 @@ package com.shalskar.fitnesscalculator.model;
  */
 public class Breakdown {
 
-    // todo replace dummy values
-    public static final Breakdown BREAKDOWN_GAIN_MUSCLE = new Breakdown(0.4f, 0.4f, 0.2f);
+    public static final Breakdown BREAKDOWN_GAIN_MUSCLE = new Breakdown(0.3f, 0.4f, 0.3f);
     public static final Breakdown BREAKDOWN_FAT_LOSS = new Breakdown(0.4f, 0.3f, 0.3f);
-    public static final Breakdown BREAKDOWN_MAINTAIN = new Breakdown(0.3f, 0.3f, 0.4f);
+    public static final Breakdown BREAKDOWN_MAINTAIN = new Breakdown(0.3f, 0.35f, 0.35f);
 
     private float proteinRatio;
     private float carbohydratesRatio;

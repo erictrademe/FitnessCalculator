@@ -57,6 +57,7 @@ public class BMIViewHolder extends BaseViewHolder {
         title2TextView.setText(baseView.getContext().getString(R.string.body_mass_index));
 
         loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.bmi_image);
+        initialiseViews();
     }
 
     public void initialiseViews() {

@@ -1,28 +1,30 @@
 package com.shalskar.fitnesscalculator.activities;
 
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
+import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 import com.shalskar.fitnesscalculator.utils.SnackbarUtil;
 
-import java.text.DecimalFormat;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +54,9 @@ public class AboutActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private IInAppBillingService service;
+    private ServiceConnection serviceConnection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +66,7 @@ public class AboutActivity extends AppCompatActivity {
         loadImage();
         initialiseToolbar();
         updateChart();
+        initialiseServiceConnection();
     }
 
     private void initialiseToolbar() {
@@ -79,26 +85,47 @@ public class AboutActivity extends AppCompatActivity {
     private void updateChart() {
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1(getResources().getString(R.string.donation));
-        pieChartData.setCenterText1Color(getResources().getColor(android.R.color.primary_text_dark));
+        pieChartData.setCenterText1Color(ContextCompat.getColor(this, android.R.color.primary_text_dark));
         pieChartData.setValueLabelTypeface(Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf"));
         pieChartData.setCenterText1Typeface(Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf"));
         List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(15, getResources().getColor(R.color.colorAccent50)).setLabel("$1"));
-        sliceValues.add(new SliceValue(20, getResources().getColor(R.color.colorAccent60)).setLabel("$2"));
-        sliceValues.add(new SliceValue(25, getResources().getColor(R.color.colorAccent70)).setLabel("$5"));
-        sliceValues.add(new SliceValue(30, getResources().getColor(R.color.colorAccent80)).setLabel("$10"));
-        sliceValues.add(new SliceValue(35, getResources().getColor(R.color.colorAccent90)).setLabel("$20"));
+        sliceValues.add(new SliceValue(15, ContextCompat.getColor(this, R.color.colorAccent50)).setLabel("$1"));
+        sliceValues.add(new SliceValue(20, ContextCompat.getColor(this, R.color.colorAccent60)).setLabel("$2"));
+        sliceValues.add(new SliceValue(25, ContextCompat.getColor(this, R.color.colorAccent70)).setLabel("$5"));
+        sliceValues.add(new SliceValue(30, ContextCompat.getColor(this, R.color.colorAccent80)).setLabel("$10"));
+        sliceValues.add(new SliceValue(35, ContextCompat.getColor(this, R.color.colorAccent90)).setLabel("$20"));
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
         chartView.setChartRotationEnabled(false);
-        pieChartData.setCenterText1FontSize((int) getResources().getDimension(R.dimen.donation_pie_chart_text_size));
+        int centerTextSize = (int) (getResources().getDimension(R.dimen.donation_pie_chart_text_size) / getResources().getDisplayMetrics().density);
+        pieChartData.setCenterText1FontSize(centerTextSize);
         pieChartData.setHasLabels(true);
         pieChartData.setCenterCircleScale(0.5f);
         pieChartData.setSlicesSpacing(4);
 
         chartView.setOnValueTouchListener(pieChartOnValueSelectListener);
         chartView.setPieChartData(pieChartData);
+    }
+
+    private void initialiseServiceConnection() {
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                Toast.makeText(AboutActivity.this, "Service disconnected", Toast.LENGTH_LONG).show();
+                service = null;
+            }
+
+            @Override
+            public void onServiceConnected(ComponentName name,
+                                           IBinder iBinder) {
+                service = IInAppBillingService.Stub.asInterface(iBinder);
+            }
+        };
+        Intent serviceIntent =
+                new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -124,6 +151,34 @@ public class AboutActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (service != null)
+            unbindService(serviceConnection);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1001) {
+            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    JSONObject jo = new JSONObject(purchaseData);
+                    String sku = jo.getString("productId");
+
+                    Toast.makeText(this, "You have bought the " + sku + ". Excellent choice, adventurer !", Toast.LENGTH_LONG);
+                } catch (JSONException e) {
+                    Toast.makeText(this, "Failed to parse purchase data.", Toast.LENGTH_LONG);
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     /**
      * Chart Listener
      **/
@@ -134,19 +189,19 @@ public class AboutActivity extends AppCompatActivity {
             View contentView = findViewById(android.R.id.content);
             switch (position) {
                 case POSITION_ONE_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 1);
+                    SnackbarUtil.showDonationSnackBar(contentView, 1, AboutActivity.this, service);
                     break;
                 case POSITION_TWO_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 2);
+                    SnackbarUtil.showDonationSnackBar(contentView, 2, AboutActivity.this, service);
                     break;
                 case POSITION_FIVE_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 5);
+                    SnackbarUtil.showDonationSnackBar(contentView, 5, AboutActivity.this, service);
                     break;
                 case POSITION_TEN_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 10);
+                    SnackbarUtil.showDonationSnackBar(contentView, 10, AboutActivity.this, service);
                     break;
                 case POSITION_TWENTY_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 20);
+                    SnackbarUtil.showDonationSnackBar(contentView, 20, AboutActivity.this, service);
                     break;
             }
         }

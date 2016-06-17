@@ -58,6 +58,7 @@ public class WaterViewHolder extends BaseViewHolder {
         titleTextView.setText(baseView.getContext().getString(R.string.water_intake));
         title2TextView.setText(baseView.getContext().getString(R.string.water_intake));
         loadImage(R.dimen.small_viewholder_width, R.dimen.small_viewholder_height, R.drawable.water_image);
+        initialiseViews();
     }
 
     public void initialiseViews(){

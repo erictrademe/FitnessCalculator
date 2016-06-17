@@ -97,11 +97,10 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_settings:
-                SharedPreferencesManager.clearAll();
-                getMainFragment().refreshAll();
-                return true;
-
+//            case R.id.action_settings:
+//                SharedPreferencesManager.clearAll();
+//                getMainFragment().refreshAll();
+//                return true;
             case R.id.action_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;

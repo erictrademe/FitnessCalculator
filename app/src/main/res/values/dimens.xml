@@ -12,7 +12,7 @@
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
 
-    <dimen name="logo_padding">12dp</dimen>
+    <dimen name="logo_padding">16dp</dimen>
 
     <dimen name="viewholder_padding">4dp</dimen>
 
@@ -39,28 +39,31 @@
 
     <dimen name="ideal_physique_textview_width">80dp</dimen>
 
+    <dimen name="measurement_view_text_size">12sp</dimen>
+    <dimen name="measurement_view_line_size">1sp</dimen>
+
     <dimen name="strength_view_height">15dp</dimen>
 
-    <dimen name="bmi_pie_chart_text_size">8.5sp</dimen>
-    <dimen name="bmi_pie_chart_text_size_small">5.5sp</dimen>
+    <dimen name="bmi_pie_chart_text_size">25sp</dimen>
+    <dimen name="bmi_pie_chart_text_size_small">16.5sp</dimen>
 
-    <dimen name="calorie_pie_chart_text_size">7sp</dimen>
-    <dimen name="calorie_pie_chart_text_size_small">4.5sp</dimen>
+    <dimen name="calorie_pie_chart_text_size">22sp</dimen>
+    <dimen name="calorie_pie_chart_text_size_small">13.5sp</dimen>
 
-    <dimen name="macro_pie_chart_text_size">6sp</dimen>
-    <dimen name="macro_pie_chart_text_size_small">3.75sp</dimen>
+    <dimen name="macro_pie_chart_text_size">18sp</dimen>
+    <dimen name="macro_pie_chart_text_size_small">11sp</dimen>
 
-    <dimen name="water_pie_chart_text_size">6sp</dimen>
-    <dimen name="water_pie_chart_text_size_small">4.25sp</dimen>
+    <dimen name="water_pie_chart_text_size">18sp</dimen>
+    <dimen name="water_pie_chart_text_size_small">12.5sp</dimen>
 
-    <dimen name="one_rep_max_pie_chart_text_size">8sp</dimen>
-    <dimen name="one_rep_max_pie_chart_text_size_small">5sp</dimen>
+    <dimen name="one_rep_max_pie_chart_text_size">24sp</dimen>
+    <dimen name="one_rep_max_pie_chart_text_size_small">15sp</dimen>
 
-    <dimen name="wilks_pie_chart_text_size">9.5sp</dimen>
+    <dimen name="wilks_pie_chart_text_size">28sp</dimen>
 
-    <dimen name="strength_standards_axis_text_size">4.25sp</dimen>
+    <dimen name="strength_standards_axis_text_size">12.5sp</dimen>
 
-    <dimen name="donation_pie_chart_text_size">4.5sp</dimen>
+    <dimen name="donation_pie_chart_text_size">13.5sp</dimen>
 
     <dimen name="measurement_view_height">24dp</dimen>
 </resources>

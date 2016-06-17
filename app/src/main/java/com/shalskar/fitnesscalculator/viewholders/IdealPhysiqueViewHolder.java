@@ -67,19 +67,19 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
         titleTextView.setText(baseView.getContext().getString(R.string.ideal_physique));
         title2TextView.setText(baseView.getContext().getString(R.string.ideal_physique));
         loadImage(R.dimen.ideal_physique_textview_width, R.dimen.ideal_physique_viewholder_height, R.drawable.ideal_physique_image);
+        initialiseViews();
     }
 
     public void initialiseViews() {
         updateAll();
-        // todo hard coded strings
-        chestMeasurementView.setText("Chest");
-        shouldersMeasurementView.setText("Shoulders");
-        neckMeasurementView.setText("Neck");
-        waistMeasurementView.setText("Waist");
-        armMeasurementView.setText("Arm");
-        forearmMeasurementView.setText("Forearm");
-        thighMeasurementView.setText("Thigh");
-        calfMeasurementView.setText("Calf");
+        chestMeasurementView.setText(baseView.getContext().getString(R.string.chest));
+        shouldersMeasurementView.setText(baseView.getContext().getString(R.string.shoulders));
+        neckMeasurementView.setText(baseView.getContext().getString(R.string.neck));
+        waistMeasurementView.setText(baseView.getContext().getString(R.string.waist));
+        armMeasurementView.setText(baseView.getContext().getString(R.string.arm));
+        forearmMeasurementView.setText(baseView.getContext().getString(R.string.forearm));
+        thighMeasurementView.setText(baseView.getContext().getString(R.string.thigh));
+        calfMeasurementView.setText(baseView.getContext().getString(R.string.calf));
     }
 
     public void updateAll() {

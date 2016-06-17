@@ -69,6 +69,7 @@ public class StrengthStandardsViewHolder extends BaseViewHolder {
         titleTextView.setText(baseView.getContext().getString(R.string.strength_standards));
         title2TextView.setText(baseView.getContext().getString(R.string.strength_standards));
         loadImage(R.dimen.basic_viewholder_column_width, R.dimen.basic_viewholder_column_height, R.drawable.strength_standards_image);
+        initialiseViews();
     }
 
     public void initialiseViews(){

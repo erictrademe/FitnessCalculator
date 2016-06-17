@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -42,17 +43,17 @@ public class StrengthView extends View {
 
     private void init(@NonNull Context context) {
         defaultPaint = new Paint();
-        defaultPaint.setColor(context.getResources().getColor(R.color.defaultGrey));
+        defaultPaint.setColor(ContextCompat.getColor(context, R.color.defaultGrey));
         greenPaint = new Paint();
-        greenPaint.setColor(context.getResources().getColor(R.color.paleGreen));
+        greenPaint.setColor(ContextCompat.getColor(context, R.color.paleGreen));
         yellowPaint = new Paint();
-        yellowPaint.setColor(context.getResources().getColor(R.color.yellowGreen));
+        yellowPaint.setColor(ContextCompat.getColor(context, R.color.yellowGreen));
         orangePaint = new Paint();
-        orangePaint.setColor(context.getResources().getColor(R.color.mustardOrange));
+        orangePaint.setColor(ContextCompat.getColor(context, R.color.mustardOrange));
         redPaint = new Paint();
-        redPaint.setColor(context.getResources().getColor(R.color.lightRed));
+        redPaint.setColor(ContextCompat.getColor(context, R.color.lightRed));
         darkRedPaint = new Paint();
-        darkRedPaint.setColor(context.getResources().getColor(R.color.deepRed));
+        darkRedPaint.setColor(ContextCompat.getColor(context, R.color.deepRed));
         currentRect = new RectF(0, 0, 0, 0);
     }
 
@@ -106,10 +107,6 @@ public class StrengthView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public void setLevel(int level) {

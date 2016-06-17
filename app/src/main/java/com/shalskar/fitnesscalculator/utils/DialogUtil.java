@@ -30,14 +30,4 @@ public class DialogUtil {
         BaseInfoDialogFragment baseInfoDialogFragment = BaseInfoDialogFragment.newInstance(title, content, imageResource);
         baseInfoDialogFragment.show(fragmentManager, TAG_INFO_DIALOG_FRAGMENT);
     }
-
-    public static boolean validateWeightField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float value) {
-        if (editText.length() == 0 && value <= 0) {
-            textInputLayout.setError(" ");
-            textInputLayout.setErrorEnabled(true);
-            return false;
-        } else
-            return true;
-    }
-
 }

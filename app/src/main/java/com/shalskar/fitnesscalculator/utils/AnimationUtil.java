@@ -6,6 +6,8 @@ import android.animation.ValueAnimator;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -108,8 +110,7 @@ public class AnimationUtil {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                // todo compat
-                view.setBackground(null);
+                CompatUtil.setBackground(view, null);
             }
 
             @Override

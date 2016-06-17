@@ -49,7 +49,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MyStatsActivity extends AppCompatActivity {
 
-    // todo add bodyfat and macros
+    // todo add bodyfat
 
     @BindView(R.id.image)
     ImageView imageView;

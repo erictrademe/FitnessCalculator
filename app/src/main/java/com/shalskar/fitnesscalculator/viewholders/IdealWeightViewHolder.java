@@ -58,6 +58,7 @@ public class IdealWeightViewHolder extends BaseViewHolder {
         titleTextView.setText(baseView.getContext().getString(R.string.ideal_weight));
         title2TextView.setText(baseView.getContext().getString(R.string.ideal_weight));
         loadImage(R.dimen.small_viewholder_width, R.dimen.small_viewholder_height, R.drawable.ideal_weight_image);
+        initialiseViews();
     }
 
     public void initialiseViews(){

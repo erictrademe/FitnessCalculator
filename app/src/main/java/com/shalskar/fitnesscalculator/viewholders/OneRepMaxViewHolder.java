@@ -57,6 +57,7 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
         ButterKnife.bind(this, baseView);
         initialiseTitle();
         loadImage(R.dimen.thin_viewholder_width, R.dimen.thin_viewholder_height, R.drawable.one_rep_max_image);
+        initialiseViews();
     }
 
     public void initialiseViews() {

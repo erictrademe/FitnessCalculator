@@ -54,6 +54,7 @@ public class BodyfatViewHolder extends BaseViewHolder {
         title2TextView.setText(baseView.getContext().getString(R.string.bodyfat));
 
         loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.bodyfat_image);
+        initialiseViews();
     }
 
     public void initialiseViews() {

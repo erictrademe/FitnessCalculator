@@ -59,6 +59,7 @@ public class MacroViewHolder extends BaseViewHolder {
         titleTextView.setText(baseView.getContext().getString(R.string.macro));
         title2TextView.setText(baseView.getContext().getString(R.string.macro));
         loadImage(R.dimen.basic_viewholder_width, R.dimen.basic_viewholder_height, R.drawable.macro_image);
+        initialiseViews();
     }
 
     public void initialiseViews() {

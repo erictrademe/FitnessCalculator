@@ -140,10 +140,10 @@
     <string name="daily_calorie_intake_description_title">About Daily Calorie Intake</string>
     <string name="daily_calorie_intake_description">Your daily calorie intake is the amount of calories that you should consume daily to maintain weight.\nThis takes into account your age, weight, height and activity level.\n\nThe activity levels accepted by the calculator are :\n\n- Sedentary (most of day spent sitting.)\n\n- Light (some light exercise.)\n\n- Moderate (active throughout most of the day.)\n\n- Active (physical job requiring a lot of activity.)\n\n- Extreme (physical job and exercising very often.)\n\nThis calculator will provide only an estimate and should be used as a guideline.</string>
 
-    <string name="bmi_description">The BMI is an attempt to quantify the amount of tissue mass (muscle, fatRatio, and bone) in an individual, and then categorize that person as underweight, normal weight, overweight, or obese based on that value.\n\nHowever, there is some debate about where on the BMI scale the dividing lines between categories should be placed.\n\n Commonly accepted BMI ranges are:\n\n- Underweight = under 18.5\n\n- Normal weight = 18.5 to 25\n\n- Overweight = 25 to 30\n\n- Obese = over 30.\n\nAs BMI does not discern between fatRatio and muscle tissue, it is less accurate on trained individuals and athletes.</string>
+    <string name="bmi_description">The BMI is an attempt to quantify the amount of tissue mass (muscle, fat, and bone) in an individual, and then categorize that person as underweight, normal weight, overweight, or obese based on that value.\n\nHowever, there is some debate about where on the BMI scale the dividing lines between categories should be placed.\n\n Commonly accepted BMI ranges are:\n\n- Underweight = under 18.5\n\n- Normal weight = 18.5 to 25\n\n- Overweight = 25 to 30\n\n- Obese = over 30.\n\nAs BMI does not discern between fat and muscle tissue, it is less accurate on trained individuals and athletes.</string>
     <string name="bmi_description_title">About BMI</string>
 
-    <string name="macro_description">Macronutrients are divided into 3 groups: proteinRatio, carbohydratesRatio and fats (excluding alcohol).\n\nThis calculator will give you an estimate as too how much of each you should be eating per day based on your fitness goals.</string>
+    <string name="macro_description">Macronutrients are divided into 3 groups: protein, carbohydrates and fats (excluding alcohol).\n\nThis calculator will give you an estimate as too how much of each you should be eating per day based on your fitness goals.</string>
     <string name="macro_description_title">About Macros</string>
 
     <string name="bodyfat_description">This calculator will give you an estimate of your current bodyfat percentage.\n\nThis will be determined using skinfold measures taken with a caliper at various locations on your body.\n\nThese locations are:\n\n- Pectoral = Between the nipple and the armpit (axilla) but closer to the armpit, approximately 1/3 the distance\n\n- Abdominal = 2 centimeters to the right of the bellybutton.\n\n- Thigh = Front side of thigh, halfway from the upper part of the knee and the fold above the thigh when the leg is raised\n\n- Triceps = Back of tricep halfway up arm.\n\n- Subscapula = Bottom tip of the shoulder blade, found by moving the arm behind the back.\n\n- Suprailiac = Just above hip bone, vertically aligned with armpit.\n\n- Axilla = Side of torso, underneath armpit at 5th rib.</string>
@@ -157,7 +157,19 @@
 
     <string name="strength_standards_description">The performance standards are adult standards (>18 years old) for a single maximal repetition (1RM) based on competitive weightlifter and powerlifting classification systems in use from the 1950\'s to present.\n\nThese are standards are divided into 5 classifications:\n\n- Untrained = An individual who has not trained on the exercises before, but can perform them correctly.\n\n- Novice = An individual who has trained regularly for up to several months.\n\n- Intermediate = An individual who has trained regularly for up to a couple years.\n\n- Advanced = An individual who has trained multiple years.\n\n- Elite = An athlete competing in strength sports.\n\nKeep in mind, the standards shown in the tables do not represent the highest level of strength performance possible.</string>
     <string name="strength_standards_description_title">About Strength Standards</string>
+
+    <string name="ideal_physique_description">This calculator takes your wrist and ankle measurements and applies the golden ratio (1.618) to find the measurements for your ideal physique.\n\nPlease note this is an estimate and that these calculations may not necessarily be physically achievable for all people.</string>
+    <string name="ideal_physique_description_title">About Ideal Physique</string>
+
     <string name="custom">Custom</string>
     <string name="custom_macros">Custom macros</string>
     <string name="calculate">Calculate</string>
+    <string name="about_text">Fit(X) offers a range of calculators to help you achieve your fitness goals. From calorie intake to strength standards, you can help quantify your fitness and health to help better structure your workouts.</string>
+    <string name="chest">Chest</string>
+    <string name="shoulders">Shoulders</string>
+    <string name="neck">Neck</string>
+    <string name="waist">Waist</string>
+    <string name="arm">Arm</string>
+    <string name="forearm">Forearm</string>
+    <string name="calf">Calf</string>
 </resources>

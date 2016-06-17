@@ -96,31 +96,31 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case VIEW_TYPE_CALORIE:
                 CalorieViewHolder calorieViewHolder = (CalorieViewHolder) viewHolder;
-                calorieViewHolder.initialiseViews();
+                //calorieViewHolder.initialiseViews();
                 break;
             case VIEW_TYPE_MACRO:
                 MacroViewHolder macroViewHolder = (MacroViewHolder) viewHolder;
-                macroViewHolder.initialiseViews();
+                //macroViewHolder.initialiseViews();
                 break;
             case VIEW_TYPE_WATER:
                 WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolder;
-                waterViewHolder.initialiseViews();
+                //waterViewHolder.initialiseViews();
                 break;
             case VIEW_TYPE_IDEAL_WEIGHT:
                 IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolder;
-                idealWeightViewHolder.initialiseViews();
+                //idealWeightViewHolder.initialiseViews();
                 break;
             case VIEW_TYPE_BMI:
                 BMIViewHolder BMIViewHolder = (BMIViewHolder) viewHolder;
-                BMIViewHolder.initialiseViews();
+                //BMIViewHolder.initialiseViews();
                 break;
             case VIEW_TYPE_BODYFAT:
                 BodyfatViewHolder bodyfatViewHolder = (BodyfatViewHolder) viewHolder;
-                bodyfatViewHolder.initialiseViews();
+                //bodyfatViewHolder.initialiseViews();
                 break;
             case VIEW_TYPE_IDEAL_PHYSIQUE:
                 IdealPhysiqueViewHolder idealPhysiqueViewHolder = (IdealPhysiqueViewHolder) viewHolder;
-                idealPhysiqueViewHolder.initialiseViews();
+                //idealPhysiqueViewHolder.initialiseViews();
                 break;
         }
     }

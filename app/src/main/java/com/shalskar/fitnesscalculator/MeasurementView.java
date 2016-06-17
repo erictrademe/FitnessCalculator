@@ -16,11 +16,11 @@ import java.text.DecimalFormat;
  */
 public class MeasurementView extends View {
 
-    private final static int FONT_SIZE = 36;
-    private final static int STROKE_SIZE = 2;
     private final static int LINE_SCALE_RATIO = 200;
     private final static DecimalFormat decimalFormat = new DecimalFormat(Constants.FORMAT_NUMBER);
 
+    private float fontSize;
+    private float strokeSize;
     private Paint currentPaint;
     private float lineLength;
     private float buffer;
@@ -44,20 +44,23 @@ public class MeasurementView extends View {
     }
 
     private void init(@NonNull Context context) {
-        initPaint(context);
         lineScale = 1;
         value = 0;
         text = "";
         unitText = "cm";
+
+        fontSize = context.getResources().getDimension(R.dimen.measurement_view_text_size);
+        strokeSize = context.getResources().getDimension(R.dimen.measurement_view_line_size);
+        initPaint(context);
     }
 
     private void initPaint(@NonNull Context context) {
         currentPaint = new Paint();
         currentPaint.setColor(context.getResources().getColor(R.color.white));
-        currentPaint.setTextSize(FONT_SIZE);
+        currentPaint.setTextSize(fontSize);
         currentPaint.setTextAlign(Paint.Align.CENTER);
         currentPaint.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Raleway-Regular.ttf"));
-        currentPaint.setStrokeWidth(STROKE_SIZE);
+        currentPaint.setStrokeWidth(strokeSize);
         currentPaint.setAntiAlias(true);
     }
 
