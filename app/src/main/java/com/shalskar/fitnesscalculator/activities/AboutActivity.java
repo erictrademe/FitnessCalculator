@@ -1,29 +1,25 @@
 package com.shalskar.fitnesscalculator.activities;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.android.vending.billing.IInAppBillingService;
+import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
+import com.shalskar.fitnesscalculator.iap.IabHelper;
+import com.shalskar.fitnesscalculator.iap.IabResult;
+import com.shalskar.fitnesscalculator.iap.Purchase;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 import com.shalskar.fitnesscalculator.utils.SnackbarUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +50,7 @@ public class AboutActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    private IInAppBillingService service;
-    private ServiceConnection serviceConnection;
+    private IabHelper iabHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,23 +104,18 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void initialiseServiceConnection() {
-        serviceConnection = new ServiceConnection() {
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                Toast.makeText(AboutActivity.this, "Service disconnected", Toast.LENGTH_LONG).show();
-                service = null;
-            }
+        iabHelper = new IabHelper(this, Constants.IAP_KEY);
 
-            @Override
-            public void onServiceConnected(ComponentName name,
-                                           IBinder iBinder) {
-                service = IInAppBillingService.Stub.asInterface(iBinder);
+        iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    Log.d("About activity", "In-app Billing setup failed: " +
+                            result);
+                } else {
+                    Log.d("About activity", "In-app Billing is set up OK");
+                }
             }
-        };
-        Intent serviceIntent =
-                new Intent("com.android.vending.billing.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.android.vending");
-        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        });
     }
 
     @Override
@@ -154,29 +144,14 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (service != null)
-            unbindService(serviceConnection);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1001) {
-            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
-            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
-            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
-
-            if (resultCode == RESULT_OK) {
-                try {
-                    JSONObject jo = new JSONObject(purchaseData);
-                    String sku = jo.getString("productId");
-
-                    Toast.makeText(this, "You have bought the " + sku + ". Excellent choice, adventurer !", Toast.LENGTH_LONG);
-                } catch (JSONException e) {
-                    Toast.makeText(this, "Failed to parse purchase data.", Toast.LENGTH_LONG);
-                    e.printStackTrace();
-                }
+        if (iabHelper != null) {
+            try {
+                iabHelper.dispose();
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
             }
         }
+        iabHelper = null;
     }
 
     /**
@@ -186,31 +161,47 @@ public class AboutActivity extends AppCompatActivity {
     private PieChartOnValueSelectListener pieChartOnValueSelectListener = new PieChartOnValueSelectListener() {
         @Override
         public void onValueSelected(int position, SliceValue sliceValue) {
-            View contentView = findViewById(android.R.id.content);
-            switch (position) {
-                case POSITION_ONE_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 1, AboutActivity.this, service);
-                    break;
-                case POSITION_TWO_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 2, AboutActivity.this, service);
-                    break;
-                case POSITION_FIVE_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 5, AboutActivity.this, service);
-                    break;
-                case POSITION_TEN_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 10, AboutActivity.this, service);
-                    break;
-                case POSITION_TWENTY_DOLLAR:
-                    SnackbarUtil.showDonationSnackBar(contentView, 20, AboutActivity.this, service);
-                    break;
-            }
+            donate(getSku(position));
         }
+
 
         @Override
         public void onValueDeselected() {
 
         }
     };
+
+    private String getSku(int position) {
+        switch (position) {
+            case POSITION_ONE_DOLLAR:
+                return Constants.DONATION_ONE_DOLLAR;
+            case POSITION_TWO_DOLLAR:
+                return Constants.DONATION_TWO_DOLLARS;
+            case POSITION_FIVE_DOLLAR:
+                return Constants.DONATION_FIVE_DOLLARS;
+            case POSITION_TEN_DOLLAR:
+                return Constants.DONATION_TEN_DOLLARS;
+            case POSITION_TWENTY_DOLLAR:
+                return Constants.DONATION_TWENTY_DOLLARS;
+        }
+        return Constants.DONATION_ONE_DOLLAR;
+    }
+
+    private void donate(@NonNull String sku) {
+        try {
+            iabHelper.launchPurchaseFlow(this, sku, 10001,
+                    new IabHelper.OnIabPurchaseFinishedListener() {
+                        @Override
+                        public void onIabPurchaseFinished(IabResult result, Purchase info) {
+                            SnackbarUtil.showMessageSnackbar(AboutActivity.this, getString(R.string.donation_thanks));
+                        }
+                    });
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            e.printStackTrace();
+            SnackbarUtil.showMessageSnackbar(AboutActivity.this, getString(R.string.donations_unavailable));
+        }
+    }
+
 
 }
 

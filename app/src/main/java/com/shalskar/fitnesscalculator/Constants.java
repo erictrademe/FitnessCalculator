@@ -74,4 +74,12 @@ public class Constants {
     public final static String MACRONUTRIENT_PROTEIN = "macronutrient_protein";
     public final static String MACRONUTRIENT_CARBOHYDRATES = "macronutrient_carbohydrates";
     public final static String MACRONUTRIENT_FAT = "macronutrient_fat";
+
+    public final static String IAP_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhu9lqEkiHo5cXgmC4d9wMVxUKwvdFEzIQFP8cgFGpYLBKZg7o7Km6ML7ulnGalcmkFhEbTWYfsM58NPz5q5veg8sHqTDiPFVYUvjE36+qc0dSnEgFChwvPVugCxBoR5mdbyUw4IUDDzmR1fP9Pxp9E6f7PzwKZMP3Hj9YWfr47Pg1S3Tf/tTC/ByjHAdck7ITsLFiW3py3DWnF82/1GSSGkG2SD0TvyymjK0oH+osYo7uzds4+fCwAytTjMnLcQoEcFEQdpZxabsLiiROJNB0Dnx04EjjZt5XZBmR0VOEvIXDXqmLJeSPFn6ulX5wEJw80OvSPD40hMt6q7jmO/9DwIDAQAB";
+
+    public static final String DONATION_ONE_DOLLAR = "donation_1";
+    public static final String DONATION_TWO_DOLLARS = "donation_2";
+    public static final String DONATION_FIVE_DOLLARS = "donation_3";
+    public static final String DONATION_TEN_DOLLARS = "donation_4";
+    public static final String DONATION_TWENTY_DOLLARS = "donation_5";
 }

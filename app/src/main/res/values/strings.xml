@@ -172,4 +172,6 @@
     <string name="arm">Arm</string>
     <string name="forearm">Forearm</string>
     <string name="calf">Calf</string>
+    <string name="donations_unavailable">Donations unavailable, please try again later.</string>
+    <string name="donation_thanks">Thanks for your donation! It is really appreciated.</string>
 </resources>

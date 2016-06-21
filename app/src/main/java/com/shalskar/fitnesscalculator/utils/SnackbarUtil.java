@@ -20,9 +20,15 @@ public class SnackbarUtil {
                 .setAction(view.getResources().getString(R.string.donate), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DonationManager.showDonationDialog(activity, service, amount);
+                        //DonationManager.showDonationDialog(activity, service, amount);
+
                     }
                 })
+                .show();
+    }
+
+    public static void showMessageSnackbar(@NonNull Activity activity, @NonNull String message){
+        Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                 .show();
     }
 }

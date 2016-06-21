@@ -18,3 +18,4 @@
 
 -dontwarn butterknife.**
 -dontwarn rx.**
+-keepclassmembers,includedescriptorclasses class ** { public void on*(**); }
