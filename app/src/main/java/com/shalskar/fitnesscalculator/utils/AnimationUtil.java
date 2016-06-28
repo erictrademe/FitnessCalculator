@@ -19,10 +19,6 @@ import android.widget.ImageView;
 public class AnimationUtil {
 
     private final static int DURATION_DRAWABLE_FADE_IN = 500;
-    private final static AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
-    private final static ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
-
-    // todo move all animations here
 
     /**
      * Rotates, fades and shrinks a view to give it a feel of being refreshed.
@@ -93,6 +89,8 @@ public class AnimationUtil {
     }
 
     public static void animateDrawableIn(@NonNull final View view, @NonNull final Drawable drawable){
+        final AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator ();
+        final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
         drawable.setColorFilter(filter);
         ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
 
@@ -115,7 +113,8 @@ public class AnimationUtil {
 
             @Override
             public void onAnimationCancel(Animator animation) {
-
+                CompatUtil.setBackground(view, null);
+                drawable.setColorFilter(null);
             }
 
             @Override
