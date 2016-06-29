@@ -81,8 +81,8 @@ public class AboutActivity extends AppCompatActivity {
         PieChartData pieChartData = new PieChartData();
         pieChartData.setCenterText1(getResources().getString(R.string.donation));
         pieChartData.setCenterText1Color(ContextCompat.getColor(this, android.R.color.primary_text_dark));
-        pieChartData.setValueLabelTypeface(Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf"));
-        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf"));
+        pieChartData.setValueLabelTypeface(Typeface.createFromAsset(getAssets(), Constants.DEFAULT_FONT_PATH));
+        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(getAssets(), Constants.DEFAULT_FONT_PATH));
         List<SliceValue> sliceValues = new ArrayList<>();
         sliceValues.add(new SliceValue(15, ContextCompat.getColor(this, R.color.colorAccent50)).setLabel("$1"));
         sliceValues.add(new SliceValue(20, ContextCompat.getColor(this, R.color.colorAccent60)).setLabel("$2"));

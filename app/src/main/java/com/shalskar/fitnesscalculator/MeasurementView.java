@@ -3,9 +3,9 @@ package com.shalskar.fitnesscalculator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -56,7 +56,7 @@ public class MeasurementView extends View {
 
     private void initPaint(@NonNull Context context) {
         currentPaint = new Paint();
-        currentPaint.setColor(context.getResources().getColor(R.color.white));
+        currentPaint.setColor(ContextCompat.getColor(context, R.color.white));
         currentPaint.setTextSize(fontSize);
         currentPaint.setTextAlign(Paint.Align.CENTER);
         currentPaint.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Raleway-Regular.ttf"));

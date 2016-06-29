@@ -55,6 +55,7 @@ public class FitnessCalculator {
     }
 
     public static float calculateWilks(int unit, int gender, float weight, float total) {
+        // Coefficients
         float a;
         float b;
         float c;

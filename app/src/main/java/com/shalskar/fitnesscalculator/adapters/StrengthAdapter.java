@@ -7,14 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shalskar.fitnesscalculator.R;
-import com.shalskar.fitnesscalculator.viewholders.BMIViewHolder;
-import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
-import com.shalskar.fitnesscalculator.viewholders.IdealWeightViewHolder;
-import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.OneRepMaxViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.PlaceholderViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.StrengthStandardsViewHolder;
-import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WilksViewHolder;
 
 /**
@@ -104,9 +99,6 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     /**
      * Return how many columns the viewholder should span for the position given.
-     *
-     * @param position
-     * @return
      */
     public int getSpanForPosition(int position) {
         int viewType = getItemViewType(position);

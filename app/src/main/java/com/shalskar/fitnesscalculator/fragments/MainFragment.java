@@ -1,28 +1,21 @@
 package com.shalskar.fitnesscalculator.fragments;
 
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.ViewPagerAdapter;
-import com.shalskar.fitnesscalculator.utils.CompatUtil;
 import com.shalskar.fitnesscalculator.utils.ViewUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,8 +37,7 @@ public class MainFragment extends Fragment {
     private ViewPagerAdapter viewPagerAdapter;
 
     public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
-        return fragment;
+        return new MainFragment();
     }
 
     public MainFragment() {
@@ -65,7 +57,7 @@ public class MainFragment extends Fragment {
     private void initialiseViews() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setLogo(CompatUtil.getDrawable(getActivity(), R.drawable.logo));
+        toolbar.setLogo(ContextCompat.getDrawable(getActivity(), R.drawable.logo));
         ViewUtil.correctLogoPadding(toolbar);
 
         setupViewPager(viewPager);

@@ -82,6 +82,10 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
         recyclerView.addItemDecoration(new ItemOffsetDecoration(getContext(), R.dimen.viewholder_padding));
     }
 
+    public String getTitle(){
+        return getString(R.string.body);
+    }
+
     @Override
     public void showBMIDialog() {
         FragmentManager manager = getFragmentManager();

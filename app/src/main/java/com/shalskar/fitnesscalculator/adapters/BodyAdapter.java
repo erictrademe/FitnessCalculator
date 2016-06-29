@@ -1,6 +1,5 @@
 package com.shalskar.fitnesscalculator.adapters;
 
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,8 +16,6 @@ import com.shalskar.fitnesscalculator.viewholders.MacroViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.PlaceholderViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.WaterViewHolder;
 
-import java.util.ArrayList;
-
 /**
  * Created by Vincent on 11/05/2016.
  */
@@ -27,7 +24,6 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private AdapterListener adapterListener;
 
     private RecyclerView.ViewHolder[] viewHolders;
-
 
     private static final int VIEW_TYPE_PLACEHOLDER = 0;
     private static final int VIEW_TYPE_CALORIE = 1;
@@ -88,41 +84,41 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        viewHolders[position] = viewHolder;
-
-        int viewType = getItemViewType(position);
-        switch (viewType) {
-            case VIEW_TYPE_PLACEHOLDER:
-                break;
-            case VIEW_TYPE_CALORIE:
-                CalorieViewHolder calorieViewHolder = (CalorieViewHolder) viewHolder;
-                //calorieViewHolder.initialiseViews();
-                break;
-            case VIEW_TYPE_MACRO:
-                MacroViewHolder macroViewHolder = (MacroViewHolder) viewHolder;
-                //macroViewHolder.initialiseViews();
-                break;
-            case VIEW_TYPE_WATER:
-                WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolder;
-                //waterViewHolder.initialiseViews();
-                break;
-            case VIEW_TYPE_IDEAL_WEIGHT:
-                IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolder;
-                //idealWeightViewHolder.initialiseViews();
-                break;
-            case VIEW_TYPE_BMI:
-                BMIViewHolder BMIViewHolder = (BMIViewHolder) viewHolder;
-                //BMIViewHolder.initialiseViews();
-                break;
-            case VIEW_TYPE_BODYFAT:
-                BodyfatViewHolder bodyfatViewHolder = (BodyfatViewHolder) viewHolder;
-                //bodyfatViewHolder.initialiseViews();
-                break;
-            case VIEW_TYPE_IDEAL_PHYSIQUE:
-                IdealPhysiqueViewHolder idealPhysiqueViewHolder = (IdealPhysiqueViewHolder) viewHolder;
-                //idealPhysiqueViewHolder.initialiseViews();
-                break;
-        }
+//        viewHolders[position] = viewHolder;
+//
+//        int viewType = getItemViewType(position);
+//        switch (viewType) {
+//            case VIEW_TYPE_PLACEHOLDER:
+//                break;
+//            case VIEW_TYPE_CALORIE:
+//                CalorieViewHolder calorieViewHolder = (CalorieViewHolder) viewHolder;
+//                //calorieViewHolder.initialiseViews();
+//                break;
+//            case VIEW_TYPE_MACRO:
+//                MacroViewHolder macroViewHolder = (MacroViewHolder) viewHolder;
+//                //macroViewHolder.initialiseViews();
+//                break;
+//            case VIEW_TYPE_WATER:
+//                WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolder;
+//                //waterViewHolder.initialiseViews();
+//                break;
+//            case VIEW_TYPE_IDEAL_WEIGHT:
+//                IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolder;
+//                //idealWeightViewHolder.initialiseViews();
+//                break;
+//            case VIEW_TYPE_BMI:
+//                BMIViewHolder BMIViewHolder = (BMIViewHolder) viewHolder;
+//                //BMIViewHolder.initialiseViews();
+//                break;
+//            case VIEW_TYPE_BODYFAT:
+//                BodyfatViewHolder bodyfatViewHolder = (BodyfatViewHolder) viewHolder;
+//                //bodyfatViewHolder.initialiseViews();
+//                break;
+//            case VIEW_TYPE_IDEAL_PHYSIQUE:
+//                IdealPhysiqueViewHolder idealPhysiqueViewHolder = (IdealPhysiqueViewHolder) viewHolder;
+//                //idealPhysiqueViewHolder.initialiseViews();
+//                break;
+//        }
     }
 
     @Override

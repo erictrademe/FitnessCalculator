@@ -24,7 +24,7 @@ public class FitnessApplication extends Application {
         singleton = this;
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Raleway-Regular.ttf")
+                .setDefaultFontPath(Constants.DEFAULT_FONT_PATH)
                 .setFontAttrId(R.attr.fontPath)
                 .build());
     }

@@ -5,7 +5,7 @@ package com.shalskar.fitnesscalculator;
  */
 public class Constants {
 
-    public static final int NO_SELECTION = -1;
+    public final static String DEFAULT_FONT_PATH = "fonts/Raleway-Regular.ttf";
 
     public static final int DETAIL_UNIT = 1233;
     public static final int DETAIL_WEIGHT = 1234;

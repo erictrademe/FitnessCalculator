@@ -78,6 +78,10 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
         recyclerView.addItemDecoration(new ItemOffsetDecoration(getContext(), R.dimen.viewholder_padding));
     }
 
+    public String getTitle(){
+        return getString(R.string.strength);
+    }
+
     @Override
     public void showOneRepMaxDialog() {
         FragmentManager manager = getFragmentManager();

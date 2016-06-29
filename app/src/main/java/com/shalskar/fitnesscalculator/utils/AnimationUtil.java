@@ -27,7 +27,6 @@ public class AnimationUtil {
      * @param view
      */
     public static void refreshView(@NonNull final View view){
-
         view.animate()
                 .alpha(0.5f)
                 .scaleX(0.9f)
@@ -46,7 +45,6 @@ public class AnimationUtil {
                                 .alpha(1f)
                                 .scaleX(1)
                                 .scaleY(1)
-                                //.rotation(360)
                                 .setDuration(150)
                                 .setInterpolator(new DecelerateInterpolator())
                                 .setListener(new Animator.AnimatorListener() {

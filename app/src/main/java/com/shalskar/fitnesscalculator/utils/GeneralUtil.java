@@ -10,7 +10,7 @@ public class GeneralUtil {
     public static int[] convertToPrimitive(List<Integer> integerList) {
         int[] output = new int[integerList.size()];
         for (int i = 0; i < output.length; i++) {
-            output[i] = integerList.get(i).intValue();
+            output[i] = integerList.get(i);
         }
         return output;
     }

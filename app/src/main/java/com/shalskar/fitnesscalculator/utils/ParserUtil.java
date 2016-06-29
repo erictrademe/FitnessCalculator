@@ -1,12 +1,10 @@
 package com.shalskar.fitnesscalculator.utils;
 
 import android.content.Context;
-import android.nfc.FormatException;
 import android.support.annotation.NonNull;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
 
 /**
  * Created by Vincent on 7/05/2016.
