@@ -57,9 +57,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return getBodyFragment().getTitle();
+                return "Body";
             case 1:
-                return getStrengthFragment().getTitle();
+                return "Strength";
         }
         return "";
     }

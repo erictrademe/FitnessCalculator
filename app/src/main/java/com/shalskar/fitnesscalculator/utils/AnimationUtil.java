@@ -106,12 +106,12 @@ public class AnimationUtil {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                CompatUtil.setBackground(view, null);
+                ViewUtil.setBackground(view, null);
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
-                CompatUtil.setBackground(view, null);
+                ViewUtil.setBackground(view, null);
                 drawable.setColorFilter(null);
             }
 
