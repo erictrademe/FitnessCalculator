@@ -84,7 +84,7 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-//        viewHolders[position] = viewHolder;
+        viewHolders[position] = viewHolder;
 //
 //        int viewType = getItemViewType(position);
 //        switch (viewType) {
