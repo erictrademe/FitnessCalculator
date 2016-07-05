@@ -152,7 +152,7 @@ public class MacroDialog extends BaseDialogFragment {
         prepopulateField(proteinLayout, proteinEditText, protein);
         prepopulateField(carbohydratesLayout, carbohydratesEditText, carbohydrates);
         prepopulateField(fatLayout, fatEditText, fat);
-
+        prepopulateUnit(unit);
         prepopulateGoal();
     }
 

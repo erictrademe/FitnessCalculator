@@ -137,30 +137,6 @@ public class StrengthStandardsViewHolder extends BaseViewHolder {
         deadliftStrengthView.setLevel(deadliftStrengthStandard);
     }
 
-    private Column makeColumn(float weightLifted, int standard){
-        int color = R.color.paleGreen;
-        switch (standard){
-            case Constants.STRENGTH_STANDARD_UNTRAINED:
-                color = R.color.paleGreen;
-                break;
-            case Constants.STRENGTH_STANDARD_NOVICE:
-                color = R.color.yellowGreen;
-                break;
-            case Constants.STRENGTH_STANDARD_INTERMEDIATE:
-                color = R.color.mustardOrange;
-                break;
-            case Constants.STRENGTH_STANDARD_ADVANCED:
-                color = R.color.lightRed;
-                break;
-            case Constants.STRENGTH_STANDARD_ELITE:
-                color = R.color.deepRed;
-                break;
-        }
-        List<SubcolumnValue> subcolumnValues = new ArrayList<>();
-        subcolumnValues.add(new SubcolumnValue(weightLifted, baseView.getContext().getResources().getColor(color)));
-        return new Column(subcolumnValues);
-    }
-
     @OnClick(R.id.card_view)
     void showCalorieDialog() {
         strengthAdapter.showStrengthStandardsDialog();

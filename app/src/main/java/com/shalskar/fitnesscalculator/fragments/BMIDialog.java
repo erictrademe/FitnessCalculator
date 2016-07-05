@@ -86,8 +86,8 @@ public class BMIDialog extends BaseDialogFragment {
         height = SharedPreferencesManager.getHeight();
         weight = SharedPreferencesManager.getWeight();
         unit = SharedPreferencesManager.getUnit();
+        prepopulateUnit(unit);
         if (unit == Constants.UNIT_IMPERIAL) {
-            unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
