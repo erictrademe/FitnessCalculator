@@ -136,6 +136,7 @@ public class WilksDialog extends BaseDialogFragment {
         prepopulateWeightField(squatLayout, squatEditText, squatWeightLifted);
         prepopulateWeightField(benchPressLayout, benchPressEditText, benchPressWeightLifted);
         prepopulateWeightField(deadliftLayout, deadliftEditText, deadliftWeightLifted);
+        prepopulateUnit(unit);
     }
 
 

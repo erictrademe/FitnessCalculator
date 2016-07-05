@@ -78,10 +78,6 @@ public class FitnessCalculator {
             f = -0.00000009054f;
         }
 
-        if (unit == Constants.UNIT_IMPERIAL) {
-            weight = ConverterUtil.poundsToKgs(weight);
-            total = ConverterUtil.poundsToKgs(total);
-        }
         double denom = a + b * weight + c * Math.pow(weight, 2.0) + d * Math.pow(weight, 3.0)
                 + e * Math.pow(weight, 4.0) + f * Math.pow(weight, 5.0);
         return total * (500.0f / (float) denom);
