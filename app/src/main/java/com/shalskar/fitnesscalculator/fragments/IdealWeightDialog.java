@@ -75,8 +75,8 @@ public class IdealWeightDialog extends BaseDialogFragment {
     private void prepopulateFields() {
         height = SharedPreferencesManager.getHeight();
         unit = SharedPreferencesManager.getUnit();
+        prepopulateUnit(unit);
         if (unit == Constants.UNIT_IMPERIAL) {
-            unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             heightInchesLayout.setVisibility(View.VISIBLE);
             if (height > 0) {

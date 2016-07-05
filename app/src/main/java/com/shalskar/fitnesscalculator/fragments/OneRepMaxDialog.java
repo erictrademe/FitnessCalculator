@@ -76,8 +76,8 @@ public class OneRepMaxDialog extends BaseDialogFragment {
         repsLifted = SharedPreferencesManager.getRepsLifted();
         weightLifted = SharedPreferencesManager.getWeightLifted();
         unit = SharedPreferencesManager.getUnit();
+        prepopulateUnit(unit);
         if (unit == Constants.UNIT_IMPERIAL) {
-            unitButton.setText(getString(R.string.imperial));
             weightLiftedLayout.setHint(getString(R.string.pounds));
             if (weightLifted > 0)
                 weightLiftedEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weightLifted)));
@@ -169,7 +169,7 @@ private TextWatcher weightLiftedEditTextWatcher = new TextWatcher() {
             weightLiftedLayout.setErrorEnabled(false);
             weightLifted = (float) ParserUtil.parseDouble(getContext(), weightLiftedEditText.getText().toString());
             if (unit == Constants.UNIT_IMPERIAL)
-                weightLifted = (float) ConverterUtil.poundsToKgs(weightLifted);
+                weightLifted = ConverterUtil.poundsToKgs(weightLifted);
         }
     }
 

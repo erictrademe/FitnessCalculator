@@ -181,11 +181,7 @@ public class BodyfatDialog extends BaseDialogFragment {
         else if (bodyfatCalculatorType == Constants.BODYFAT_CALCULATOR_TYPE_3_POINT)
             bodyfatCalculatorTypeButton.setText(getString(R.string.bf_3_pont));
 
-        if (unit == Constants.UNIT_IMPERIAL)
-            unitButton.setText(getString(R.string.imperial));
-        else if (unit == Constants.UNIT_METRIC)
-            unitButton.setText(getString(R.string.metric));
-
+        prepopulateUnit(unit);
         prepopulateAge();
         prepopulateGender();
         prepopulateField(pectoralLayout, pectoralEditText, unit, pectoralSkinfold);

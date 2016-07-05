@@ -78,8 +78,8 @@ public class IdealPhysiqueDialog extends BaseDialogFragment {
         wristMeasurement = SharedPreferencesManager.getMeasurement(Constants.BODY_PART_WRIST);
         ankleMeasurement = SharedPreferencesManager.getMeasurement(Constants.BODY_PART_ANKLE);
         unit = SharedPreferencesManager.getUnit();
+        prepopulateUnit(unit);
         if (unit == Constants.UNIT_IMPERIAL) {
-            unitButton.setText(getString(R.string.imperial));
             ankleLayout.setHint(getString(R.string.inches));
             wristLayout.setHint(getString(R.string.inches));
             if (wristMeasurement > 0)
