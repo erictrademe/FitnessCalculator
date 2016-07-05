@@ -116,6 +116,13 @@ public class BaseDialogFragment extends DialogFragment {
             return true;
     }
 
+    protected void prepopulateUnit(int unit){
+        if (unit == Constants.UNIT_IMPERIAL)
+            unitButton.setText(getString(R.string.imperial));
+        else if (unit == Constants.UNIT_METRIC)
+            unitButton.setText(getString(R.string.metric));
+    }
+
     @OnClick(R.id.button_unit)
     void onClickUnitButton() {
 

@@ -170,7 +170,6 @@ public class CalorieDialog extends BaseDialogFragment {
         height = SharedPreferencesManager.getHeight();
         weight = SharedPreferencesManager.getWeight();
         if (unit == Constants.UNIT_IMPERIAL) {
-            unitButton.setText(getString(R.string.imperial));
             heightLayout.setHint(getString(R.string.feet));
             weightLayout.setHint(getString(R.string.pounds));
             heightInchesLayout.setVisibility(View.VISIBLE);
