@@ -148,6 +148,7 @@ public class CalorieDialog extends BaseDialogFragment {
         prepopulateAge();
         prepopulateHeightAndWeight();
         prepopulateActivityLevel();
+        prepopulateUnit(unit);
     }
 
     private void prepopulateGender() {
