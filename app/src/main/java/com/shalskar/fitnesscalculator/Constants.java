@@ -7,6 +7,8 @@ public class Constants {
 
     public final static String DEFAULT_FONT_PATH = "fonts/Raleway-Regular.ttf";
 
+    public static final int UNDEFINED = -1;
+
     public static final int DETAIL_UNIT = 1233;
     public static final int DETAIL_WEIGHT = 1234;
     public static final int DETAIL_HEIGHT = 1235;
@@ -30,6 +32,14 @@ public class Constants {
     public final static float ACTIVITY_LEVEL_MODERATE = 1.55f;
     public final static float ACTIVITY_LEVEL_ACTIVE = 1.725f;
     public final static float ACTIVITY_LEVEL_EXTREME = 1.9f;
+
+    public final static int ONE_REP_MAX_FORMULA_EPLEY = 3880;
+    public final static int ONE_REP_MAX_FORMULA_BRZYCKI = 3881;
+    public final static int ONE_REP_MAX_FORMULA_LANDER = 3882;
+    public final static int ONE_REP_MAX_FORMULA_LOMBARDI = 3883;
+    public final static int ONE_REP_MAX_FORMULA_MAYHEW = 3884;
+    public final static int ONE_REP_MAX_FORMULA_OCONNER = 3885;
+    public final static int ONE_REP_MAX_FORMULA_WATHEN = 3886;
 
     public final static int GOAL_GAIN_MUSCLE = 9999;
     public final static int GOAL_FAT_LOSS = 1111;

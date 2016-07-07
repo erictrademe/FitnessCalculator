@@ -132,7 +132,7 @@ public class CalorieDialog extends BaseDialogFragment {
         weight = SharedPreferencesManager.getWeight();
         unit = SharedPreferencesManager.getUnit();
         activityLevel = SharedPreferencesManager.getActivityLevel();
-        if (activityLevel == -1) {
+        if (activityLevel == Constants.UNDEFINED) {
             activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
             SharedPreferencesManager.saveActivityLevel(activityLevel);
         }

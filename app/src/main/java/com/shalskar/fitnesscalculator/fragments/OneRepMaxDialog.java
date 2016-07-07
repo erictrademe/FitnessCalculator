@@ -3,15 +3,15 @@ package com.shalskar.fitnesscalculator.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.R;
@@ -19,18 +19,18 @@ import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 import com.shalskar.fitnesscalculator.utils.ParserUtil;
-import com.shalskar.fitnesscalculator.viewholders.OneRepMaxViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Vincent on 7/05/2016.
  */
 public class OneRepMaxDialog extends BaseDialogFragment {
+
+    @BindView(R.id.spinner_formula)
+    Spinner formulaSpinner;
 
     @BindView(R.id.edittext_layout_weight_lifted)
     TextInputLayout weightLiftedLayout;
@@ -47,6 +47,7 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     private int unit = Constants.UNIT_METRIC;
     private int repsLifted = 0;
     private float weightLifted = 0;
+    private int oneRepMaxFormula = Constants.ONE_REP_MAX_FORMULA_EPLEY;
 
     public OneRepMaxDialog() {
     }
@@ -73,9 +74,7 @@ public class OneRepMaxDialog extends BaseDialogFragment {
     }
 
     private void prepopulateFields() {
-        repsLifted = SharedPreferencesManager.getRepsLifted();
-        weightLifted = SharedPreferencesManager.getWeightLifted();
-        unit = SharedPreferencesManager.getUnit();
+        loadFields();
         prepopulateUnit(unit);
         if (unit == Constants.UNIT_IMPERIAL) {
             weightLiftedLayout.setHint(getString(R.string.pounds));
@@ -83,13 +82,34 @@ public class OneRepMaxDialog extends BaseDialogFragment {
                 weightLiftedEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weightLifted)));
         } else if (unit == Constants.UNIT_METRIC) {
             weightLiftedLayout.setHint(getString(R.string.kilograms));
-            if (weightLifted > 0 )
+            if (weightLifted > 0)
                 weightLiftedEditText.setText(String.format("%.0f", weightLifted));
         }
         if (repsLifted > 0)
             repsLiftedEditText.setText(numberFormat.format(repsLifted));
+        prepopulateSpinner();
     }
 
+    private void loadFields() {
+        repsLifted = SharedPreferencesManager.getRepsLifted();
+        weightLifted = SharedPreferencesManager.getWeightLifted();
+        unit = SharedPreferencesManager.getUnit();
+        oneRepMaxFormula = SharedPreferencesManager.getOneRepMaxFormula();
+        if (oneRepMaxFormula == Constants.UNDEFINED) {
+            oneRepMaxFormula = Constants.ONE_REP_MAX_FORMULA_EPLEY;
+            SharedPreferencesManager.saveOneRepMaxFormula(oneRepMaxFormula);
+        }
+
+    }
+
+    private void prepopulateSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.one_rep_max_formulas, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        formulaSpinner.setAdapter(adapter);
+        formulaSpinner.setOnItemSelectedListener(formulaSpinnerOnItemSelectedListener);
+        formulaSpinner.setSelection(getPositionForFormula(oneRepMaxFormula));
+    }
 
     @Override
     void onClickUnitButton() {
@@ -125,6 +145,7 @@ public class OneRepMaxDialog extends BaseDialogFragment {
         if (validateFields()) {
             SharedPreferencesManager.saveWeightLifted(weightLifted);
             SharedPreferencesManager.saveRepsLifted(repsLifted);
+            SharedPreferencesManager.saveOneRepMaxFormula(oneRepMaxFormula);
             EventBus.getDefault().post(new DetailsUpdatedEvent(Constants.DETAIL_ONE_REP_MAX));
             this.dismiss();
         }
@@ -151,51 +172,89 @@ public class OneRepMaxDialog extends BaseDialogFragment {
         repsLiftedEditText.addTextChangedListener(repsLiftedEditTextWatcher);
     }
 
-/**
- * Listeners
- */
+    /**
+     * Listeners
+     */
 
-private TextWatcher weightLiftedEditTextWatcher = new TextWatcher() {
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (weightLiftedEditText.length() == 0) {
-            weightLiftedLayout.setError(" ");
-            weightLiftedLayout.setErrorEnabled(true);
-        } else {
-            weightLiftedLayout.setErrorEnabled(false);
-            weightLifted = (float) ParserUtil.parseDouble(getContext(), weightLiftedEditText.getText().toString());
-            if (unit == Constants.UNIT_IMPERIAL)
-                weightLifted = ConverterUtil.poundsToKgs(weightLifted);
+    private TextWatcher weightLiftedEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
-    }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-    }
-};
-
-private TextWatcher repsLiftedEditTextWatcher = new TextWatcher() {
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (repsLiftedEditText.length() == 0) {
-            repsLiftedLayout.setError(" ");
-            repsLiftedLayout.setErrorEnabled(true);
-        } else {
-            repsLiftedLayout.setErrorEnabled(false);
-            repsLifted = Integer.parseInt(repsLiftedEditText.getText().toString());
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (weightLiftedEditText.length() == 0) {
+                weightLiftedLayout.setError(" ");
+                weightLiftedLayout.setErrorEnabled(true);
+            } else {
+                weightLiftedLayout.setErrorEnabled(false);
+                weightLifted = (float) ParserUtil.parseDouble(getContext(), weightLiftedEditText.getText().toString());
+                if (unit == Constants.UNIT_IMPERIAL)
+                    weightLifted = ConverterUtil.poundsToKgs(weightLifted);
+            }
         }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private TextWatcher repsLiftedEditTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (repsLiftedEditText.length() == 0) {
+                repsLiftedLayout.setError(" ");
+                repsLiftedLayout.setErrorEnabled(true);
+            } else {
+                repsLiftedLayout.setErrorEnabled(false);
+                repsLifted = Integer.parseInt(repsLiftedEditText.getText().toString());
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener formulaSpinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            oneRepMaxFormula = getFormulaForPosition(position);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private int getFormulaForPosition(int position){
+        switch (position){
+            case 0: return Constants.ONE_REP_MAX_FORMULA_EPLEY;
+            case 1: return Constants.ONE_REP_MAX_FORMULA_BRZYCKI;
+            case 2: return Constants.ONE_REP_MAX_FORMULA_LANDER;
+            case 3: return Constants.ONE_REP_MAX_FORMULA_LOMBARDI;
+            case 4: return Constants.ONE_REP_MAX_FORMULA_MAYHEW;
+            case 5: return Constants.ONE_REP_MAX_FORMULA_OCONNER;
+            case 6: return Constants.ONE_REP_MAX_FORMULA_WATHEN;
+        }
+        return -1;
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
+    private int getPositionForFormula(int oneRepMaxFormula){
+        switch (oneRepMaxFormula){
+            case Constants.ONE_REP_MAX_FORMULA_EPLEY: return 0;
+            case Constants.ONE_REP_MAX_FORMULA_BRZYCKI: return 1;
+            case Constants.ONE_REP_MAX_FORMULA_LANDER: return 2;
+            case Constants.ONE_REP_MAX_FORMULA_LOMBARDI: return 3;
+            case Constants.ONE_REP_MAX_FORMULA_MAYHEW: return 4;
+            case Constants.ONE_REP_MAX_FORMULA_OCONNER: return 5;
+            case Constants.ONE_REP_MAX_FORMULA_WATHEN: return 6;
+        }
+        return -1;
     }
-};
 }

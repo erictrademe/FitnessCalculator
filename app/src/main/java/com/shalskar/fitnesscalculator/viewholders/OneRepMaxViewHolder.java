@@ -119,8 +119,9 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
     private void updateOneRepMax() {
         float weightLifted = SharedPreferencesManager.getWeightLifted();
         int repsLifted = SharedPreferencesManager.getRepsLifted();
+        int oneRepMaxFormula = SharedPreferencesManager.getOneRepMaxFormula();
 
-        double oneRepMax = FitnessCalculator.calculateOneRepMax(repsLifted, weightLifted);
+        double oneRepMax = FitnessCalculator.calculateOneRepMax(oneRepMaxFormula, repsLifted, weightLifted);
 
         updateChart(oneRepMax);
     }
