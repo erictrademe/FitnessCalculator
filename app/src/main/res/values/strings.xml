@@ -174,4 +174,15 @@
     <string name="calf">Calf</string>
     <string name="donations_unavailable">Donations unavailable, please try again later.</string>
     <string name="donation_thanks">Thanks for your donation! It is really appreciated.</string>
+    <string name="formula">Formula</string>
+
+    <string-array name="one_rep_max_formulas">
+        <item>Epley</item>
+        <item>Brzycki</item>
+        <item>Lander</item>
+        <item>Lombardi</item>
+        <item>Mayhew et al.</item>
+        <item>O\'Conner et al.</item>
+        <item>Wathen</item>
+    </string-array>
 </resources>

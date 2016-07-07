@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.model.Breakdown;
 import com.shalskar.fitnesscalculator.model.Physique;
-import com.shalskar.fitnesscalculator.utils.ConverterUtil;
 
 /**
  * Created by Vincent on 7/05/2016.
@@ -48,10 +47,26 @@ public class FitnessCalculator {
         return new double[]{lowerBound, upperBound};
     }
 
-    public static float calculateOneRepMax(int repsLifted, float weightLifted) {
+    public static float calculateOneRepMax(int oneRepMaxFormula, int repsLifted, float weightLifted) {
         // Epley formula only works if reps lifted > 1
         if (repsLifted == 1) return weightLifted;
-        else return weightLifted * (1 + (repsLifted / 30f));
+        switch (oneRepMaxFormula) {
+            case Constants.ONE_REP_MAX_FORMULA_EPLEY:
+                return weightLifted * (1 + (repsLifted / 30f));
+            case Constants.ONE_REP_MAX_FORMULA_BRZYCKI:
+                return weightLifted * (36f / (37f - repsLifted));
+            case Constants.ONE_REP_MAX_FORMULA_LANDER:
+                return (100 * weightLifted) / (101.3f - (2.67123f * repsLifted));
+            case Constants.ONE_REP_MAX_FORMULA_LOMBARDI:
+                return weightLifted * (float) Math.pow(repsLifted, 0.1);
+            case Constants.ONE_REP_MAX_FORMULA_MAYHEW:
+                return (float) ((100 * weightLifted) / (52.2 + 41.9 * Math.exp(-0.055 * repsLifted)));
+            case Constants.ONE_REP_MAX_FORMULA_OCONNER:
+                return weightLifted * (1 + 0.025f * repsLifted);
+            case Constants.ONE_REP_MAX_FORMULA_WATHEN:
+                return (float) (100 * weightLifted / (48.8 + 53.8 * Math.exp(-0.075 * repsLifted)));
+        }
+        return 0;
     }
 
     public static float calculateWilks(int unit, int gender, float weight, float total) {
@@ -287,7 +302,7 @@ public class FitnessCalculator {
         for (int weightClass = 0; weightClass < standards.length; weightClass++) {
             if (bodyweight <= standards[weightClass][0]
                     || weightClass == standards.length - 1) {
-                if(weightLifted < standards[weightClass][1])
+                if (weightLifted < standards[weightClass][1])
                     return Constants.STRENGTH_STANDARD_UNTRAINED;
                 for (int standard = 1; standard < standards[weightClass].length; standard++) {
                     if (standard == standards[weightClass].length - 1)

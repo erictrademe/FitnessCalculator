@@ -21,6 +21,7 @@ public class SharedPreferencesManager {
     private static final String KEY_GOAL = "goal";
     private static final String KEY_WEIGHT_LIFTED = "weight_lifted";
     private static final String KEY_REPS_LIFTED = "reps_lifted";
+    private static final String KEY_ONE_REP_MAX_FORMULA = "one_rep_max_formula";
     private static final String KEY_MEASUREMENT = "measurement";
     private static final String KEY_BODYFAT_CALCULATOR_TYPE = "bodyfat_calculator_type";
     private static final String KEY_SKINFOLD = "skinfold";
@@ -144,6 +145,16 @@ public class SharedPreferencesManager {
 
     public static int getRepsLifted(){
         return sharedPreferencesManager.sharedPreferences.getInt(KEY_REPS_LIFTED, -1);
+    }
+
+    public static void saveOneRepMaxFormula(int oneRepMaxFormula){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_ONE_REP_MAX_FORMULA, oneRepMaxFormula);
+        editor.apply();
+    }
+
+    public static int getOneRepMaxFormula(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_ONE_REP_MAX_FORMULA, -1);
     }
 
     public static void saveMeasurement(@NonNull String bodyPart, float measurement){

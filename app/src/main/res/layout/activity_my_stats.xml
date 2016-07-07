@@ -320,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginBottom="-64dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/calculate"
                 android:textColor="#ffffff"
@@ -685,9 +685,9 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:foreground="?android:selectableItemBackground"
         android:src="@drawable/ic_save_black_24dp"
         app:elevation="4dp"
+        app:rippleColor="@color/white_transparent"
         app:pressedTranslationZ="12dp" />
 
 </RelativeLayout>
