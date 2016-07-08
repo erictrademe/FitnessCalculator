@@ -64,6 +64,7 @@ public class BMIViewHolder extends BaseViewHolder {
         updateAll();
     }
 
+    @Override
     public void updateAll() {
         double height = SharedPreferencesManager.getHeight();
         double weight = SharedPreferencesManager.getWeight();
@@ -72,8 +73,6 @@ public class BMIViewHolder extends BaseViewHolder {
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
-            } else {
-                AnimationUtil.refreshView(chartView);
             }
         } else {
             titleTextView.setVisibility(View.VISIBLE);

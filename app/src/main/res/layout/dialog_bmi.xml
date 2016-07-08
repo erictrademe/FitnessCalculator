@@ -58,9 +58,7 @@
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -120,8 +118,7 @@
                         android:hint="@string/inches"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
                 </android.support.design.widget.TextInputLayout>
 

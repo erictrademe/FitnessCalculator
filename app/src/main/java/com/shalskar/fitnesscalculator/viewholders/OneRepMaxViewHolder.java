@@ -69,6 +69,7 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
         title2TextView.setText(baseView.getContext().getString(R.string.one_rep_max));
     }
 
+    @Override
     public void updateAll() {
         double weightLifted = SharedPreferencesManager.getWeightLifted();
         int repsLifted = SharedPreferencesManager.getRepsLifted();
@@ -77,8 +78,6 @@ public class OneRepMaxViewHolder extends BaseViewHolder {
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
-            } else {
-                AnimationUtil.refreshView(chartView);
             }
         } else {
             titleTextView.setVisibility(View.VISIBLE);

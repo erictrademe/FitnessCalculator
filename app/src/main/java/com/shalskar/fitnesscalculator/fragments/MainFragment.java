@@ -2,7 +2,9 @@ package com.shalskar.fitnesscalculator.fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +17,12 @@ import android.view.ViewGroup;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.adapters.ViewPagerAdapter;
+import com.shalskar.fitnesscalculator.events.MyStatsClearedEvent;
+import com.shalskar.fitnesscalculator.events.MyStatsSavedEvent;
 import com.shalskar.fitnesscalculator.utils.ViewUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +55,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this, rootView);
 
         initialiseViews();
@@ -72,7 +80,8 @@ public class MainFragment extends Fragment {
         viewPager.setAdapter(viewPagerAdapter);
     }
 
-    public void refreshAll() {
+    @Subscribe
+    public void onMyStatsClearedEvent(MyStatsClearedEvent myStatsClearedEvent) {
         viewPagerAdapter.refreshAll();
     }
 }

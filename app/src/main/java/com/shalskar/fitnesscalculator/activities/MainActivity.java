@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG_FRAGMENT_MAIN = "fragment_main";
 
@@ -57,14 +57,14 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
+//    @Override
+//    public void onNavigationDrawerItemSelected(int position) {
 //        FragmentManager fragmentManager = getSupportFragmentManager();
 //        fragmentManager.beginTransaction()
 //                .add(R.id.container, MainFragment.newInstance())
 //                .commit();
-
-    }
+//
+//    }
 
     public void onSectionAttached(int number) {
         switch (number) {

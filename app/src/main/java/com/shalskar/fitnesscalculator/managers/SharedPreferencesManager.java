@@ -240,6 +240,8 @@ public class SharedPreferencesManager {
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_PROTEIN);
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_CARBOHYDRATES);
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_FAT);
+        
+        editor.remove(KEY_ONE_REP_MAX_FORMULA);
 
         editor.apply();
     }
