@@ -404,7 +404,7 @@ public class BodyfatDialog extends BaseDialogFragment {
                 subscapularSkinfold = value;
             }
         }, unit, true);
-        suprailiacValidificationTextWatcher = new ValidificationTextWatcher(suprailiacLayout, subscapularEditText, new FieldListener() {
+        suprailiacValidificationTextWatcher = new ValidificationTextWatcher(suprailiacLayout, suprailiacEditText, new FieldListener() {
             @Override
             public void fieldChanged(float value) {
                 suprailiacSkinfold = value;

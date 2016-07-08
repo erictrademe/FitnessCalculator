@@ -82,6 +82,7 @@ public class IdealPhysiqueViewHolder extends BaseViewHolder {
         calfMeasurementView.setText(baseView.getContext().getString(R.string.calf));
     }
 
+    @Override
     public void updateAll() {
         float wristMeasurement = SharedPreferencesManager.getMeasurement(Constants.BODY_PART_WRIST);
         float ankleMeasurement = SharedPreferencesManager.getMeasurement(Constants.BODY_PART_ANKLE);

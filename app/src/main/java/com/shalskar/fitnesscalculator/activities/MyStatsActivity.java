@@ -26,6 +26,7 @@ import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
+import com.shalskar.fitnesscalculator.events.MyStatsClearedEvent;
 import com.shalskar.fitnesscalculator.events.MyStatsSavedEvent;
 import com.shalskar.fitnesscalculator.listeners.FieldListener;
 import com.shalskar.fitnesscalculator.listeners.ValidificationTextWatcher;
@@ -584,6 +585,7 @@ public class MyStatsActivity extends AppCompatActivity {
         SharedPreferencesManager.clearAll();
         initialiseStats();
         clearViews();
+        EventBus.getDefault().post(new MyStatsClearedEvent());
         calculatedButton.setVisibility(View.INVISIBLE);
     }
 

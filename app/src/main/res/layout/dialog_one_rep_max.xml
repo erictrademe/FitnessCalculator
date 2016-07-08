@@ -67,16 +67,14 @@
 
                 <EditText
                     android:id="@+id/edittext_weight_lifted"
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -100,16 +98,14 @@
 
                 <EditText
                     android:id="@+id/edittext_reps_lifted"
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/reps"
                     android:imeOptions="actionGo"
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
 

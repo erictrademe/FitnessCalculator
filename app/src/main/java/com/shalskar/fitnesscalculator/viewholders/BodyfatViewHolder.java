@@ -61,6 +61,7 @@ public class BodyfatViewHolder extends BaseViewHolder {
         updateAll();
     }
 
+    @Override
     public void updateAll() {
         float bodyfat = FitnessCalculator.calculateBodyFat();
         if (bodyfat != -1) {
@@ -68,8 +69,6 @@ public class BodyfatViewHolder extends BaseViewHolder {
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
-            } else {
-                AnimationUtil.refreshView(chartView);
             }
         } else {
             titleTextView.setVisibility(View.VISIBLE);

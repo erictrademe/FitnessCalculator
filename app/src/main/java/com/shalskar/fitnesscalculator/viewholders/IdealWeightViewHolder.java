@@ -65,6 +65,7 @@ public class IdealWeightViewHolder extends BaseViewHolder {
         updateAll();
     }
 
+    @Override
     public void updateAll() {
         double height = SharedPreferencesManager.getHeight();
         if (height > 0) {
@@ -72,8 +73,6 @@ public class IdealWeightViewHolder extends BaseViewHolder {
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateChartView();
                 animateTitle();
-            } else {
-                AnimationUtil.refreshView(chartView);
             }
         } else {
             titleTextView.setVisibility(View.VISIBLE);

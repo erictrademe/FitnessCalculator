@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.viewholders.BMIViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.BaseViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.BodyfatViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.CalorieViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.IdealPhysiqueViewHolder;
@@ -85,40 +86,9 @@ public class BodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         viewHolders[position] = viewHolder;
-//
-//        int viewType = getItemViewType(position);
-//        switch (viewType) {
-//            case VIEW_TYPE_PLACEHOLDER:
-//                break;
-//            case VIEW_TYPE_CALORIE:
-//                CalorieViewHolder calorieViewHolder = (CalorieViewHolder) viewHolder;
-//                //calorieViewHolder.initialiseViews();
-//                break;
-//            case VIEW_TYPE_MACRO:
-//                MacroViewHolder macroViewHolder = (MacroViewHolder) viewHolder;
-//                //macroViewHolder.initialiseViews();
-//                break;
-//            case VIEW_TYPE_WATER:
-//                WaterViewHolder waterViewHolder = (WaterViewHolder) viewHolder;
-//                //waterViewHolder.initialiseViews();
-//                break;
-//            case VIEW_TYPE_IDEAL_WEIGHT:
-//                IdealWeightViewHolder idealWeightViewHolder = (IdealWeightViewHolder) viewHolder;
-//                //idealWeightViewHolder.initialiseViews();
-//                break;
-//            case VIEW_TYPE_BMI:
-//                BMIViewHolder BMIViewHolder = (BMIViewHolder) viewHolder;
-//                //BMIViewHolder.initialiseViews();
-//                break;
-//            case VIEW_TYPE_BODYFAT:
-//                BodyfatViewHolder bodyfatViewHolder = (BodyfatViewHolder) viewHolder;
-//                //bodyfatViewHolder.initialiseViews();
-//                break;
-//            case VIEW_TYPE_IDEAL_PHYSIQUE:
-//                IdealPhysiqueViewHolder idealPhysiqueViewHolder = (IdealPhysiqueViewHolder) viewHolder;
-//                //idealPhysiqueViewHolder.initialiseViews();
-//                break;
-//        }
+        int viewType = getItemViewType(position);
+        if (viewType != VIEW_TYPE_PLACEHOLDER)
+            ((BaseViewHolder) viewHolder).updateAll();
     }
 
     @Override

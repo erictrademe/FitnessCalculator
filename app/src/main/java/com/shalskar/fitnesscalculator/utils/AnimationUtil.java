@@ -27,63 +27,63 @@ public class AnimationUtil {
      * @param view
      */
     public static void refreshView(@NonNull final View view){
-        view.animate()
-                .alpha(0.5f)
-                .scaleX(0.9f)
-                .scaleY(0.9f)
-                .setDuration(150)
-                .setInterpolator(new AccelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        view.animate()
-                                .alpha(1f)
-                                .scaleX(1)
-                                .scaleY(1)
-                                .setDuration(150)
-                                .setInterpolator(new DecelerateInterpolator())
-                                .setListener(new Animator.AnimatorListener() {
-                                    @Override
-                                    public void onAnimationStart(Animator animation) {
-
-                                    }
-
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        view.setAlpha(1f);
-                                        view.setScaleX(1f);
-                                        view.setScaleY(1f);
-
-                                    }
-
-                                    @Override
-                                    public void onAnimationCancel(Animator animation) {
-
-                                    }
-
-                                    @Override
-                                    public void onAnimationRepeat(Animator animation) {
-
-                                    }
-                                })
-                                .start();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                }).start();
+//        view.animate()
+//                .alpha(0.5f)
+//                .scaleX(0.9f)
+//                .scaleY(0.9f)
+//                .setDuration(150)
+//                .setInterpolator(new AccelerateInterpolator())
+//                .setListener(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        view.animate()
+//                                .alpha(1f)
+//                                .scaleX(1)
+//                                .scaleY(1)
+//                                .setDuration(150)
+//                                .setInterpolator(new DecelerateInterpolator())
+//                                .setListener(new Animator.AnimatorListener() {
+//                                    @Override
+//                                    public void onAnimationStart(Animator animation) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onAnimationEnd(Animator animation) {
+//                                        view.setAlpha(1f);
+//                                        view.setScaleX(1f);
+//                                        view.setScaleY(1f);
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onAnimationCancel(Animator animation) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onAnimationRepeat(Animator animation) {
+//
+//                                    }
+//                                })
+//                                .start();
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animation) {
+//
+//                    }
+//                }).start();
     }
 
     public static void animateDrawableIn(@NonNull final View view, @NonNull final Drawable drawable){

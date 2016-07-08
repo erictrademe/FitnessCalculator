@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Vincent on 10/06/2016.
  */
-public class BaseViewHolder extends RecyclerView.ViewHolder {
+public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * We could make this a variable to adjust the performance of the app on older phones
@@ -53,6 +53,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         sideLayout.animate().alpha(1).translationX(0).setDuration(250).setInterpolator(new DecelerateInterpolator()).start();
     }
 
+    public void updateAll(){
+
+    }
 
     protected void loadImage(int widthResource, int heightResource, int imageResource) {
         int width = (int) (baseView.getResources().getDimension(widthResource) * IMAGE_QUALITY_REDUCTION);
