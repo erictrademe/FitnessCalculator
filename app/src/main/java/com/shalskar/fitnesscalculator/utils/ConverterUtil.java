@@ -17,14 +17,14 @@ public class ConverterUtil {
         return kgs * 2.205;
     }
 
-    public static double feetAndInchesToCm(double feet, double inches){
-        return ((feet * 12) + inches) * 2.54;
+    public static float feetAndInchesToCm(float feet, float inches){
+        return ((feet * 12) + inches) * 2.54f;
     }
 
-    public static double[] cmToFeetAndInches(double cm){
-        double inches = cm / 2.54;
-        double feet = Math.floor(inches / 12);
-        return new double[] {feet, inches % 12};
+    public static float[] cmToFeetAndInches(float cm){
+        float inches = cm / 2.54f;
+        float feet = (float) Math.floor(inches / 12);
+        return new float[] {feet, inches % 12};
     }
 
     public static double cmToInches(double cm){

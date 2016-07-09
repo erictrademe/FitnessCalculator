@@ -115,9 +115,8 @@ public class WilksViewHolder extends BaseViewHolder {
     }
 
     private void updateWilks(double weight, int gender, float squatWeightLifted, float benchWeightLifted, float deadliftWeightLifted) {
-        int unit = SharedPreferencesManager.getUnit();
         float total = squatWeightLifted + benchWeightLifted +deadliftWeightLifted;
-        float wilks = FitnessCalculator.calculateWilks(unit, gender, (float) weight, total);
+        float wilks = FitnessCalculator.calculateWilks(gender, (float) weight, total);
 
         updateChart(wilks);
     }

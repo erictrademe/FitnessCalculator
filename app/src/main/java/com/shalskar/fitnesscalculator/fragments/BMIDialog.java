@@ -54,8 +54,8 @@ public class BMIDialog extends BaseDialogFragment {
 
 
     private int unit = Constants.UNIT_METRIC;
-    private double height = 0;
-    private double weight = 0;
+    private float height = 0;
+    private float weight = 0;
 
     public BMIDialog() {
 
@@ -94,7 +94,7 @@ public class BMIDialog extends BaseDialogFragment {
             if (weight > 0)
                 weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
             if (height > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(numberFormat.format(feetAndInches[0]));
                 heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
@@ -138,7 +138,7 @@ public class BMIDialog extends BaseDialogFragment {
                 weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
 
             if (height > 0 && heightEditText.length() > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(numberFormat.format(feetAndInches[0]));
                 heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
@@ -199,7 +199,7 @@ public class BMIDialog extends BaseDialogFragment {
                 weightLayout.setErrorEnabled(true);
             } else {
                 weightLayout.setErrorEnabled(false);
-                weight = ParserUtil.parseDouble(getContext(), weightEditText.getText().toString());
+                weight = ParserUtil.parseFloat(getContext(), weightEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
                     weight = ConverterUtil.poundsToKgs(weight);
             }
@@ -223,10 +223,10 @@ public class BMIDialog extends BaseDialogFragment {
             } else {
                 heightLayout.setErrorEnabled(false);
                 if (unit == Constants.UNIT_METRIC) {
-                    height = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
+                    height = ParserUtil.parseFloat(getContext(), heightEditText.getText().toString());
                 } else if (unit == Constants.UNIT_IMPERIAL) {
-                    double feet = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
-                    double inches = ParserUtil.parseDouble(getContext(), heightInchesEditText.getText().toString());
+                    float feet = ParserUtil.parseFloat(getContext(), heightEditText.getText().toString());
+                    float inches = ParserUtil.parseFloat(getContext(), heightInchesEditText.getText().toString());
                     height = ConverterUtil.feetAndInchesToCm(feet, inches);
                 }
             }

@@ -16,6 +16,7 @@ public class FitnessCalculator {
         return weight / (height * height);
     }
 
+    //Harris-Benedict formula
     public static int calculateDailyCalorieIntake(double weight, double height, int gender, int age, double activityLevel) {
         double BMR = 0;
         if (gender == Constants.GENDER_FEMALE) {
@@ -69,7 +70,7 @@ public class FitnessCalculator {
         return 0;
     }
 
-    public static float calculateWilks(int unit, int gender, float weight, float total) {
+    public static float calculateWilks(int gender, float weight, float total) {
         // Coefficients
         float a;
         float b;
@@ -129,11 +130,11 @@ public class FitnessCalculator {
                 if (skinfoldSuprailiac >= 0 && skinfoldThigh >= 0 && skinfoldTriceps >= 0)
                     return FitnessCalculator.calculateBodyfatFemale(skinfoldThigh, skinfoldTriceps, skinfoldSuprailiac, age);
             } else if (gender == Constants.GENDER_MALE) {
-                float skinfoldSuprailiac = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_SUPRAILIAC);
+                float skinfoldThigh = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_THIGH);
                 float skinfoldPectoral = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_PECTORAL);
                 float skinfoldAbdominal = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_ABDOMINAL);
-                if (skinfoldSuprailiac >= 0 && skinfoldAbdominal >= 0 && skinfoldPectoral >= 0)
-                    return FitnessCalculator.calculateBodyfatMale(skinfoldPectoral, skinfoldAbdominal, skinfoldSuprailiac, age);
+                if (skinfoldThigh >= 0 && skinfoldAbdominal >= 0 && skinfoldPectoral >= 0)
+                    return FitnessCalculator.calculateBodyfatMale(skinfoldPectoral, skinfoldAbdominal, skinfoldThigh, age);
             }
         } else if (bodyfatCalculatorType == Constants.BODYFAT_CALCULATOR_TYPE_7_POINT) {
             float skinfoldAbdominal = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_ABDOMINAL);
@@ -154,7 +155,7 @@ public class FitnessCalculator {
     /**
      * Calculate bodyfat using 7 site skinfold caliper test.
      */
-    private static float calculateBodyfat(float pectoralSkinfold, float abdominalSkinfold, float thighSkinfold,
+    public static float calculateBodyfat(float pectoralSkinfold, float abdominalSkinfold, float thighSkinfold,
                                           float tricepsSkinfold, float subscapularSkinfold, float suprailiacSkinfold,
                                           float axillaSkingold, int gender, int age) {
         float sum = pectoralSkinfold + abdominalSkinfold + thighSkinfold + tricepsSkinfold + subscapularSkinfold +
@@ -172,17 +173,17 @@ public class FitnessCalculator {
     /**
      * Calculate bodyfat using 3 site skinfold caliper test.
      */
-    private static float calculateBodyfatFemale(float thighSkinfold, float tricepsSkinfold, float suprailiacSkinfold, int age) {
+    public static float calculateBodyfatFemale(float thighSkinfold, float tricepsSkinfold, float suprailiacSkinfold, int age) {
         float sum = thighSkinfold + tricepsSkinfold + suprailiacSkinfold;
         return convertBodyDensityToBodyfat(1.0994291f - (0.0009929f * sum) + (0.0000023f * sum * sum) - (0.0001392f * age));
     }
 
-    private static float calculateBodyfatMale(float pectoralSkinfold, float abdominalSkinfold, float suprailiacSkinfold, int age) {
-        float sum = pectoralSkinfold + abdominalSkinfold + suprailiacSkinfold;
+    public static float calculateBodyfatMale(float pectoralSkinfold, float abdominalSkinfold, float thighSkinfold, int age) {
+        float sum = pectoralSkinfold + abdominalSkinfold + thighSkinfold;
         return convertBodyDensityToBodyfat(1.10938f - (0.0008267f * sum) + (0.0000016f * sum * sum) - (0.0002574f * age));
     }
 
-    private static float convertBodyDensityToBodyfat(float bodyDensity) {
+    public static float convertBodyDensityToBodyfat(float bodyDensity) {
         return ((4.95f / bodyDensity) - 4.5f) * 100;
     }
 
