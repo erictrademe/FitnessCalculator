@@ -47,23 +47,23 @@ public class SharedPreferencesManager {
         return sharedPreferencesManager.sharedPreferences.getInt(KEY_UNIT, Constants.UNIT_METRIC);
     }
 
-    public static void saveWeight(double weight){
+    public static void saveWeight(float weight){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
-        editor.putFloat(KEY_WEIGHT, (float) weight);
+        editor.putFloat(KEY_WEIGHT, weight);
         editor.apply();
     }
 
-    public static double getWeight(){
+    public static float getWeight(){
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_WEIGHT, 0);
     }
 
-    public static void saveHeight(double height){
+    public static void saveHeight(float height){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
-        editor.putFloat(KEY_HEIGHT, (float) height);
+        editor.putFloat(KEY_HEIGHT, height);
         editor.apply();
     }
 
-    public static double getHeight(){
+    public static float getHeight(){
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_HEIGHT, 0);
     }
 

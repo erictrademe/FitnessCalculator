@@ -44,7 +44,7 @@ public class IdealWeightDialog extends BaseDialogFragment {
     ViewGroup heightInchesLayout;
 
     private int unit = Constants.UNIT_METRIC;
-    private double height = 0;
+    private float height = 0;
 
     public IdealWeightDialog() {
 
@@ -80,7 +80,7 @@ public class IdealWeightDialog extends BaseDialogFragment {
             heightLayout.setHint(getString(R.string.feet));
             heightInchesLayout.setVisibility(View.VISIBLE);
             if (height > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(numberFormat.format(feetAndInches[0]));
                 heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
@@ -116,7 +116,7 @@ public class IdealWeightDialog extends BaseDialogFragment {
     private void convertFields() {
         if (unit == Constants.UNIT_IMPERIAL) {
             if (height > 0 && heightEditText.length() > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(numberFormat.format(feetAndInches[0]));
                 heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
@@ -173,10 +173,10 @@ public class IdealWeightDialog extends BaseDialogFragment {
             } else {
                 heightLayout.setErrorEnabled(false);
                 if (unit == Constants.UNIT_METRIC) {
-                    height = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
+                    height = ParserUtil.parseFloat(getContext(), heightEditText.getText().toString());
                 } else if (unit == Constants.UNIT_IMPERIAL) {
-                    double feet = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
-                    double inches = ParserUtil.parseDouble(getContext(), heightInchesEditText.getText().toString());
+                    float feet = ParserUtil.parseFloat(getContext(), heightEditText.getText().toString());
+                    float inches = ParserUtil.parseFloat(getContext(), heightInchesEditText.getText().toString());
                     height = ConverterUtil.feetAndInchesToCm(feet, inches);
                 }
             }

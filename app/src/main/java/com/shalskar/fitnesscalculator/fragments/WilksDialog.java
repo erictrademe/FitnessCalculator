@@ -68,7 +68,7 @@ public class WilksDialog extends BaseDialogFragment {
 
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
-    private double weight = 0;
+    private float weight = 0;
     private float benchPressWeightLifted = 0;
     private float squatWeightLifted = 0;
     private float deadliftWeightLifted = 0;
@@ -274,7 +274,7 @@ public class WilksDialog extends BaseDialogFragment {
                 weightLayout.setErrorEnabled(true);
             } else {
                 weightLayout.setErrorEnabled(false);
-                weight = ParserUtil.parseDouble(getContext(), weightEditText.getText().toString());
+                weight = ParserUtil.parseFloat(getContext(), weightEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
                     weight = ConverterUtil.poundsToKgs(weight);
             }

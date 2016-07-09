@@ -26,12 +26,7 @@
             android:name=".activities.MyStatsActivity"
             android:label="@string/my_stats" />
 
-
-        <!--<meta-data-->
-        <!--android:name="com.google.android.gms.wallet.api.enabled"-->
-        <!--android:value="true" />-->
+        <uses-library android:name="android.test.runner"/>
     </application>
-
-
 
 </manifest>
