@@ -26,7 +26,6 @@
             android:name=".activities.MyStatsActivity"
             android:label="@string/my_stats" />
 
-        <uses-library android:name="android.test.runner"/>
     </application>
 
 </manifest>

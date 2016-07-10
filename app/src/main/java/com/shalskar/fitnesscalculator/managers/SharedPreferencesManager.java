@@ -227,6 +227,7 @@ public class SharedPreferencesManager {
         editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_ANKLE);
         editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_WRIST);
 
+        editor.remove(KEY_BODYFAT_CALCULATOR_TYPE);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_ABDOMINAL);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_AXILLA);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_PECTORAL);

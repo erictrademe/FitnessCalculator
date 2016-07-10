@@ -35,7 +35,7 @@ public class BodyFragment extends Fragment implements BodyAdapter.AdapterListene
     private static final String TAG_BODYFAT_DIALOG_FRAGMENT = "fragment_bodyfat";
     private static final String TAG_IDEAL_PHYSIQUE_DIALOG_FRAGMENT = "fragment_ideal_physique";
 
-    @BindView(R.id.recycler_view)
+    @BindView(R.id.recycler_view_body)
     RecyclerView recyclerView;
 
     private GridLayoutManager gridLayoutManager;
