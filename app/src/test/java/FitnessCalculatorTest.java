@@ -15,21 +15,21 @@ public class FitnessCalculatorTest{
 
     @Test
     public void fitnessCalculator_OneRepMax_ReturnsTrue() {
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_EPLEY, 5, 100), 116, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_LOMBARDI, 5, 100), 117, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_BRZYCKI, 5, 100), 112, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_MAYHEW, 5, 100), 119, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_OCONNER, 5, 100), 112, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_WATHEN, 5, 100), 116, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_LANDER, 5, 100), 113, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_EPLEY, 5, 100), 116, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_LOMBARDI, 5, 100), 117, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_BRZYCKI, 5, 100), 112, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_MAYHEW, 5, 100), 119, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_OCONNER, 5, 100), 112, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_WATHEN, 5, 100), 116, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_LANDER, 5, 100), 113, 1);
 
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_EPLEY, 10, 220), 293, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_LOMBARDI, 10, 220), 276, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_BRZYCKI, 10, 220), 293, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_MAYHEW, 10, 220), 288, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_OCONNER, 10, 220), 275, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_WATHEN, 10, 220), 296, 1);
-        assertEquals(FitnessCalculator.calculateOneRepMax(Constants.ONE_REP_MAX_FORMULA_LANDER, 10, 220), 294, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_EPLEY, 10, 220), 293, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_LOMBARDI, 10, 220), 276, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_BRZYCKI, 10, 220), 293, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_MAYHEW, 10, 220), 288, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_OCONNER, 10, 220), 275, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_WATHEN, 10, 220), 296, 1);
+        assertEquals(FitnessCalculator.calculateRepMax(1, Constants.ONE_REP_MAX_FORMULA_LANDER, 10, 220), 294, 1);
     }
 
     @Test

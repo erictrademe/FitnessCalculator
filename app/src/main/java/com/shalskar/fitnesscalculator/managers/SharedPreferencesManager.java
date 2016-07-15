@@ -19,6 +19,7 @@ public class SharedPreferencesManager {
     private static final String KEY_GENDER = "gender";
     private static final String KEY_ACTIVITY_LEVEL = "activity_level";
     private static final String KEY_GOAL = "goal";
+    private static final String KEY_REP_MAX_VALUE = "rep_max_value";
     private static final String KEY_WEIGHT_LIFTED = "weight_lifted";
     private static final String KEY_REPS_LIFTED = "reps_lifted";
     private static final String KEY_ONE_REP_MAX_FORMULA = "one_rep_max_formula";
@@ -119,6 +120,16 @@ public class SharedPreferencesManager {
         editor.apply();
     }
 
+    public static void saveRepsMaxValue(int repsMaxValue){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_REP_MAX_VALUE, repsMaxValue);
+        editor.apply();
+    }
+
+    public static int getRepsMaxValue(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_REP_MAX_VALUE, 1);
+    }
+
     public static float getWeightLifted(){
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_WEIGHT_LIFTED, -1);
     }
@@ -217,8 +228,10 @@ public class SharedPreferencesManager {
         editor.remove(KEY_WEIGHT);
         editor.remove(KEY_ACTIVITY_LEVEL);
         editor.remove(KEY_GOAL);
+        editor.remove(KEY_REP_MAX_VALUE);
         editor.remove(KEY_WEIGHT_LIFTED);
         editor.remove(KEY_REPS_LIFTED);
+        editor.remove(KEY_ONE_REP_MAX_FORMULA);
 
         editor.remove(KEY_WEIGHT_LIFTED + Constants.EXERCISE_SQUAT);
         editor.remove(KEY_WEIGHT_LIFTED + Constants.EXERCISE_BENCH_PRESS);
@@ -241,8 +254,6 @@ public class SharedPreferencesManager {
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_PROTEIN);
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_CARBOHYDRATES);
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_FAT);
-        
-        editor.remove(KEY_ONE_REP_MAX_FORMULA);
 
         editor.apply();
     }

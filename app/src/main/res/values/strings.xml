@@ -37,8 +37,10 @@
     <string name="feet">Feet</string>
     <string name="inches">Inches</string>
     <string name="pounds">Pounds</string>
+    <string name="pounds_short">lbs</string>
     <string name="centimeters">Centimeters</string>
     <string name="kilograms">Kilograms</string>
+    <string name="kilograms_short">kgs</string>
 
 
     <string name="cancel">CANCEL</string>
@@ -78,6 +80,7 @@
     <string name="overhead_press">Overhead Press</string>
     <string name="reps_lifted">Reps Lifted</string>
     <string name="reps">Reps</string>
+    <string name="rep">Rep</string>
     <string name="one_rep_max">One Rep Max</string>
     <string name="wilks">Wilks</string>
     <string name="squat_1rm">Squat 1RM</string>
@@ -152,7 +155,7 @@
     <string name="wilks_description">The Wilks Formula is used to compare the strength of powerlifters against each other despite the different weights of the lifters.\n\nSimply enter in your one rep max for bench press, squat and deadlift and your wilks score will be calculated.</string>
     <string name="wilks_description_title">About Wilks</string>
 
-    <string name="one_rep_max_description">This calculator will give you an estimate at what your one rep max would be for any given lift based on what you have lifted for reps.\n\nSimply enter in the weight you lifted and for how many reps and it will give you an estimate.</string>
+    <string name="one_rep_max_description">This calculator will give you an estimate at what your one rep max would be for any given lift based on what you have lifted for reps.\n\nSimply enter in the weight you lifted and for how many reps and it will give you an estimate.\n\nYou can also use the arrows to calculate an max estimate for other rep ranges (between 1-12.)</string>
     <string name="one_rep_max_description_title">About One Rep Max</string>
 
     <string name="strength_standards_description">The performance standards are adult standards (>18 years old) for a single maximal repetition (1RM) based on competitive weightlifter and powerlifting classification systems in use from the 1950\'s to present.\n\nThese are standards are divided into 5 classifications:\n\n- Untrained = An individual who has not trained on the exercises before, but can perform them correctly.\n\n- Novice = An individual who has trained regularly for up to several months.\n\n- Intermediate = An individual who has trained regularly for up to a couple years.\n\n- Advanced = An individual who has trained multiple years.\n\n- Elite = An athlete competing in strength sports.\n\nKeep in mind, the standards shown in the tables do not represent the highest level of strength performance possible.</string>

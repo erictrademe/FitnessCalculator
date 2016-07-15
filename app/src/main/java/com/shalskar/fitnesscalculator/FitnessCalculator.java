@@ -11,6 +11,10 @@ import com.shalskar.fitnesscalculator.model.Physique;
  */
 public class FitnessCalculator {
 
+    // Prevent instantiation
+    private FitnessCalculator() {
+    }
+
     public static double calculateBMI(double weight, double height) {
         height = height / 100;
         return weight / (height * height);
@@ -48,8 +52,7 @@ public class FitnessCalculator {
         return new double[]{lowerBound, upperBound};
     }
 
-    public static float calculateOneRepMax(int oneRepMaxFormula, int repsLifted, float weightLifted) {
-        // Epley formula only works if reps lifted > 1
+    private static float calculateOneRepMax(int oneRepMaxFormula, int repsLifted, float weightLifted) {
         if (repsLifted == 1) return weightLifted;
         switch (oneRepMaxFormula) {
             case Constants.ONE_REP_MAX_FORMULA_EPLEY:
@@ -68,6 +71,17 @@ public class FitnessCalculator {
                 return (float) (100 * weightLifted / (48.8 + 53.8 * Math.exp(-0.075 * repsLifted)));
         }
         return 0;
+    }
+
+    /**
+     * Calculate the amount of reps one could theoretically lift, given a weight lifted and for how many reps.
+     **/
+    private final static float[] REP_MAX_PERCENTAGES = {1, 0.95f, 0.9f, 0.88f, 0.86f, 0.83f, 0.8f, 0.78f, 0.76f, 0.75f, 0.72f, 0.7f};
+
+    public static float calculateRepMax(int reps, int oneRepMaxFormula, int repsLifted, float weightLifted) {
+        float oneRepMax = calculateOneRepMax(oneRepMaxFormula, repsLifted, weightLifted);
+        if (reps == repsLifted) return weightLifted;
+        return oneRepMax * REP_MAX_PERCENTAGES[reps - 1];
     }
 
     public static float calculateWilks(int gender, float weight, float total) {
@@ -156,8 +170,8 @@ public class FitnessCalculator {
      * Calculate bodyfat using 7 site skinfold caliper test.
      */
     public static float calculateBodyfat(float pectoralSkinfold, float abdominalSkinfold, float thighSkinfold,
-                                          float tricepsSkinfold, float subscapularSkinfold, float suprailiacSkinfold,
-                                          float axillaSkingold, int gender, int age) {
+                                         float tricepsSkinfold, float subscapularSkinfold, float suprailiacSkinfold,
+                                         float axillaSkingold, int gender, int age) {
         float sum = pectoralSkinfold + abdominalSkinfold + thighSkinfold + tricepsSkinfold + subscapularSkinfold +
                 suprailiacSkinfold + axillaSkingold;
 
