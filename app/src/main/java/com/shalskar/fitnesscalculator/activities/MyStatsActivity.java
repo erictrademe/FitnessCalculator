@@ -26,6 +26,7 @@ import com.shalskar.fitnesscalculator.Constants;
 import com.shalskar.fitnesscalculator.FitnessCalculator;
 import com.shalskar.fitnesscalculator.R;
 import com.shalskar.fitnesscalculator.events.DetailsUpdatedEvent;
+import com.shalskar.fitnesscalculator.events.MyStatsClearedEvent;
 import com.shalskar.fitnesscalculator.events.MyStatsSavedEvent;
 import com.shalskar.fitnesscalculator.listeners.FieldListener;
 import com.shalskar.fitnesscalculator.listeners.ValidificationTextWatcher;
@@ -198,8 +199,8 @@ public class MyStatsActivity extends AppCompatActivity {
     private int unit;
     private int gender;
     private int age;
-    private double height;
-    private double weight;
+    private float height;
+    private float weight;
     private float wristMeasurement;
     private float ankleMeasurement;
     private float activityLevel;
@@ -365,7 +366,7 @@ public class MyStatsActivity extends AppCompatActivity {
             if (weight > 0)
                 weightEditText.setText(String.format("%.0f", ConverterUtil.kgsToPounds(weight)));
             if (height > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(String.format("%.0f", feetAndInches[0]));
                 heightInchesEditText.setText(String.format("%.0f", feetAndInches[1]));
             }
@@ -518,7 +519,7 @@ public class MyStatsActivity extends AppCompatActivity {
             if (weight > 0 && weightEditText.length() > 0)
                 weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
             if (height > 0 && heightEditText.length() > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(numberFormat.format(feetAndInches[0]));
                 heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
@@ -584,6 +585,7 @@ public class MyStatsActivity extends AppCompatActivity {
         SharedPreferencesManager.clearAll();
         initialiseStats();
         clearViews();
+        EventBus.getDefault().post(new MyStatsClearedEvent());
         calculatedButton.setVisibility(View.INVISIBLE);
     }
 
@@ -750,7 +752,7 @@ public class MyStatsActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (weightEditText.length() != 0) {
-                weight = ParserUtil.parseDouble(MyStatsActivity.this, weightEditText.getText().toString());
+                weight = ParserUtil.parseFloat(MyStatsActivity.this, weightEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
                     weight = ConverterUtil.poundsToKgs(weight);
             } else weight = 0;
@@ -771,12 +773,12 @@ public class MyStatsActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (heightEditText.length() != 0) {
                 if (unit == Constants.UNIT_METRIC) {
-                    height = ParserUtil.parseDouble(MyStatsActivity.this, heightEditText.getText().toString());
+                    height = ParserUtil.parseFloat(MyStatsActivity.this, heightEditText.getText().toString());
                 } else if (unit == Constants.UNIT_IMPERIAL) {
-                    double feet = ParserUtil.parseDouble(MyStatsActivity.this, heightEditText.getText().toString());
-                    double inches = 0;
+                    float feet = ParserUtil.parseFloat(MyStatsActivity.this, heightEditText.getText().toString());
+                    float inches = 0;
                     if (heightInchesEditText.length() > 0)
-                        inches = ParserUtil.parseDouble(MyStatsActivity.this, heightInchesEditText.getText().toString());
+                        inches = ParserUtil.parseFloat(MyStatsActivity.this, heightInchesEditText.getText().toString());
                     height = ConverterUtil.feetAndInchesToCm(feet, inches);
                 }
             } else height = 0;

@@ -156,15 +156,19 @@ public class BodyfatDialog extends BaseDialogFragment {
         ButterKnife.bind(this, view);
         initialiseListeners();
         addListeners();
+        loadFields();
         prepopulateFields();
 
         return view;
     }
 
-
-    private void prepopulateFields() {
+    private void loadFields(){
         age = SharedPreferencesManager.getAge();
         gender = SharedPreferencesManager.getGender();
+        if (gender == Constants.UNDEFINED) {
+            gender = Constants.GENDER_FEMALE;
+            SharedPreferencesManager.saveGender(gender);
+        }
         unit = SharedPreferencesManager.getUnit();
         bodyfatCalculatorType = SharedPreferencesManager.getBodyfatCalculatorType();
         abdominalSkinfold = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_ABDOMINAL);
@@ -174,23 +178,26 @@ public class BodyfatDialog extends BaseDialogFragment {
         suprailiacSkinfold = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_SUPRAILIAC);
         thighSkinfold = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_THIGH);
         tricepsSkinfold = SharedPreferencesManager.getSkinfold(Constants.SKINFOLD_TRICEPS);
+    }
+
+    private void prepopulateFields() {
         updateFieldsVisibility();
 
         if (bodyfatCalculatorType == Constants.BODYFAT_CALCULATOR_TYPE_7_POINT)
             bodyfatCalculatorTypeButton.setText(getString(R.string.bf_7_point));
         else if (bodyfatCalculatorType == Constants.BODYFAT_CALCULATOR_TYPE_3_POINT)
-            bodyfatCalculatorTypeButton.setText(getString(R.string.bf_3_pont));
+            bodyfatCalculatorTypeButton.setText(getString(R.string.bf_3_point));
 
         prepopulateUnit(unit);
         prepopulateAge();
         prepopulateGender();
-        prepopulateField(pectoralLayout, pectoralEditText, unit, pectoralSkinfold);
-        prepopulateField(abdominalLayout, abdominalEditText, unit, abdominalSkinfold);
-        prepopulateField(axillaLayout, axillaEditText, unit, axillaSkinfold);
-        prepopulateField(subscapularLayout, subscapularEditText, unit, subscapularSkinfold);
-        prepopulateField(suprailiacLayout, suprailiacEditText, unit, suprailiacSkinfold);
-        prepopulateField(tricepsLayout, tricepsEditText, unit, tricepsSkinfold);
-        prepopulateField(thighLayout, thighEditText, unit, thighSkinfold);
+        prepopulateField(pectoralLayout, pectoralEditText, pectoralSkinfold);
+        prepopulateField(abdominalLayout, abdominalEditText, abdominalSkinfold);
+        prepopulateField(axillaLayout, axillaEditText, axillaSkinfold);
+        prepopulateField(subscapularLayout, subscapularEditText, subscapularSkinfold);
+        prepopulateField(suprailiacLayout, suprailiacEditText, suprailiacSkinfold);
+        prepopulateField(tricepsLayout, tricepsEditText, tricepsSkinfold);
+        prepopulateField(thighLayout, thighEditText, thighSkinfold);
     }
 
     private void prepopulateAge() {
@@ -209,9 +216,9 @@ public class BodyfatDialog extends BaseDialogFragment {
         }
     }
 
-    private void prepopulateField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, int unit, float skinfold) {
+    private void prepopulateField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float skinfold) {
         if (skinfold > 0)
-            convertField(textInputLayout, editText, unit, skinfold);
+            convertField(textInputLayout, editText, skinfold);
     }
 
 
@@ -234,23 +241,38 @@ public class BodyfatDialog extends BaseDialogFragment {
     }
 
     private void convertFields() {
+        setHint(pectoralLayout);
+        setHint(abdominalLayout);
+        setHint(thighLayout);
+        setHint(axillaLayout);
+        setHint(suprailiacLayout);
+        setHint(subscapularLayout);
+        setHint(tricepsLayout);
         if (pectoralSkinfold > 0 && pectoralEditText.length() > 0)
-            convertField(pectoralLayout, pectoralEditText, unit, pectoralSkinfold);
+            convertField(pectoralLayout, pectoralEditText, pectoralSkinfold);
         if (abdominalSkinfold > 0 && abdominalEditText.length() > 0)
-            convertField(abdominalLayout, abdominalEditText, unit, abdominalSkinfold);
+            convertField(abdominalLayout, abdominalEditText, abdominalSkinfold);
         if (thighSkinfold > 0 && thighEditText.length() > 0)
-            convertField(thighLayout, thighEditText, unit, thighSkinfold);
+            convertField(thighLayout, thighEditText, thighSkinfold);
         if (axillaSkinfold > 0 && axillaEditText.length() > 0)
-            convertField(axillaLayout, axillaEditText, unit, axillaSkinfold);
+            convertField(axillaLayout, axillaEditText, axillaSkinfold);
         if (suprailiacSkinfold > 0 && suprailiacEditText.length() > 0)
-            convertField(suprailiacLayout, suprailiacEditText, unit, suprailiacSkinfold);
+            convertField(suprailiacLayout, suprailiacEditText, suprailiacSkinfold);
         if (subscapularSkinfold > 0 && subscapularEditText.length() > 0)
-            convertField(subscapularLayout, subscapularEditText, unit, subscapularSkinfold);
+            convertField(subscapularLayout, subscapularEditText, subscapularSkinfold);
         if (tricepsSkinfold > 0 && tricepsEditText.length() > 0)
-            convertField(tricepsLayout, tricepsEditText, unit, tricepsSkinfold);
+            convertField(tricepsLayout, tricepsEditText, tricepsSkinfold);
     }
 
-    private void convertField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, int unit, float skinfold) {
+    private void setHint(@NonNull TextInputLayout textInputLayout){
+        if (unit == Constants.UNIT_IMPERIAL) {
+            textInputLayout.setHint(getString(R.string.inches));
+        } else if (unit == Constants.UNIT_METRIC) {
+            textInputLayout.setHint(getString(R.string.millimeters));
+        }
+    }
+
+    private void convertField(@NonNull TextInputLayout textInputLayout, @NonNull EditText editText, float skinfold) {
         if (unit == Constants.UNIT_IMPERIAL) {
             textInputLayout.setHint(getString(R.string.inches));
             editText.setText(numberFormat.format(ConverterUtil.mmToInches(skinfold)));
@@ -311,7 +333,7 @@ public class BodyfatDialog extends BaseDialogFragment {
             bodyfatCalculatorTypeButton.setText(getString(R.string.bf_7_point));
         } else if (bodyfatCalculatorType == Constants.BODYFAT_CALCULATOR_TYPE_7_POINT) {
             bodyfatCalculatorType = Constants.BODYFAT_CALCULATOR_TYPE_3_POINT;
-            bodyfatCalculatorTypeButton.setText(getString(R.string.bf_3_pont));
+            bodyfatCalculatorTypeButton.setText(getString(R.string.bf_3_point));
         }
 
         updateFieldsVisibility();
@@ -328,6 +350,7 @@ public class BodyfatDialog extends BaseDialogFragment {
             pectoralLayout.setVisibility(View.VISIBLE);
             thighLayout.setVisibility(View.VISIBLE);
             subscapularLayout.setVisibility(View.VISIBLE);
+            suprailiacLayout.setVisibility(View.VISIBLE);
             tricepsLayout.setVisibility(View.VISIBLE);
             axillaLayout.setVisibility(View.VISIBLE);
 
@@ -336,6 +359,7 @@ public class BodyfatDialog extends BaseDialogFragment {
             thighTextView.setVisibility(View.VISIBLE);
             subscapularTextView.setVisibility(View.VISIBLE);
             tricepsTextView.setVisibility(View.VISIBLE);
+            suprailiacTextView.setVisibility(View.VISIBLE);
             axillaTextView.setVisibility(View.VISIBLE);
         } else if (gender == Constants.GENDER_FEMALE) {
             thighLayout.setVisibility(View.VISIBLE);
@@ -343,6 +367,7 @@ public class BodyfatDialog extends BaseDialogFragment {
             abdominalLayout.setVisibility(View.GONE);
             pectoralLayout.setVisibility(View.GONE);
             subscapularLayout.setVisibility(View.GONE);
+            suprailiacLayout.setVisibility(View.VISIBLE);
             axillaLayout.setVisibility(View.GONE);
 
             tricepsTextView.setVisibility(View.VISIBLE);
@@ -350,20 +375,23 @@ public class BodyfatDialog extends BaseDialogFragment {
             abdominalTextView.setVisibility(View.GONE);
             pectoralTextView.setVisibility(View.GONE);
             subscapularTextView.setVisibility(View.GONE);
+            suprailiacTextView.setVisibility(View.VISIBLE);
             axillaTextView.setVisibility(View.GONE);
         } else if (gender == Constants.GENDER_MALE) {
             pectoralLayout.setVisibility(View.VISIBLE);
             abdominalLayout.setVisibility(View.VISIBLE);
-            thighLayout.setVisibility(View.GONE);
+            thighLayout.setVisibility(View.VISIBLE);
             tricepsLayout.setVisibility(View.GONE);
             subscapularLayout.setVisibility(View.GONE);
+            suprailiacLayout.setVisibility(View.GONE);
             axillaLayout.setVisibility(View.GONE);
 
             abdominalTextView.setVisibility(View.VISIBLE);
             pectoralTextView.setVisibility(View.VISIBLE);
+            thighTextView.setVisibility(View.VISIBLE);
             tricepsTextView.setVisibility(View.GONE);
-            thighTextView.setVisibility(View.GONE);
             subscapularTextView.setVisibility(View.GONE);
+            suprailiacTextView.setVisibility(View.GONE);
             axillaTextView.setVisibility(View.GONE);
         }
     }
@@ -404,7 +432,7 @@ public class BodyfatDialog extends BaseDialogFragment {
                 subscapularSkinfold = value;
             }
         }, unit, true);
-        suprailiacValidificationTextWatcher = new ValidificationTextWatcher(suprailiacLayout, subscapularEditText, new FieldListener() {
+        suprailiacValidificationTextWatcher = new ValidificationTextWatcher(suprailiacLayout, suprailiacEditText, new FieldListener() {
             @Override
             public void fieldChanged(float value) {
                 suprailiacSkinfold = value;

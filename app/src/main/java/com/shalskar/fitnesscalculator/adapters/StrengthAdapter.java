@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shalskar.fitnesscalculator.R;
+import com.shalskar.fitnesscalculator.viewholders.BaseViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.OneRepMaxViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.PlaceholderViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.StrengthStandardsViewHolder;
@@ -42,7 +43,7 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder = new PlaceholderViewHolder(view);
                 break;
             case VIEW_TYPE_ONE_REP_MAX:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_1rm, parent, false);
                 viewHolder = new OneRepMaxViewHolder(this, view);
                 break;
             case VIEW_TYPE_WILKS:
@@ -61,20 +62,9 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         viewHolders[position] = viewHolder;
-
         int viewType = getItemViewType(position);
-        switch (viewType) {
-            case VIEW_TYPE_PLACEHOLDER: break;
-            case VIEW_TYPE_ONE_REP_MAX:
-                ((OneRepMaxViewHolder) viewHolder).initialiseViews();
-                break;
-            case VIEW_TYPE_WILKS:
-                ((WilksViewHolder) viewHolder).initialiseViews();
-                break;
-            case VIEW_TYPE_STRENGTH_STANDARDS:
-                ((StrengthStandardsViewHolder) viewHolder).initialiseViews();
-                break;
-        }
+        if (viewType != VIEW_TYPE_PLACEHOLDER)
+            ((BaseViewHolder) viewHolder).updateAll();
     }
 
     @Override

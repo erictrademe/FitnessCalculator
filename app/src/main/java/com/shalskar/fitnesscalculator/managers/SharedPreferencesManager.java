@@ -19,8 +19,10 @@ public class SharedPreferencesManager {
     private static final String KEY_GENDER = "gender";
     private static final String KEY_ACTIVITY_LEVEL = "activity_level";
     private static final String KEY_GOAL = "goal";
+    private static final String KEY_REP_MAX_VALUE = "rep_max_value";
     private static final String KEY_WEIGHT_LIFTED = "weight_lifted";
     private static final String KEY_REPS_LIFTED = "reps_lifted";
+    private static final String KEY_ONE_REP_MAX_FORMULA = "one_rep_max_formula";
     private static final String KEY_MEASUREMENT = "measurement";
     private static final String KEY_BODYFAT_CALCULATOR_TYPE = "bodyfat_calculator_type";
     private static final String KEY_SKINFOLD = "skinfold";
@@ -46,23 +48,23 @@ public class SharedPreferencesManager {
         return sharedPreferencesManager.sharedPreferences.getInt(KEY_UNIT, Constants.UNIT_METRIC);
     }
 
-    public static void saveWeight(double weight){
+    public static void saveWeight(float weight){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
-        editor.putFloat(KEY_WEIGHT, (float) weight);
+        editor.putFloat(KEY_WEIGHT, weight);
         editor.apply();
     }
 
-    public static double getWeight(){
+    public static float getWeight(){
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_WEIGHT, 0);
     }
 
-    public static void saveHeight(double height){
+    public static void saveHeight(float height){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
-        editor.putFloat(KEY_HEIGHT, (float) height);
+        editor.putFloat(KEY_HEIGHT, height);
         editor.apply();
     }
 
-    public static double getHeight(){
+    public static float getHeight(){
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_HEIGHT, 0);
     }
 
@@ -118,6 +120,16 @@ public class SharedPreferencesManager {
         editor.apply();
     }
 
+    public static void saveRepsMaxValue(int repsMaxValue){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_REP_MAX_VALUE, repsMaxValue);
+        editor.apply();
+    }
+
+    public static int getRepsMaxValue(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_REP_MAX_VALUE, 1);
+    }
+
     public static float getWeightLifted(){
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_WEIGHT_LIFTED, -1);
     }
@@ -144,6 +156,16 @@ public class SharedPreferencesManager {
 
     public static int getRepsLifted(){
         return sharedPreferencesManager.sharedPreferences.getInt(KEY_REPS_LIFTED, -1);
+    }
+
+    public static void saveOneRepMaxFormula(int oneRepMaxFormula){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_ONE_REP_MAX_FORMULA, oneRepMaxFormula);
+        editor.apply();
+    }
+
+    public static int getOneRepMaxFormula(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_ONE_REP_MAX_FORMULA, -1);
     }
 
     public static void saveMeasurement(@NonNull String bodyPart, float measurement){
@@ -206,8 +228,10 @@ public class SharedPreferencesManager {
         editor.remove(KEY_WEIGHT);
         editor.remove(KEY_ACTIVITY_LEVEL);
         editor.remove(KEY_GOAL);
+        editor.remove(KEY_REP_MAX_VALUE);
         editor.remove(KEY_WEIGHT_LIFTED);
         editor.remove(KEY_REPS_LIFTED);
+        editor.remove(KEY_ONE_REP_MAX_FORMULA);
 
         editor.remove(KEY_WEIGHT_LIFTED + Constants.EXERCISE_SQUAT);
         editor.remove(KEY_WEIGHT_LIFTED + Constants.EXERCISE_BENCH_PRESS);
@@ -216,6 +240,7 @@ public class SharedPreferencesManager {
         editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_ANKLE);
         editor.remove(KEY_MEASUREMENT + Constants.BODY_PART_WRIST);
 
+        editor.remove(KEY_BODYFAT_CALCULATOR_TYPE);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_ABDOMINAL);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_AXILLA);
         editor.remove(KEY_SKINFOLD + Constants.SKINFOLD_PECTORAL);

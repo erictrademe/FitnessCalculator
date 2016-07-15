@@ -77,8 +77,8 @@ public class CalorieDialog extends BaseDialogFragment {
     private int unit = Constants.UNIT_METRIC;
     private int gender = Constants.GENDER_FEMALE;
     private int age = 0;
-    private double height = 0;
-    private double weight = 0;
+    private float height = 0;
+    private float weight = 0;
     private float activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
 
     public CalorieDialog() {
@@ -132,7 +132,7 @@ public class CalorieDialog extends BaseDialogFragment {
         weight = SharedPreferencesManager.getWeight();
         unit = SharedPreferencesManager.getUnit();
         activityLevel = SharedPreferencesManager.getActivityLevel();
-        if (activityLevel == -1) {
+        if (activityLevel == Constants.UNDEFINED) {
             activityLevel = Constants.ACTIVITY_LEVEL_SEDENTARY;
             SharedPreferencesManager.saveActivityLevel(activityLevel);
         }
@@ -148,6 +148,7 @@ public class CalorieDialog extends BaseDialogFragment {
         prepopulateAge();
         prepopulateHeightAndWeight();
         prepopulateActivityLevel();
+        prepopulateUnit(unit);
     }
 
     private void prepopulateGender() {
@@ -176,7 +177,7 @@ public class CalorieDialog extends BaseDialogFragment {
             if (weight > 0)
                 weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
             if (height > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(numberFormat.format(feetAndInches[0]));
                 heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
@@ -238,7 +239,7 @@ public class CalorieDialog extends BaseDialogFragment {
                 weightEditText.setText(numberFormat.format(ConverterUtil.kgsToPounds(weight)));
 
             if (height > 0 && heightEditText.length() > 0) {
-                double[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
+                float[] feetAndInches = ConverterUtil.cmToFeetAndInches(height);
                 heightEditText.setText(numberFormat.format(feetAndInches[0]));
                 heightInchesEditText.setText(numberFormat.format(feetAndInches[1]));
             }
@@ -309,7 +310,7 @@ public class CalorieDialog extends BaseDialogFragment {
                 weightLayout.setErrorEnabled(true);
             } else {
                 weightLayout.setErrorEnabled(false);
-                weight = ParserUtil.parseDouble(getContext(), weightEditText.getText().toString());
+                weight = ParserUtil.parseFloat(getContext(), weightEditText.getText().toString());
                 if (unit == Constants.UNIT_IMPERIAL)
                     weight = ConverterUtil.poundsToKgs(weight);
             }
@@ -333,12 +334,12 @@ public class CalorieDialog extends BaseDialogFragment {
             } else {
                 heightLayout.setErrorEnabled(false);
                 if (unit == Constants.UNIT_METRIC) {
-                    height = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
+                    height = ParserUtil.parseFloat(getContext(), heightEditText.getText().toString());
                 } else if (unit == Constants.UNIT_IMPERIAL) {
-                    double feet = ParserUtil.parseDouble(getContext(), heightEditText.getText().toString());
-                    double inches = 0;
+                    float feet = ParserUtil.parseFloat(getContext(), heightEditText.getText().toString());
+                    float inches = 0;
                     if (heightInchesEditText.length() > 0)
-                        inches = ParserUtil.parseDouble(getContext(), heightInchesEditText.getText().toString());
+                        inches = ParserUtil.parseFloat(getContext(), heightInchesEditText.getText().toString());
                     height = ConverterUtil.feetAndInchesToCm(feet, inches);
                 }
             }

@@ -31,7 +31,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
     private static final String TAG_WILKS_DIALOG_FRAGMENT = "fragment_wilks";
     private static final String TAG_STRENGTH_STANDARDS_DIALOG_FRAGMENT = "fragment_strength_standards";
 
-    @BindView(R.id.recycler_view)
+    @BindView(R.id.recycler_view_strength)
     RecyclerView recyclerView;
 
     private GridLayoutManager gridLayoutManager;

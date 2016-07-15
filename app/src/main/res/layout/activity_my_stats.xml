@@ -110,9 +110,7 @@
                     android:hint="@string/years"
                     android:imeOptions="actionGo"
                     android:inputType="number"
-                    android:singleLine="true"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -143,9 +141,7 @@
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -182,9 +178,7 @@
                         android:hint="@string/centimeters"
                         android:imeOptions="actionGo"
                         android:inputType="numberDecimal"
-                        android:singleLine="true"
-                        android:textColor="#ffffff"
-                        android:textSize="16sp" />
+                        style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -204,8 +198,7 @@
                         android:hint="@string/inches"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
-                        android:textColor="#ffffff"
-                        android:textSize="16sp" />
+                        style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -238,9 +231,7 @@
                     android:hint="@string/centimeters"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -273,9 +264,7 @@
                     android:hint="@string/centimeters"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -320,7 +309,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginBottom="-64dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/calculate"
                 android:textColor="#ffffff"
@@ -355,9 +344,7 @@
                     android:hint="Calories"
                     android:imeOptions="actionGo"
                     android:inputType="number"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -464,9 +451,7 @@
                         android:hint="@string/percent_protein"
                         android:imeOptions="actionGo"
                         android:inputType="number"
-                        android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -485,9 +470,7 @@
                         android:hint="@string/percent_carbohydrates"
                         android:imeOptions="actionGo"
                         android:inputType="number"
-                        android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -506,9 +489,7 @@
                         android:hint="@string/percent_fat"
                         android:imeOptions="actionGo"
                         android:inputType="number"
-                        android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -563,9 +544,7 @@
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -596,9 +575,7 @@
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -630,9 +607,7 @@
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    style="@style/FitnessCalculatorTheme.EditText.Normal" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -685,9 +660,9 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:foreground="?android:selectableItemBackground"
         android:src="@drawable/ic_save_black_24dp"
         app:elevation="4dp"
+        app:rippleColor="@color/white_transparent"
         app:pressedTranslationZ="12dp" />
 
 </RelativeLayout>

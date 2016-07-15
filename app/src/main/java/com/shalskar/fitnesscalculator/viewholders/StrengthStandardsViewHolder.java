@@ -76,6 +76,7 @@ public class StrengthStandardsViewHolder extends BaseViewHolder {
         updateAll();
     }
 
+    @Override
     public void updateAll() {
         float squatWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_SQUAT);
         float benchWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_BENCH_PRESS);

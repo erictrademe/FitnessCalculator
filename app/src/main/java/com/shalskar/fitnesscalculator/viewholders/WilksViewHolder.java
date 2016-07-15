@@ -64,6 +64,7 @@ public class WilksViewHolder extends BaseViewHolder {
         updateAll();
     }
 
+    @Override
     public void updateAll() {
         float squatWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_SQUAT);
         float benchWeightLifted = SharedPreferencesManager.getWeightLifted(Constants.EXERCISE_BENCH_PRESS);
@@ -76,8 +77,6 @@ public class WilksViewHolder extends BaseViewHolder {
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
-            } else {
-                AnimationUtil.refreshView(chartView);
             }
         } else {
             titleTextView.setVisibility(View.VISIBLE);
@@ -116,9 +115,8 @@ public class WilksViewHolder extends BaseViewHolder {
     }
 
     private void updateWilks(double weight, int gender, float squatWeightLifted, float benchWeightLifted, float deadliftWeightLifted) {
-        int unit = SharedPreferencesManager.getUnit();
         float total = squatWeightLifted + benchWeightLifted +deadliftWeightLifted;
-        float wilks = FitnessCalculator.calculateWilks(unit, gender, (float) weight, total);
+        float wilks = FitnessCalculator.calculateWilks(gender, (float) weight, total);
 
         updateChart(wilks);
     }

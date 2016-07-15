@@ -66,6 +66,7 @@ public class MacroViewHolder extends BaseViewHolder {
         updateAll();
     }
 
+    @Override
     public void updateAll() {
         float calorieIntake = SharedPreferencesManager.getCalorieIntake();
         int goal = SharedPreferencesManager.getGoal();
@@ -75,8 +76,6 @@ public class MacroViewHolder extends BaseViewHolder {
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
-            } else {
-                AnimationUtil.refreshView(chartView);
             }
         } else {
             titleTextView.setVisibility(View.VISIBLE);

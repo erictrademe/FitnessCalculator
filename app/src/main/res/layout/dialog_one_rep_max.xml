@@ -2,8 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dialog_width"
-    android:animateLayoutChanges="true"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:background="@color/dialogBackground">
 
     <include
@@ -30,11 +30,30 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textview_formula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/formula"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinner_formula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="16dp"
+                android:popupBackground="@color/colorPrimary"
+                android:textSize="14sp" />
+
+            <TextView
                 android:id="@+id/textview_weight_lifted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/weight"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textSize="16sp" />
@@ -48,16 +67,14 @@
 
                 <EditText
                     android:id="@+id/edittext_weight_lifted"
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/kilograms"
                     android:imeOptions="actionGo"
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -81,16 +98,14 @@
 
                 <EditText
                     android:id="@+id/edittext_reps_lifted"
+                    style="@style/FitnessCalculatorTheme.EditText.Normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/reps"
                     android:imeOptions="actionGo"
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
 
