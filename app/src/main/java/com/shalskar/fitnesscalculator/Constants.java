@@ -5,6 +5,10 @@ package com.shalskar.fitnesscalculator;
  */
 public class Constants {
 
+    //Prevent instantiation
+    private Constants() {
+    }
+
     public final static String DEFAULT_FONT_PATH = "fonts/Raleway-Regular.ttf";
 
     public static final int UNDEFINED = -1;

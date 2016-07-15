@@ -43,7 +43,7 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder = new PlaceholderViewHolder(view);
                 break;
             case VIEW_TYPE_ONE_REP_MAX:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_1rm, parent, false);
                 viewHolder = new OneRepMaxViewHolder(this, view);
                 break;
             case VIEW_TYPE_WILKS:
