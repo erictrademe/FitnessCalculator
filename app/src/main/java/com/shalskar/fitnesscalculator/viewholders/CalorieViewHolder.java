@@ -65,13 +65,13 @@ public class CalorieViewHolder extends BaseViewHolder {
 
     @Override
     public void updateAll() {
-        double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
+        float height = SharedPreferencesManager.getHeight();
+        float weight = SharedPreferencesManager.getWeight();
         int age = SharedPreferencesManager.getAge();
         int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
+        float activityLevel = SharedPreferencesManager.getActivityLevel();
         if (height > 0 && weight > 0 && age > 0 && gender != -1 && activityLevel != -1) {
-            updateCalorie();
+            updateCalorie(height, weight, age, gender, activityLevel);
             if (titleTextView.getVisibility() == View.VISIBLE) {
                 animateSideLayout();
                 animateTitle();
@@ -112,15 +112,8 @@ public class CalorieViewHolder extends BaseViewHolder {
         title2TextView.animate().alpha(1).start();
     }
 
-    private void updateCalorie() {
-        double height = SharedPreferencesManager.getHeight();
-        double weight = SharedPreferencesManager.getWeight();
-        int age = SharedPreferencesManager.getAge();
-        int gender = SharedPreferencesManager.getGender();
-        double activityLevel = SharedPreferencesManager.getActivityLevel();
-
+    private void updateCalorie(float height, float weight, int age, int gender, float activityLevel) {
         int dailyCalorieIntake = FitnessCalculator.calculateDailyCalorieIntake(weight, height, gender, age, activityLevel);
-
         updateChart(dailyCalorieIntake);
     }
 

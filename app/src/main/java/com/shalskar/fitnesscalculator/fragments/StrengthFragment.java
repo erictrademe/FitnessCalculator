@@ -30,6 +30,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
     private static final String TAG_ONE_REP_MAX_DIALOG_FRAGMENT = "fragment_1rm";
     private static final String TAG_WILKS_DIALOG_FRAGMENT = "fragment_wilks";
     private static final String TAG_STRENGTH_STANDARDS_DIALOG_FRAGMENT = "fragment_strength_standards";
+    private static final String TAG_CALORIEES_BURNED_DIALOG_FRAGMENT = "fragment_calories_burned";
 
     @BindView(R.id.recycler_view_strength)
     RecyclerView recyclerView;
@@ -139,6 +140,22 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
                 R.drawable.strength_standards_image);
     }
 
+    @Override
+    public void showCaloriesBurnedDialog() {
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag(TAG_CALORIEES_BURNED_DIALOG_FRAGMENT);
+        if (frag != null)
+            manager.beginTransaction().remove(frag).commit();
+
+        CaloriesBurnedDialog caloriesBurnedDialog = CaloriesBurnedDialog.newInstance(getContext().getString(R.string.calories_burned));
+        caloriesBurnedDialog.show(manager, TAG_CALORIEES_BURNED_DIALOG_FRAGMENT);
+    }
+
+    @Override
+    public void showCaloriesBurnedInfoDialog() {
+
+    }
+
     /**
      * Respond to various events.
      **/
@@ -148,6 +165,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
         boolean updateOneRepMax = false;
         boolean updateWilks = false;
         boolean updateStrengthStandards = false;
+        boolean updateCaloriesBurned = false;
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_ONE_REP_MAX)) {
             updateOneRepMax = true;
@@ -161,6 +179,7 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_WEIGHT)) {
             updateWilks = true;
             updateStrengthStandards = true;
+            updateCaloriesBurned = true;
         }
 
         if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_GENDER)) {
@@ -168,9 +187,14 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
             updateStrengthStandards = true;
         }
 
+        if(listContains(detailsUpdatedEvent.detailsUpdated, Constants.DETAIL_MET)) {
+            updateCaloriesBurned = true;
+        }
+
         if(updateOneRepMax) strengthAdapter.updateOneRepMax();
         if(updateWilks) strengthAdapter.updateWilks();
         if(updateStrengthStandards) strengthAdapter.updateStrengthStandards();
+        if(updateCaloriesBurned) strengthAdapter.updateCaloriesBurned();
 
     }
 

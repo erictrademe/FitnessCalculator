@@ -178,6 +178,18 @@
     <string name="donations_unavailable">Donations unavailable, please try again later.</string>
     <string name="donation_thanks">Thanks for your donation! It is really appreciated.</string>
     <string name="formula">Formula</string>
+    <string name="calories_burned">Calories Burned</string>
+    <string name="bodyweight">Bodyweight</string>
+    <string name="activity">Activity</string>
+    <string name="through">through</string>
+    <string name="duration">Duration</string>
+    <string name="hours">hours</string>
+    <string name="hour">hour</string>
+    <string name="min">min</string>
+    <string name="mins">mins</string>
+    <string name="minutes">Minutes</string>
+    <string name="kcal">kcal</string>
+    <string name="of">of</string>
 
     <string-array name="one_rep_max_formulas">
         <item>Epley</item>

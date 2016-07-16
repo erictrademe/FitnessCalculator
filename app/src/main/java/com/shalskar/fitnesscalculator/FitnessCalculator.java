@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.shalskar.fitnesscalculator.managers.SharedPreferencesManager;
 import com.shalskar.fitnesscalculator.model.Breakdown;
+import com.shalskar.fitnesscalculator.model.MetabolicEquivalent;
 import com.shalskar.fitnesscalculator.model.Physique;
 
 /**
@@ -346,5 +347,10 @@ public class FitnessCalculator {
         }
         return Constants.STRENGTH_STANDARD_NOVICE;
     }
+
+    public static float calculateCaloriesBurned (@NonNull MetabolicEquivalent MET, float bodyWeight, float duration) {
+        return MET.value * bodyWeight * (duration / 60);
+    }
+
 }
 

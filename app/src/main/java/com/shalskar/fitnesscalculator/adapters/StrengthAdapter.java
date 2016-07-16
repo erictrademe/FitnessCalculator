@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shalskar.fitnesscalculator.R;
+import com.shalskar.fitnesscalculator.fragments.CaloriesBurnedDialog;
 import com.shalskar.fitnesscalculator.viewholders.BaseViewHolder;
+import com.shalskar.fitnesscalculator.viewholders.CaloriesBurnedViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.OneRepMaxViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.PlaceholderViewHolder;
 import com.shalskar.fitnesscalculator.viewholders.StrengthStandardsViewHolder;
@@ -26,10 +28,11 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int VIEW_TYPE_ONE_REP_MAX = 1;
     private static final int VIEW_TYPE_WILKS = 2;
     private static final int VIEW_TYPE_STRENGTH_STANDARDS = 3;
+    private static final int VIEW_TYPE_CALORIES_BURNED = 4;
 
     public StrengthAdapter(@NonNull AdapterListener adapterListener) {
         this.adapterListener = adapterListener;
-        this.viewHolders = new RecyclerView.ViewHolder[4];
+        this.viewHolders = new RecyclerView.ViewHolder[5];
     }
 
     @Override
@@ -53,6 +56,10 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case VIEW_TYPE_STRENGTH_STANDARDS:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic_column, parent, false);
                 viewHolder = new StrengthStandardsViewHolder(this, view);
+                break;
+            case VIEW_TYPE_CALORIES_BURNED:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_basic, parent, false);
+                viewHolder = new CaloriesBurnedViewHolder(this, view);
                 break;
         }
 
@@ -78,6 +85,8 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return VIEW_TYPE_ONE_REP_MAX;
             case 3:
                 return VIEW_TYPE_STRENGTH_STANDARDS;
+            case 4:
+                return VIEW_TYPE_CALORIES_BURNED;
         }
         return VIEW_TYPE_ONE_REP_MAX;
     }
@@ -89,19 +98,22 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     /**
      * Return how many columns the viewholder should span for the position given.
+     * This may be changed to return 1 for smaller viewholders in the future.
      */
     public int getSpanForPosition(int position) {
         int viewType = getItemViewType(position);
-        switch (viewType) {
-            case VIEW_TYPE_PLACEHOLDER:
-                return 2;
-            case VIEW_TYPE_ONE_REP_MAX:
-                return 2;
-            case VIEW_TYPE_WILKS:
-                return 2;
-            case VIEW_TYPE_STRENGTH_STANDARDS:
-                return 2;
-        }
+//        switch (viewType) {
+//            case VIEW_TYPE_PLACEHOLDER:
+//                return 2;
+//            case VIEW_TYPE_ONE_REP_MAX:
+//                return 2;
+//            case VIEW_TYPE_WILKS:
+//                return 2;
+//            case VIEW_TYPE_STRENGTH_STANDARDS:
+//                return 2;
+//            case VIEW_TYPE_CALORIES_BURNED:
+//                return 2;
+//        }
         return 2;
     }
 
@@ -118,6 +130,11 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void updateStrengthStandards() {
         if (viewHolders[3] != null)
             ((StrengthStandardsViewHolder) viewHolders[3]).updateAll();
+    }
+
+    public void updateCaloriesBurned() {
+        if (viewHolders[4] != null)
+            ((CaloriesBurnedViewHolder) viewHolders[4]).updateAll();
     }
 
     public void showOneRepMaxDialog() {
@@ -144,6 +161,14 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         adapterListener.showStrengthStandardsInfoDialog();
     }
 
+    public void showCaloriesBurnedDialog() {
+        adapterListener.showCaloriesBurnedDialog();
+    }
+
+    public void showCaloriesBurnedInfoDialog() {
+        adapterListener.showCaloriesBurnedInfoDialog();
+    }
+
     public interface AdapterListener {
         void showOneRepMaxDialog();
 
@@ -156,6 +181,10 @@ public class StrengthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void showStrengthStandardsDialog();
 
         void showStrengthStandardsInfoDialog();
+
+        void showCaloriesBurnedDialog();
+
+        void showCaloriesBurnedInfoDialog();
     }
 
 }

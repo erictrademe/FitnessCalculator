@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import com.shalskar.fitnesscalculator.Constants;
+import com.shalskar.fitnesscalculator.model.MetabolicEquivalent;
 
 /**
  * Created by Vincent on 7/05/2016.
@@ -28,6 +29,8 @@ public class SharedPreferencesManager {
     private static final String KEY_SKINFOLD = "skinfold";
     private static final String KEY_CALORIE_INTAKE = "calorie_intake";
     private static final String KEY_MACRONUTRIENT = "macronutrient";
+    private static final String KEY_ACTIVITY_DURATION = "activity_duration";
+    private static final String KEY_MET = "met";
 
     private static SharedPreferencesManager sharedPreferencesManager;
 
@@ -218,6 +221,27 @@ public class SharedPreferencesManager {
         return sharedPreferencesManager.sharedPreferences.getFloat(KEY_MACRONUTRIENT + macronutrient, -1);
     }
 
+    public static void saveActivityDuration(int duration){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_ACTIVITY_DURATION, duration);
+        editor.apply();
+    }
+
+    public static int getActivityDuration(){
+        return sharedPreferencesManager.sharedPreferences.getInt(KEY_ACTIVITY_DURATION, -1);
+    }
+
+    public static void saveMET(@NonNull MetabolicEquivalent MET){
+        SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
+        editor.putInt(KEY_MET, MET.code);
+        editor.apply();
+    }
+
+    public static MetabolicEquivalent getMET(){
+        int code = sharedPreferencesManager.sharedPreferences.getInt(KEY_MET, -1);
+        return MetabolicEquivalent.getMET(code);
+    }
+
     public static void clearAll(){
         SharedPreferences.Editor editor = sharedPreferencesManager.sharedPreferences.edit();
 
@@ -254,6 +278,9 @@ public class SharedPreferencesManager {
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_PROTEIN);
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_CARBOHYDRATES);
         editor.remove(KEY_MACRONUTRIENT + Constants.MACRONUTRIENT_FAT);
+
+        editor.remove(KEY_ACTIVITY_DURATION);
+        editor.remove(KEY_MET);
 
         editor.apply();
     }

@@ -63,6 +63,9 @@
 
     <dimen name="strength_standards_axis_text_size">12.5sp</dimen>
 
+    <dimen name="calories_burned_pie_chart_text_size">25sp</dimen>
+    <dimen name="calories_burned_pie_chart_text_size_small">11.5sp</dimen>
+
     <dimen name="donation_pie_chart_text_size">13.5sp</dimen>
 
     <dimen name="measurement_view_height">24dp</dimen>

@@ -27,6 +27,7 @@ public class Constants {
     public static final int DETAIL_BODYFAT_CALCULATOR_TYPE = 1244;
     public static final int DETAIL_CALORIE_INTAKE = 1245;
     public static final int DETAIL_MACRONUTRIENT = 1246;
+    public static final int DETAIL_MET = 1247;
 
     public final static int UNIT_METRIC = 1111;
     public final static int UNIT_IMPERIAL = 2222;

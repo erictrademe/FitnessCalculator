@@ -9,8 +9,8 @@ android {
         applicationId "com.shalskar.fitnesscalculator"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 7
-        versionName "1.0.2"
+        versionCode 8
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -57,4 +57,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+}
+
+
+task testGroupOne(type: Test) {
+    include 'test/FitnessCalculatorSuite.class'
+    reports.junitXml.destination = "$buildDir/test-results/FitnessCalculatorSuite"
+    reports.html.destination = "$buildDir/test-results/FitnessCalculatorSuite"
 }
