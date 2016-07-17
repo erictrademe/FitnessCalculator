@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.shalskar.fitnesscalculator.Constants;
@@ -20,12 +21,14 @@ import com.shalskar.fitnesscalculator.iap.IabResult;
 import com.shalskar.fitnesscalculator.iap.Purchase;
 import com.shalskar.fitnesscalculator.utils.ImageUtil;
 import com.shalskar.fitnesscalculator.utils.SnackbarUtil;
+import com.varunest.sparkbutton.SparkButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -44,11 +47,14 @@ public class AboutActivity extends AppCompatActivity {
     @BindView(R.id.image)
     ImageView imageView;
 
-    @BindView(R.id.chart)
-    PieChartView chartView;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.button_upgrade)
+    Button upgradeButton;
+
+    @BindView(R.id.logo)
+    SparkButton sparkButton;
 
     private IabHelper iabHelper;
 
@@ -62,6 +68,8 @@ public class AboutActivity extends AppCompatActivity {
         initialiseToolbar();
         updateChart();
         initialiseServiceConnection();
+        sparkButton.setChecked(false);
+        sparkButton.setEnabled(false);
     }
 
     private void initialiseToolbar() {
@@ -78,29 +86,29 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void updateChart() {
-        PieChartData pieChartData = new PieChartData();
-        pieChartData.setCenterText1(getResources().getString(R.string.donation));
-        pieChartData.setCenterText1Color(ContextCompat.getColor(this, android.R.color.primary_text_dark));
-        pieChartData.setValueLabelTypeface(Typeface.createFromAsset(getAssets(), Constants.DEFAULT_FONT_PATH));
-        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(getAssets(), Constants.DEFAULT_FONT_PATH));
-        List<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(15, ContextCompat.getColor(this, R.color.colorAccent50)).setLabel("$1"));
-        sliceValues.add(new SliceValue(20, ContextCompat.getColor(this, R.color.colorAccent60)).setLabel("$2"));
-        sliceValues.add(new SliceValue(25, ContextCompat.getColor(this, R.color.colorAccent70)).setLabel("$5"));
-        sliceValues.add(new SliceValue(30, ContextCompat.getColor(this, R.color.colorAccent80)).setLabel("$10"));
-        sliceValues.add(new SliceValue(35, ContextCompat.getColor(this, R.color.colorAccent90)).setLabel("$20"));
-
-        pieChartData.setValues(sliceValues);
-        pieChartData.setHasCenterCircle(true);
-        chartView.setChartRotationEnabled(false);
-        int centerTextSize = (int) (getResources().getDimension(R.dimen.donation_pie_chart_text_size) / getResources().getDisplayMetrics().density);
-        pieChartData.setCenterText1FontSize(centerTextSize);
-        pieChartData.setHasLabels(true);
-        pieChartData.setCenterCircleScale(0.5f);
-        pieChartData.setSlicesSpacing(4);
-
-        chartView.setOnValueTouchListener(pieChartOnValueSelectListener);
-        chartView.setPieChartData(pieChartData);
+//        PieChartData pieChartData = new PieChartData();
+//        pieChartData.setCenterText1(getResources().getString(R.string.donation));
+//        pieChartData.setCenterText1Color(ContextCompat.getColor(this, android.R.color.primary_text_dark));
+//        pieChartData.setValueLabelTypeface(Typeface.createFromAsset(getAssets(), Constants.DEFAULT_FONT_PATH));
+//        pieChartData.setCenterText1Typeface(Typeface.createFromAsset(getAssets(), Constants.DEFAULT_FONT_PATH));
+//        List<SliceValue> sliceValues = new ArrayList<>();
+//        sliceValues.add(new SliceValue(15, ContextCompat.getColor(this, R.color.colorAccent50)).setLabel("$1"));
+//        sliceValues.add(new SliceValue(20, ContextCompat.getColor(this, R.color.colorAccent60)).setLabel("$2"));
+//        sliceValues.add(new SliceValue(25, ContextCompat.getColor(this, R.color.colorAccent70)).setLabel("$5"));
+//        sliceValues.add(new SliceValue(30, ContextCompat.getColor(this, R.color.colorAccent80)).setLabel("$10"));
+//        sliceValues.add(new SliceValue(35, ContextCompat.getColor(this, R.color.colorAccent90)).setLabel("$20"));
+//
+//        pieChartData.setValues(sliceValues);
+//        pieChartData.setHasCenterCircle(true);
+//        chartView.setChartRotationEnabled(false);
+//        int centerTextSize = (int) (getResources().getDimension(R.dimen.donation_pie_chart_text_size) / getResources().getDisplayMetrics().density);
+//        pieChartData.setCenterText1FontSize(centerTextSize);
+//        pieChartData.setHasLabels(true);
+//        pieChartData.setCenterCircleScale(0.5f);
+//        pieChartData.setSlicesSpacing(4);
+//
+//        chartView.setOnValueTouchListener(pieChartOnValueSelectListener);
+//        chartView.setPieChartData(pieChartData);
     }
 
     private void initialiseServiceConnection() {
@@ -200,6 +208,13 @@ public class AboutActivity extends AppCompatActivity {
             e.printStackTrace();
             SnackbarUtil.showMessageSnackbar(AboutActivity.this, getString(R.string.donations_unavailable));
         }
+    }
+
+    @OnClick({R.id.button_upgrade, R.id.button_upgrade2})
+    void onClickUpgradeButton(){
+        sparkButton.setEnabled(true);
+        sparkButton.performClick();
+        sparkButton.setEnabled(false);
     }
 
 

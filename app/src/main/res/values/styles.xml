@@ -43,6 +43,11 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="FitnessCalculatorTheme.Button.Borderless.Large" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="FitnessCalculatorTheme.EditText.Normal" parent="Base.Widget.AppCompat.EditText">
         <item name="android:textSize">16sp</item>
         <item name="android:singleLine">true</item>

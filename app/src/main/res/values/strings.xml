@@ -164,6 +164,9 @@
     <string name="ideal_physique_description">This calculator takes your wrist and ankle measurements and applies the golden ratio (1.618) to find the measurements for your ideal physique.\n\nPlease note this is an estimate and that these calculations may not necessarily be physically achievable for all people.</string>
     <string name="ideal_physique_description_title">About Ideal Physique</string>
 
+    <string name="calories_burned_description">This calculator will give you an estimate at how much calories you will burn through various activities.\n\nSimply choose an activity, enter your bodyweight and how long you performed that activity.\n\nThe calculator uses the MET (Metabolic Equivalent) data for physical activities from "The Compendium of Physical Activities Tracking Guide" by B. E. Ainsworth to provide calorie expenditure estimations.</string>
+    <string name="calories_burned_description_title">About Calories Burned</string>
+
     <string name="custom">Custom</string>
     <string name="custom_macros">Custom macros</string>
     <string name="calculate">Calculate</string>

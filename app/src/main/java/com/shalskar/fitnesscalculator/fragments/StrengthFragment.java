@@ -153,7 +153,10 @@ public class StrengthFragment extends Fragment implements StrengthAdapter.Adapte
 
     @Override
     public void showCaloriesBurnedInfoDialog() {
-
+        DialogUtil.showMessageDialog(getFragmentManager(),
+                getActivity().getString(R.string.calories_burned_description_title),
+                getActivity().getString(R.string.calories_burned_description),
+                R.drawable.calories_burned_image);
     }
 
     /**

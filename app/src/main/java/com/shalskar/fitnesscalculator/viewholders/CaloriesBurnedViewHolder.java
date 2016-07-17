@@ -81,13 +81,13 @@ public class CaloriesBurnedViewHolder extends BaseViewHolder {
 
         pieChartData.setValues(sliceValues);
         pieChartData.setHasCenterCircle(true);
-        chartView.setChartRotationEnabled(false);
         pieChartData.setCenterText1FontSize(getUnconvertedDimension(R.dimen.calories_burned_pie_chart_text_size));
         pieChartData.setCenterText2FontSize(getUnconvertedDimension(R.dimen.calories_burned_pie_chart_text_size_small));
         pieChartData.setCenterCircleScale(0.975f);
 
-        chartView.setInteractive(false);
         chartView.setPieChartData(pieChartData);
+        chartView.setInteractive(false);
+        chartView.setChartRotationEnabled(false);
     }
 
     @Override
@@ -151,7 +151,6 @@ public class CaloriesBurnedViewHolder extends BaseViewHolder {
         String minuteString = activityDuration == 1 ? baseView.getContext().getString(R.string.min) : baseView.getContext().getString(R.string.mins);
         String descriptionString = MET.description.length() > 12 ? MET.description.substring(0, 12).trim() + ".." : MET.description;
         pieChartData.setCenterText2(String.format("%d %s %s %s", activityDuration, minuteString, "-", descriptionString));
-
         chartView.setPieChartData(pieChartData);
     }
 
