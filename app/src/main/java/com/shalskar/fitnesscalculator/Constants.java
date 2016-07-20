@@ -63,6 +63,9 @@ public class Constants {
     public static final String EXERCISE_SQUAT = "exercise_squat";
     public static final String EXERCISE_BENCH_PRESS = "exercise_bench_press";
     public static final String EXERCISE_DEADLIFT = "exercise_deadlift";
+    public static final String EXERCISE_PRESS = "exercise_press";
+    public static final String EXERCISE_ROW = "exercise_row";
+    public static final String EXERCISE_FRONT_SQUAT = "exercise_front_squat";
 
     public static final String BODY_PART_WRIST = "body_part_wrist";
     public static final String BODY_PART_ANKLE = "body_part_ankle";

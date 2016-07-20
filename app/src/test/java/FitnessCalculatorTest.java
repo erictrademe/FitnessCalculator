@@ -69,4 +69,33 @@ public class FitnessCalculatorTest{
         assertEquals(FitnessCalculator.calculateBodyfat(16, 14, 14, 17, 19, 16, 14, Constants.GENDER_FEMALE, 31), 22.3f, 0.1f);
         assertEquals(FitnessCalculator.calculateBodyfat(19, 11, 15, 12, 14, 14, 11, Constants.GENDER_FEMALE, 66), 22.1f, 0.1f);
     }
+
+    // todo write tests for calories burned calculator
+
+    @Test
+    public void fitnessCalculator_StrengthStandards_ReturnsTrue() {
+        // Press
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_PRESS, Constants.GENDER_MALE, 98, 106), Constants.STRENGTH_STANDARD_ADVANCED);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_PRESS, Constants.GENDER_MALE, 98, 90), Constants.STRENGTH_STANDARD_INTERMEDIATE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_PRESS, Constants.GENDER_MALE, 65, 26), Constants.STRENGTH_STANDARD_UNTRAINED);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_PRESS, Constants.GENDER_FEMALE, 120, 33), Constants.STRENGTH_STANDARD_NOVICE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_PRESS, Constants.GENDER_FEMALE, 114, 80), Constants.STRENGTH_STANDARD_ELITE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_PRESS, Constants.GENDER_FEMALE, 66, 35), Constants.STRENGTH_STANDARD_INTERMEDIATE);
+
+        // Row
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_ROW, Constants.GENDER_MALE, 61, 50), Constants.STRENGTH_STANDARD_NOVICE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_ROW, Constants.GENDER_MALE, 90, 97), Constants.STRENGTH_STANDARD_INTERMEDIATE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_ROW, Constants.GENDER_MALE, 144, 200), Constants.STRENGTH_STANDARD_ADVANCED);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_ROW, Constants.GENDER_FEMALE, 39, 22), Constants.STRENGTH_STANDARD_NOVICE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_ROW, Constants.GENDER_FEMALE, 65, 80), Constants.STRENGTH_STANDARD_ELITE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_ROW, Constants.GENDER_FEMALE, 89, 46), Constants.STRENGTH_STANDARD_INTERMEDIATE);
+
+        // Front squat
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_FRONT_SQUAT, Constants.GENDER_MALE, 84, 84), Constants.STRENGTH_STANDARD_NOVICE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_FRONT_SQUAT, Constants.GENDER_MALE, 61, 114), Constants.STRENGTH_STANDARD_ADVANCED);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_FRONT_SQUAT, Constants.GENDER_MALE, 131, 120), Constants.STRENGTH_STANDARD_UNTRAINED);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_FRONT_SQUAT, Constants.GENDER_FEMALE, 115, 110), Constants.STRENGTH_STANDARD_ADVANCED);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_FRONT_SQUAT, Constants.GENDER_FEMALE, 88, 80), Constants.STRENGTH_STANDARD_INTERMEDIATE);
+        assertEquals(FitnessCalculator.calculateStrengthStandard(Constants.EXERCISE_FRONT_SQUAT, Constants.GENDER_FEMALE, 44, 70), Constants.STRENGTH_STANDARD_ADVANCED);
+    }
 }

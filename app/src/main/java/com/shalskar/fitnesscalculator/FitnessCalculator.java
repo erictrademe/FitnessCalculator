@@ -221,6 +221,8 @@ public class FitnessCalculator {
 
     /**
      * Strength standards.
+     * Bench press, Squat and Deadlift sourced from exrx
+     * Other lifts from http://strengthlevel.com/strength-standards
      **/
 
     public static final float[][] SQUAT_STANDARDS_MALE =
@@ -302,6 +304,123 @@ public class FitnessCalculator {
                     {90, 45, 87.5f, 97.5f, 130, 160},
                     {90, 50, 90, 105, 137.5f, 165}};
 
+    public static final float[][] PRESS_STANDARDS_MALE =
+            {{60, 23, 35, 51, 69, 89},
+                    {65, 26, 39, 55, 74, 95},
+                    {70, 29, 43, 60, 79, 101},
+                    {75, 32, 46, 64, 84, 106},
+                    {80, 35, 50, 68, 89, 111},
+                    {85, 38, 53, 72, 93, 117},
+                    {90, 41, 57, 76, 98, 121},
+                    {95, 44, 60, 80, 102, 126},
+                    {100, 46, 63, 83, 106, 131},
+                    {105, 49, 66, 87, 110, 135},
+                    {110, 52, 69, 90, 114, 139},
+                    {115, 54, 72, 93, 118, 144},
+                    {120, 57, 75, 97, 121, 148},
+                    {125, 59, 78, 100, 125, 152},
+                    {130, 61, 80, 103, 128, 155},
+                    {135, 64, 83, 106, 132, 159},
+                    {140, 66, 86, 109, 135, 163}};
+
+
+    public static final float[][] PRESS_STANDARDS_FEMALE =
+            {{40, 8, 15, 24, 36, 50},
+                    {45, 9, 16, 26, 39, 53},
+                    {50, 10, 18, 28, 39, 56},
+                    {55, 11, 19, 30, 43, 58},
+                    {60, 12, 21, 32, 45, 61},
+                    {65, 13, 22, 33, 47, 63},
+                    {70, 14, 23, 35, 49, 65},
+                    {75, 15, 24, 36, 51, 67},
+                    {80, 16, 26, 38, 53, 69},
+                    {85, 17, 27, 39, 54, 71},
+                    {90, 18, 28, 40, 56, 72},
+                    {95, 19, 29, 42, 57, 74},
+                    {100, 19, 30, 43, 58, 76},
+                    {105, 20, 31, 44, 60, 77},
+                    {110, 21, 32, 45, 61, 78},
+                    {115, 22, 32, 46, 62, 80},
+                    {120, 22, 33, 47, 63, 81}};
+
+    public static final float[][] ROW_STANDARDS_MALE =
+            {{60, 30, 46, 65, 89, 114},
+                    {65, 34, 50, 71, 95, 122},
+                    {70, 38, 55, 76, 101, 129},
+                    {75, 42, 59, 82, 107, 135},
+                    {80, 45, 64, 87, 113, 142},
+                    {85, 49, 68, 92, 119, 148},
+                    {90, 52, 72, 96, 124, 154},
+                    {95, 55, 76, 101, 129, 160},
+                    {100, 59, 80, 106, 135, 166},
+                    {105, 62, 84, 110, 139, 171},
+                    {110, 65, 87, 114, 144, 176},
+                    {115, 68, 91, 118, 149, 181},
+                    {120, 71, 94, 122, 153, 186},
+                    {125, 74, 98, 126, 158, 191},
+                    {130, 77, 101, 130, 162, 196},
+                    {135, 80, 104, 133, 166, 200},
+                    {140, 83, 108, 137, 170, 205}};
+
+
+    public static final float[][] ROW_STANDARDS_FEMALE =
+            {{40, 10, 19, 32, 48, 67},
+                    {45, 10, 20, 33, 50, 70},
+                    {50, 11, 21, 35, 52, 72},
+                    {55, 12, 22, 37, 54, 74},
+                    {60, 13, 24, 38, 56, 76},
+                    {65, 14, 25, 39, 57, 78},
+                    {70, 14, 26, 40, 59, 79},
+                    {75, 15, 26, 42, 60, 81},
+                    {80, 16, 27, 43, 61, 83},
+                    {85, 16, 28, 44, 63, 84},
+                    {90, 17, 29, 45, 64, 85},
+                    {95, 18, 30, 46, 65, 87},
+                    {100, 18, 30, 46, 66, 88},
+                    {105, 19, 31, 47, 67, 89},
+                    {110, 19, 32, 48, 68, 90},
+                    {115, 20, 32, 49, 69, 91},
+                    {120, 20, 33, 50, 70, 92}};
+
+    public static final float[][] FRONT_SQUAT_STANDARDS_MALE =
+            {{60, 41, 59, 81, 106, 134},
+                    {65, 46, 64, 87, 113, 142},
+                    {70, 50, 69, 93, 120, 149},
+                    {75, 54, 74, 99, 127, 157},
+                    {80, 59, 79, 105, 133, 164},
+                    {85, 63, 84, 110, 139, 170},
+                    {90, 67, 89, 115, 145, 177},
+                    {95, 70, 93, 120, 151, 183},
+                    {100, 74, 97, 125, 156, 189},
+                    {105, 78, 101, 130, 161, 195},
+                    {110, 81, 106, 134, 167, 201},
+                    {115, 85, 110, 139, 171, 206},
+                    {120, 88, 113, 143, 176, 211},
+                    {125, 92, 117, 147, 181, 216},
+                    {130, 95, 121, 151, 186, 221},
+                    {135, 98, 124, 155, 190, 226},
+                    {140, 101, 128, 159, 194, 231}};
+
+
+    public static final float[][] FRONT_SQUAT_STANDARDS_FEMALE =
+            {{40, 19, 31, 45, 63, 83},
+                    {45, 22, 33, 49, 67, 87},
+                    {50, 24, 36, 52, 71, 91},
+                    {55, 26, 39, 55, 74, 95},
+                    {60, 27, 41, 58, 77, 99},
+                    {65, 29, 43, 60, 80, 102},
+                    {70, 31, 45, 63, 83, 105},
+                    {75, 33, 47, 65, 86, 108},
+                    {80, 34, 49, 67, 88, 111},
+                    {85, 36, 51, 69, 91, 114},
+                    {90, 37, 52, 71, 93, 116},
+                    {95, 38, 54, 73, 95, 119},
+                    {100, 40, 56, 75, 97, 121},
+                    {105, 41, 57, 77, 99, 124},
+                    {110, 42, 59, 79, 101, 126},
+                    {115, 44, 60, 80, 103, 128},
+                    {120, 45, 61, 82, 105, 130}};
+
     public static int calculateStrengthStandard(@NonNull String exercise, int gender, float bodyweight, float weightLifted) {
         float[][] standards = {};
         if (exercise.equals(Constants.EXERCISE_BENCH_PRESS)) {
@@ -313,7 +432,17 @@ public class FitnessCalculator {
         } else if (exercise.equals(Constants.EXERCISE_DEADLIFT)) {
             if (gender == Constants.GENDER_MALE) standards = DEADLIFT_STANDARDS_MALE;
             else if (gender == Constants.GENDER_FEMALE) standards = DEADLIFT_STANDARDS_FEMALE;
+        } else if (exercise.equals(Constants.EXERCISE_PRESS)) {
+            if (gender == Constants.GENDER_MALE) standards = PRESS_STANDARDS_MALE;
+            else if (gender == Constants.GENDER_FEMALE) standards = PRESS_STANDARDS_FEMALE;
+        } else if (exercise.equals(Constants.EXERCISE_ROW)) {
+            if (gender == Constants.GENDER_MALE) standards = ROW_STANDARDS_MALE;
+            else if (gender == Constants.GENDER_FEMALE) standards = ROW_STANDARDS_FEMALE;
+        } else if (exercise.equals(Constants.EXERCISE_FRONT_SQUAT)) {
+            if (gender == Constants.GENDER_MALE) standards = FRONT_SQUAT_STANDARDS_MALE;
+            else if (gender == Constants.GENDER_FEMALE) standards = FRONT_SQUAT_STANDARDS_FEMALE;
         }
+
 
         for (int weightClass = 0; weightClass < standards.length; weightClass++) {
             if (bodyweight <= standards[weightClass][0]
@@ -348,7 +477,7 @@ public class FitnessCalculator {
         return Constants.STRENGTH_STANDARD_NOVICE;
     }
 
-    public static float calculateCaloriesBurned (@NonNull MetabolicEquivalent MET, float bodyWeight, float duration) {
+    public static float calculateCaloriesBurned(@NonNull MetabolicEquivalent MET, float bodyWeight, float duration) {
         return MET.value * bodyWeight * (duration / 60);
     }
 
